@@ -1,0 +1,41 @@
+// Initialize registers
+add x5, x0, x0 // i = 0
+addi x7, x0, 4 // this is the height/width of the matrix
+(Comments: i and j are local variables, so it makes more sense to use temporaries registers.)
+	outerloop: beq x5, x7, EXIT
+	(Comments: can you tell me why we should do condition check here?)
+	slli x28, x5, 3 // x28 = i * 8
+	add x28, x28, x11 // x28 = address of out + i * 8
+	(Comments: no need to do SW now, why is that?)
+	add x30, x0, x0
+	(Comments: why am I doing this?)
+	add x6, x0, x0 // j = 0
+	(Comments: why do I initialize j here?)
+		innerloop: beq x6, x7, post_process
+		(Comments: similar question, why do condition checking here?)
+		addi x2, x2, -16
+		sw x10, 0(x2)
+		sw x11, 8(x2)
+		(Comments: what is x2?)
+		// call shift
+		slli x29, x5, 2 // x29 = i*4
+		add x29, x29, x6 // x29 = i*4+j
+		slli x29, x29, 3 // x29 = 8 * (i*4+j)
+		add x29, x10, x29 // x29 = address of mat[i*4+j]
+		lw x10, 0(x29)
+		add x11, x5, x0
+		jal x1, shift
+		add x30, x30, x10
+		// restore
+		lw x10, 0(x2)
+		lw x11, 8(x2)
+		addi x2, x2, 16
+		addi x6, x6, 1
+		beq x0, x0, innerloop
+	post_process: sw x30, 0(x28)
+	addi x5, x5, 1
+
+	beq x0, x0, outerloop
+	shift: sll x10, x10, x11
+	jalr x10, 0(x1)
+Exit:

@@ -1,0 +1,4 @@
+addi x5, x0, 6
+add x3, x5, x0
+add x4, x3, x0
+sub x4, x4, x5
