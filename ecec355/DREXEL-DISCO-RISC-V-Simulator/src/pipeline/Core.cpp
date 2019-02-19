@@ -22,16 +22,6 @@ Core::Core(const string &fname, ofstream *out) : out(out),
 	id_stage->if_stage = if_stage;
 	id_stage->ex_stage = ex_stage;
 	id_stage->mem_stage = mem_stage;
-
-    id_stage->operation_arr[0] = &EX_Stage::add;
-    id_stage->operation_arr[1] = &EX_Stage::sub;
-    id_stage->operation_arr[2] = &EX_Stage::shift_right;
-    id_stage->operation_arr[3] = &EX_Stage::shift_left;
-    id_stage->operation_arr[4] = &EX_Stage::_xor;
-    id_stage->operation_arr[5] = &EX_Stage::_or;
-    id_stage->operation_arr[6] = &EX_Stage::_and;
-    id_stage->operation_arr[7] = &EX_Stage::calc_addr;
-  
 }	
 
 bool Core::tick()
@@ -49,7 +39,7 @@ bool Core::tick()
 	*/
 	if (DEBUG)
 	{
-		cout << "clk: " << clk << " : ";
+		cout << "clk: " << clk << " : " << endl;
 	}
 
 	wb_stage->tick();

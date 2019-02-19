@@ -21,9 +21,6 @@ class EX_Stage;
 class MEM_Stage;
 class WB_Stage;
 
-/*
- * The following classes are for demonstration only. You should modify it based on the requirements.
- * */
 class IF_Stage
 {
 public:
@@ -31,6 +28,7 @@ public:
                 instr_mem(new Instruction_Memory(fname)),
                 core(core),
                 PC(0),
+                PC_OFFSET(4),
                 stall(0),
                 end(0)
 	    {
@@ -47,29 +45,20 @@ public:
 
         Core *core;
         
-        // TODO, Design components of IF stage here
-        
         long PC;
+        long signed int PC_OFFSET;
 
         Instruction_Memory *instr_mem;
 
-        
-        // TODO, define your IF/ID register here.
-        
-        /*
-	    * Here shows the prototype of an in-complete IF/ID register. You should 
-	    * extend it further to get a complete IF/ID register.
-	    * */
         struct Register
         {
             int valid; // Is content inside register valid?
-
             int opcode;
             int funct3;
             int funct7;
             int rd_index;
-            int rs_1_index;
-            int rs_2_index;
+            int rs1_index;
+            int rs2_index;
         };
         Register if_id_reg;
 };
@@ -88,10 +77,6 @@ public:
 
         void tick();
 
-        /*
-         * Hazard detection unit: stall ID and IF stages, meanwhile, insert bubbles to
-         * EX stage.
-         * */
         void hazard_detection();
 
         list<Instruction>::iterator instr; // Points to the instruction currently in the stage
@@ -102,27 +87,29 @@ public:
         uint64_t* regFile;
         uint8_t* data_mem;
 
-        void (EX_Stage::*operation_arr[8])(long signed int*, long signed int*);
-       
-	    // Hazard detection unit needs access to IF and EX stage.
+        long* PC;
+        long signed int* PC_OFFSET;
+
         IF_Stage *if_stage;
         EX_Stage *ex_stage;
 	    MEM_Stage *mem_stage;
+        WB_Stage *wb_stage;
 
         struct Register
         {
             int valid; // Is content inside register valid?
-            int stages;
-            void (EX_Stage::*operation)(long signed int*, long signed int*);
+            void (EX_Stage::*ex_op)(long signed int, long signed int);
+            void (MEM_Stage::*mem_op)(long unsigned int, long unsigned int);
+            void (WB_Stage::*wb_op)(int, long signed int); 
             long signed int a;
             long signed int b;
             int opcode;
             int funct3;
             int funct7;
             int rd_index;
-            int rs_1_index;
-            int rs_2_index;
-
+            int rs1_index;
+            int rs2_index;
+            long signed int imm;
     	};
         Register id_ex_reg;
 };
@@ -142,32 +129,35 @@ public:
         int bubble; // A bubble is inserted?
         int end; // All instructions are exhausted?
 
-        /*
-         * Related Class
-         * */
         ID_Stage *id_stage;
 
-        void add(long signed int *a, long signed int *b);
-        void sub(long signed int *a, long signed int *b);
-        void shift_right(long signed int *a, long signed int *b);        
-        void shift_left(long signed int *a, long signed int *b);
-        void _xor(long signed int *a, long signed int *b);
-        void _or(long signed int *a, long signed int *b);
-        void _and(long signed int *a, long signed int *b);
-        void calc_addr(long signed int *a, long signed int *b);
+        long* PC;
+        long signed int* PC_OFFSET;
+
+        void add(long signed int a, long signed int b);
+        void sub(long signed int a, long signed int b);
+        void shift_right(long signed int a, long signed int b);        
+        void shift_left(long signed int a, long signed int b);
+        void _xor(long signed int a, long signed int b);
+        void _or(long signed int a, long signed int b);
+        void _and(long signed int a, long signed int b);
+        void move_pc_offset(long signed int a, long signed int b);
 
         struct Register
         {
             int valid; // Is content inside register valid?
-            int stages;
+            void (EX_Stage::*ex_op)(long signed int, long signed int);
+            void (MEM_Stage::*mem_op)(long unsigned int, long unsigned int);
+            void (WB_Stage::*wb_op)(int, long signed int); 
             int opcode;
             int funct3;
             int funct7;
             int rd_index;
-            int rs_1_index;
-            int rs_2_index;
+            int rs1_index;
+            int rs2_index;
 
             long signed int result;
+            long signed int imm;
         };
         Register ex_mem_reg;
 };
@@ -188,25 +178,30 @@ public:
         list<Instruction>::iterator instr; // Points to the instruction currently in the stage
         
         int end; // All instructions are exhausted?
+        int bubble;
 	
         uint64_t* regFile;
         uint8_t* data_mem;
 
-
         EX_Stage *ex_stage;
+
+        void store(long unsigned int value, long unsigned int addr);
+        void load(long unsigned int value, long unsigned int addr);
 
         struct Register
         {
             int valid; // Is content inside register valid?
-            int stages;
+            void (EX_Stage::*ex_op)(long signed int, long signed int);
+            void (MEM_Stage::*mem_op)(long unsigned int, long unsigned int);
+            void (WB_Stage::*wb_op)(int, long signed int); 
             int opcode;
             int funct3;
             int funct7;
             int rd_index;
-            int rs_1_index;
-            int rs_2_index;
-
+            int rs1_index;
+            int rs2_index;
             long signed int result;
+            long signed int imm;
         };
         Register mem_wb_reg;
 };
@@ -232,7 +227,6 @@ public:
         ID_Stage *id_stage;
 
         void write_back(int reg_index, long signed int value);
-
 };
 
 #endif

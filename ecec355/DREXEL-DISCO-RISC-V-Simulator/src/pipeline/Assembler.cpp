@@ -179,20 +179,20 @@ void Assembler::write_into_instr_mem()
 				pos = line.find_first_of(' ', pos + 1) + 1;
 				end = line.find_first_of(',', end + 1);
 
-				string rs_1 = line.substr(pos, end - pos);
+				string rs1 = line.substr(pos, end - pos);
 
-				unsigned int rs_1_index = reg_name_to_index.find(rs_1)->second;
+				unsigned int rs1_index = reg_name_to_index.find(rs1)->second;
 				
-				instr.instruction |= (rs_1_index << (7 + 5 + 3));
+				instr.instruction |= (rs1_index << (7 + 5 + 3));
 
 				// Extract rs2
 				pos = line.find_first_of(' ', pos + 1) + 1;
 
-				string rs_2 = line.substr(pos, line.size() - pos);
+				string rs2 = line.substr(pos, line.size() - pos);
 				
-				unsigned int rs_2_index = reg_name_to_index.find(rs_2)->second;
+				unsigned int rs2_index = reg_name_to_index.find(rs2)->second;
 				
-				instr.instruction |= (rs_2_index << (7 + 5 + 3 + 5));
+				instr.instruction |= (rs2_index << (7 + 5 + 3 + 5));
 
 				// Funct7
 				unsigned int funct7 = opr_to_funct7.find(opr)->second;
@@ -230,10 +230,10 @@ void Assembler::write_into_instr_mem()
 				pos = line.find_first_of('(', 0) + 1;
 				end = line.find_first_of(')', 0);
 
-				string rs_1 = line.substr(pos, end - pos);
-				unsigned int rs_1_index = reg_name_to_index.find(rs_1)->second;
+				string rs1 = line.substr(pos, end - pos);
+				unsigned int rs1_index = reg_name_to_index.find(rs1)->second;
 				
-				instr.instruction |= (rs_1_index << (7 + 5 + 3));
+				instr.instruction |= (rs1_index << (7 + 5 + 3));
 
 				instr.instruction |= (immediate << (7 + 5 + 3 + 5));
 			}
@@ -265,11 +265,11 @@ void Assembler::write_into_instr_mem()
 				pos = line.find_first_of(' ', pos + 1) + 1;
 				end = line.find_first_of(',', end + 1);
 
-				string rs_1 = line.substr(pos, end - pos);
+				string rs1 = line.substr(pos, end - pos);
 
-				unsigned int rs_1_index = reg_name_to_index.find(rs_1)->second;
+				unsigned int rs1_index = reg_name_to_index.find(rs1)->second;
 				
-				instr.instruction |= (rs_1_index << (7 + 5 + 3));
+				instr.instruction |= (rs1_index << (7 + 5 + 3));
 
 				// Extract immediate
 				pos = line.find_first_of(' ', pos + 1) + 1;
@@ -284,13 +284,13 @@ void Assembler::write_into_instr_mem()
 				// S-type instruction (currently only sd supported)
 				int opcode = opr_to_opcode.find(opr)->second;
 
-				// Extract rs_2
+				// Extract rs2
 				pos = line.find_first_of(' ', 0) + 1;
 				end = line.find_first_of(',', 0);
 
-				string rs_2 = line.substr(pos, end - pos);
+				string rs2 = line.substr(pos, end - pos);
 				
-				unsigned int rs_2_index = reg_name_to_index.find(rs_2)->second;
+				unsigned int rs2_index = reg_name_to_index.find(rs2)->second;
 
 				// Funct3
 				unsigned int funct3 = opr_to_funct3.find(opr)->second;
@@ -307,8 +307,8 @@ void Assembler::write_into_instr_mem()
 				pos = line.find_first_of('(', 0) + 1;
 				end = line.find_first_of(')', 0);
 
-				string rs_1 = line.substr(pos, end - pos);
-				unsigned int rs_1_index = reg_name_to_index.find(rs_1)->second;
+				string rs1 = line.substr(pos, end - pos);
+				unsigned int rs1_index = reg_name_to_index.find(rs1)->second;
 			
 				// Format instruction
 				instr.instruction |= opcode;
@@ -319,9 +319,9 @@ void Assembler::write_into_instr_mem()
 
 				instr.instruction |= (funct3 << (7 + 5));
 
-				instr.instruction |= (rs_1_index << (7 + 5 + 3));
+				instr.instruction |= (rs1_index << (7 + 5 + 3));
 				
-				instr.instruction |= (rs_2_index << (7 + 5 + 3 + 5));
+				instr.instruction |= (rs2_index << (7 + 5 + 3 + 5));
 
 				int last_seven_bits = (immediate >> 5);
 				instr.instruction |= (last_seven_bits << (7 + 5 + 3 + 5 + 5));
@@ -334,24 +334,24 @@ void Assembler::write_into_instr_mem()
 				// SB-type instruction
 				int opcode = opr_to_opcode.find(opr)->second;
 
-				// Extract rs_1
+				// Extract rs1
 				pos = line.find_first_of(' ', 0) + 1;
 				end = line.find_first_of(',', 0);
 
-				string rs_1 = line.substr(pos, end - pos);
+				string rs1 = line.substr(pos, end - pos);
 				
-				unsigned int rs_1_index = reg_name_to_index.find(rs_1)->second;
+				unsigned int rs1_index = reg_name_to_index.find(rs1)->second;
 
 				// Funct3
 				unsigned int funct3 = opr_to_funct3.find(opr)->second;
 
-				// Extract rs_2
+				// Extract rs2
 				pos = line.find_first_of(' ', pos + 1) + 1;
 				end = line.find_first_of(',', end + 1);
 
-				string rs_2 = line.substr(pos, end - pos);
+				string rs2 = line.substr(pos, end - pos);
 
-				unsigned int rs_2_index = reg_name_to_index.find(rs_2)->second;
+				unsigned int rs2_index = reg_name_to_index.find(rs2)->second;
 
 				// Extract immediate
 				pos = line.find_first_of(' ', pos + 1) + 1;
@@ -381,9 +381,9 @@ void Assembler::write_into_instr_mem()
 
 				instr.instruction |= funct3 << (7 + 1 + 4);
 
-				instr.instruction |= rs_1_index << (7 + 1 + 4 + 3);
+				instr.instruction |= rs1_index << (7 + 1 + 4 + 3);
 				
-				instr.instruction |= rs_2_index << (7 + 1 + 4 + 3 + 5);
+				instr.instruction |= rs2_index << (7 + 1 + 4 + 3 + 5);
 
 				instr.instruction |= bit_5_to_10 << (7 + 1 + 4 + 3 + 5 + 5);
 
