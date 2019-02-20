@@ -1,7 +1,2 @@
-addi x5, x0, 3 => Core ID: 0; Begin Exe: 0; End Exe: 4
-add x3, x5, x5 => Core ID: 0; Begin Exe: 1; End Exe: 7
-addi x4, x0, 1 => Core ID: 0; Begin Exe: 4; End Exe: 8
-sub x3, x3, x4 => Core ID: 0; Begin Exe: 5; End Exe: 11
-addi x2, x2, -2 => Core ID: 0; Begin Exe: 8; End Exe: 12
-sd x3, 1(x2) => Core ID: 0; Begin Exe: 9; End Exe: 15
-ld x4, 1(x2) => Core ID: 0; Begin Exe: 12; End Exe: 18
+sub x2, x1, x3 => Core ID: 0; Begin Exe: 0; End Exe: 4
+and x12, x2, x5 => Core ID: 0; Begin Exe: 1; End Exe: 7

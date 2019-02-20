@@ -10,12 +10,13 @@ void IF_Stage::tick()
 
 	if (stall == 0)
 	{
-        if (PC >= instr_mem->last_addr())
+        if (PC == instr_mem->last_addr())
         {
             // No instruction to run for next clock cycle since we have reached the last 
             // instruction.
             end = 1;
         }
+        if (PC > instr_mem->last_addr()) { return; }
 
         cout << "PC: " << PC << " ";	
         // Get Instruction
@@ -88,12 +89,6 @@ void ID_Stage::hazard_detection()
 			return;
 		}
 	}
-    else if (id_ex_reg.opcode == 99) {
-        if_stage->stall = 1;
-
-        instr->end_exe +=1;
-        return;
-    }
 
 	if_stage->stall = 0; // No hazard found, fetching proceed.
 	stall = 0; // No hazard found, ID stage proceed.
@@ -264,25 +259,24 @@ void ID_Stage::tick()
 
         id_ex_reg.a = *PC;
         id_ex_reg.b = id_ex_reg.imm;
-        if_stage->end = 0;
-        //if_stage->stall = 1;
+
         // beq
         if ( id_ex_reg.funct3 == 0 ) {
             if ( regFile[id_ex_reg.rs1_index] == regFile[id_ex_reg.rs2_index] )
                 id_ex_reg.ex_op = &EX_Stage::move_pc_offset;
         }
         // bne
-        else if ( id_ex_reg.funct3 == 0 ) {
+        else if ( id_ex_reg.funct3 == 1 ) {
             if ( regFile[id_ex_reg.rs1_index] != regFile[id_ex_reg.rs2_index] )
                 id_ex_reg.ex_op = &EX_Stage::move_pc_offset;
         }
         // blt
-        else if ( id_ex_reg.funct3 == 0 ) {
+        else if ( id_ex_reg.funct3 == 2 ) {
             if ( regFile[id_ex_reg.rs1_index] < regFile[id_ex_reg.rs2_index] )
                 id_ex_reg.ex_op = &EX_Stage::move_pc_offset;
         }
         // bge
-        else if ( id_ex_reg.funct3 == 0 ) {
+        else if ( id_ex_reg.funct3 == 3 ) {
             if ( regFile[id_ex_reg.rs1_index] >= regFile[id_ex_reg.rs2_index] )
                 id_ex_reg.ex_op = &EX_Stage::move_pc_offset;
         }       
@@ -361,9 +355,10 @@ void EX_Stage::tick()
     void (EX_Stage::*func)(long signed int, long signed int);
     func = id_stage->id_ex_reg.ex_op;
 
-    (this->*func)(id_stage->id_ex_reg.a, id_stage->id_ex_reg.b);
-    
-    cout << "result: " << ex_mem_reg.result;
+    if ( func ) {
+        (this->*func)(id_stage->id_ex_reg.a, id_stage->id_ex_reg.b);
+        cout << "result: " << ex_mem_reg.result;
+    }
 
     cout << endl;
 }
@@ -408,7 +403,7 @@ void MEM_Stage::tick()
     void (MEM_Stage::*func)(long unsigned int, long unsigned int);
     func = ex_stage->ex_mem_reg.mem_op;
 
-    if ( func != NULL ) {
+    if ( func ) {
         if ( func == &MEM_Stage::store ) {
             (this->*func)(mem_wb_reg.rs2_index, mem_wb_reg.result);
             cout << "stored " << regFile[mem_wb_reg.rs2_index] << " into data_mem[" << mem_wb_reg.result << "]";
@@ -451,7 +446,7 @@ void WB_Stage::tick()
     void (WB_Stage::*func)(int, long signed int);
     func = mem_stage->mem_wb_reg.wb_op;
     
-    if ( func != NULL ) {
+    if ( func ) {
         (this->*func)(mem_stage->mem_wb_reg.rd_index, mem_stage->mem_wb_reg.result);
         cout << "wrote " << mem_stage->mem_wb_reg.result << " into x" << mem_stage->mem_wb_reg.rd_index; 
     }
@@ -513,7 +508,13 @@ void EX_Stage::move_pc_offset(long signed int a, long signed int b)
 {
     *PC = a + b - 4;
     ex_mem_reg.result = b;
-    id_stage->if_stage->stall = 0;
+    id_stage->if_stage->end = 0;
+    id_stage->end = 0;
+    id_stage->ex_stage->end = 0;
+    id_stage->mem_stage->end = 0;
+    id_stage->wb_stage->end = 0;
+    id_stage->if_stage->if_id_reg.valid = 0;
+    
 }
  
  
