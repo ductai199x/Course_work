@@ -1,5 +1,6 @@
 #include "Stages.h"
 
+// if_stage_tick()
 void IF_Stage::tick()
 {
     if (end == 1)
@@ -53,6 +54,7 @@ void IF_Stage::tick()
 	}
 }
 
+// id_stage_hazard_det
 void ID_Stage::hazard_detection()
 {
 	/*
@@ -96,6 +98,7 @@ void ID_Stage::hazard_detection()
     mem_stage->bubble = 0;
 }
 
+// id_stage_tick()
 void ID_Stage::tick()
 {
     if (end == 1 && stall == 0)
@@ -279,12 +282,23 @@ void ID_Stage::tick()
         else if ( id_ex_reg.funct3 == 3 ) {
             if ( regFile[id_ex_reg.rs1_index] >= regFile[id_ex_reg.rs2_index] )
                 id_ex_reg.ex_op = &EX_Stage::move_pc_offset;
-        }       
+        }
     }
 
     // jal operation
     else if ( id_ex_reg.opcode == 111 ) {
-        
+        id_ex_reg.rs1_index = if_stage->if_id_reg.rs1_index;
+        id_ex_reg.rs2_index = if_stage->if_id_reg.rs2_index;
+        id_ex_reg.rd_index = if_stage->if_id_reg.rd_index;
+        id_ex_reg.imm = if_stage->if_id_reg.rs2_index | (if_stage->if_id_reg.funct7 << 5) | (if_stage->if_id_reg.funct3 << (5 + 7)) | (if_stage->if_id_reg.rs1_index << (5 + 7 + 3));
+        id_ex_reg.imm = (id_ex_reg.imm & 524288) ? (id_ex_reg.imm-1048577) : id_ex_reg.imm;
+
+        id_ex_reg.a = *PC;
+        id_ex_reg.b = 0;
+
+        *PC += id_ex_reg.imm - 4;
+        id_ex_reg.ex_op = &EX_Stage::add;
+        id_ex_reg.wb_op = &WB_Stage::write_back;
     }
 
     // jalr operation
@@ -311,6 +325,8 @@ void ID_Stage::tick()
 	}
 }
 
+
+// ex_stage_tick()
 void EX_Stage::tick()
 {
 	if (bubble == 1)
@@ -363,6 +379,7 @@ void EX_Stage::tick()
     cout << endl;
 }
 
+// mem_stage_tick()
 void MEM_Stage::tick()
 {
     if (end == 1)
@@ -406,7 +423,7 @@ void MEM_Stage::tick()
     if ( func ) {
         if ( func == &MEM_Stage::store ) {
             (this->*func)(mem_wb_reg.rs2_index, mem_wb_reg.result);
-            cout << "stored " << regFile[mem_wb_reg.rs2_index] << " into data_mem[" << mem_wb_reg.result << "]";
+            cout << "stored " << (long signed int)regFile[mem_wb_reg.rs2_index] << " into data_mem[" << mem_wb_reg.result << "]";
         }
 
         if ( func == &MEM_Stage::load ) {
@@ -418,6 +435,7 @@ void MEM_Stage::tick()
     cout << endl;
 }
 
+// wb_stage_tick()
 void WB_Stage::tick()
 {
     if (end == 1)
