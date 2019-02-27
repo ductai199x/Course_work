@@ -10,7 +10,11 @@ typedef enum {
         TERM,
         BG,
         FG,
+        KILLED,
+        CONTINUED,
+        SUSPENDED,
         UNKNOWN,
+        ADMIN,
 } JobStatus;
 
 typedef struct Job {
@@ -28,6 +32,7 @@ int add_job(Parse* p, pid_t pgid, JobStatus status);
 job_t* pop_last_job();
 job_t* get_last_job();
 job_t* get_job(pid_t pgid);
+job_t* get_job_with_id(int job_id);
 job_t* remove_job(pid_t pgid);
 job_t* remove_job_with_id(int job_id);
 char* get_str_status(JobStatus s);

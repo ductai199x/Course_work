@@ -10,6 +10,9 @@
 #include "parse.h"
 #include "job.h"
 #include "kill.h"
+#include "fg.h"
+#include "bg.h"
+#include "helper.h"
 
 static char* builtin[] = {
     "exit",   /* exits the shell */
@@ -116,12 +119,55 @@ void builtin_jobs()
 
 void builtin_fg(char** argv)
 {
+    fg_t *f = malloc(sizeof(f));
+    f = parse_fg_args(argv);
+   
+    job_t *j = malloc(sizeof(j));
 
+    if ( f ) {
+        int *jobs;
+        // int *pids;
+        jobs = f->jobs;
+        // pids = f->pids;
+
+        int i = 0;
+        if ( (j = get_job_with_id(jobs[i])) != NULL ) {
+            send_signal(SIGCONT, (-1)*j->pgid);
+            set_fg_pgid(j->pgid);
+            j->status = FG;
+        } else {
+            printf("pssh: fg: no such task %%%i.\n", jobs[i]);
+        }
+    }
+
+    free(f);
+    free(j);
 }
 
 void builtin_bg(char** argv)
 {
+    bg_t *b = malloc(sizeof(b));
+    b = parse_bg_args(argv);
+   
+    job_t *j = malloc(sizeof(j));
 
+    if ( b ) {
+        int *jobs;
+        // int *pids;
+        jobs = b->jobs;
+        // pids = b->pids;
+
+        int i = 0;
+        if ( (j = get_job_with_id(jobs[i])) != NULL ) {
+            send_signal(SIGCONT, (-1)*j->pgid);
+            j->status = CONTINUED;
+        } else {
+            printf("pssh: fg: no such task %%%i.\n", jobs[i]);
+        }
+    }
+
+    free(b);
+    free(j);
 }
 
 void builtin_kill(char** argv)
@@ -129,7 +175,7 @@ void builtin_kill(char** argv)
     killsig_t *k = malloc(sizeof(k));
     k = parse_kill_args(argv);
 
-    job_t *j = malloc(sizeof(j));
+    job_t *j = malloc(sizeof(j));;
 
     if ( k ) {
         int *pids = k->pids;
@@ -143,8 +189,13 @@ void builtin_kill(char** argv)
 
         i = 0;
         while ( jobs[i] > -1 ) {
-            if ( jobs[i] > 0 && (j = remove_job_with_id(jobs[i])) != NULL ) {
-                send_signal(k->signal, (-1)*j->pgid);
+            if ( (j = get_job_with_id(jobs[i])) != NULL ) {
+                if ( k->signal == SIGINT && j->status == STOPPED ) {
+                    send_signal(SIGKILL, (-1)*j->pgid);
+                } else {
+                    send_signal(k->signal, (-1)*j->pgid);
+                }
+                j->status = KILLED;
             } else {
                 printf("pssh: kill: no such task %%%i.\n", jobs[i]);
             }
@@ -152,6 +203,8 @@ void builtin_kill(char** argv)
         }
     }
 
+    free(j);
+    free(k);
 }
 
 void builtin_execute (char* cmd, char** argv)

@@ -4,6 +4,7 @@
 
 #include "job.h"
 #include "parse.h"
+#include "helper.h"
 
 #define JOB_MAX 100
 #define JOB_MIN 1
@@ -16,6 +17,21 @@
 
 job_t* job_list[JOB_MAX];
 int job_num = JOB_MIN;
+int last_added_job_num = JOB_MIN;
+int highest_job_num = JOB_MIN;
+
+int get_lowest_unused_num()
+{
+    int i = 1;
+    while ( job_list[i] ) {
+        if ( job_list[i] == NULL ) {
+            break;
+        }
+        i++;
+    }
+
+    return i;
+}
 
 int add_job(Parse* p, pid_t pgid, JobStatus status)
 {
@@ -23,14 +39,27 @@ int add_job(Parse* p, pid_t pgid, JobStatus status)
 
     job_t* J = malloc(sizeof(*J));
     J = parse_job(p);
+
+    int n = get_lowest_unused_num();
     J->pgid = pgid;
     J->status = status;
-    J->num = job_num;
+    J->num = n;
 
-    job_list[job_num] = J;
+    last_added_job_num = n;
+
+    if ( n > highest_job_num ) {
+        highest_job_num = n;
+    }
+
+    job_list[n] = J;
+    if ( status == BG ) {
+        char prnt[10];
+        sprintf(prnt, "[%i] %i\n", J->num, J->pgid);
+        safe_print(prnt);
+    }
     job_num++;
     
-    return job_num;
+    return n;
 }
 
 job_t* parse_job(Parse* p)
@@ -80,34 +109,46 @@ job_t* get_job(pid_t pgid)
 {
     int i;
     job_t* ret = malloc(sizeof(ret));
-    for ( i = JOB_MIN; i < job_num; i++ ) {
-        if ( job_list[i]->pgid == pgid ) {
-            ret = job_list[i];
-            break;
+    for ( i = JOB_MIN; i <= highest_job_num; i++ ) {
+        if ( job_list[i] ) {
+            if ( job_list[i]->pgid == pgid ) {
+                ret = job_list[i];
+                break;
+            }
         }
     }
     
-    if ( i < job_num ) {
+    if ( i <= highest_job_num ) {
         return ret;
     } else {
         return NULL;
     }
 }
 
+job_t* get_job_with_id(int job_id)
+{
+    if ( job_num < 1 || job_id < 1 ) return NULL;
+    if ( job_id >= job_num ) return NULL;
+    job_t* ret = malloc(sizeof(ret));
+    ret = job_list[job_id];
+
+    return ret;
+}
+
 job_t* remove_job(pid_t pgid)
 {
-    int i, j;
+    int i;
     job_t* ret = malloc(sizeof(ret));
-    for ( i = JOB_MIN; i < job_num; i++ ) {
-        if ( job_list[i]->pgid == pgid ) {
-            ret = job_list[i];
-            break;
+    for ( i = JOB_MIN; i <= highest_job_num; i++ ) {
+        if ( job_list[i] ) {
+            if ( job_list[i]->pgid == pgid ) {
+                ret = job_list[i];
+                break;
+            }
         }
     }
-    if ( i < job_num ) {
-        for( j = i; j < job_num; j++ ) {
-            job_list[j] = job_list[j+1];
-        }
+    if ( i <= highest_job_num ) {
+        job_list[i] = NULL;
         job_num--;
         return ret;
     } else {
@@ -121,20 +162,21 @@ job_t* remove_job_with_id(int job_id)
     if ( job_id >= job_num ) return NULL;
     job_t* ret = malloc(sizeof(ret));
     ret = job_list[job_id];
+    
+    job_list[job_id] = NULL;
 
-    int i;
-    for ( i = job_id; i < job_num; i++ ) {
-        job_list[i] = job_list[i+1];
-    }
     return ret;
 }
 
 void view_all_jobs()
 {
     int i;
+    char prnt[1000];
     for ( i = JOB_MIN; i < job_num; i++ ) {
         if ( job_list[i] ) {
-            printf("[%i] + %s\t%s\n", i, get_str_status(job_list[i]->status), job_list[i]->name);
+            sprintf(prnt, "[%i] + %s\t\t%s\n", i, get_str_status(job_list[i]->status), job_list[i]->name);
+            safe_print(prnt);
+            memset(prnt, 0, 1000);
         }
     }
 }
@@ -142,19 +184,25 @@ void view_all_jobs()
 char* get_str_status(JobStatus s)
 {
     if ( s == 0 )
-        return "Stopped";
+        return "stopped";
     else if ( s == 1 )
-        return "Terminated";
+        return "terminated";
     else if ( s == 2 )
-        return "Running-BG";
+        return "running";
     else if ( s == 3 )
-        return "Running-FG";
+        return "running";
+    else if ( s == 4 )
+        return "done";
+    else if ( s == 5 )
+        return "continued";
+    else if ( s == 6 )
+        return "suspended";
     else
         return "Unknown";
 }
 
 void view_job(job_t* J, char* prnt)
 {
-    sprintf(prnt, "[%i] + %s\t%s\n", J->num, get_str_status(J->status), J->name);
+    sprintf(prnt, "[%i] + %s\t\t%s\n", J->num, get_str_status(J->status), J->name);
 }
 

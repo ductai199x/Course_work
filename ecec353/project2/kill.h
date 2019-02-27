@@ -11,7 +11,6 @@ typedef struct killsig {
 
 killsig_t* parse_kill_args(char** argv);
 int str_to_sig(char* str);
-int check_int(char* str);
 void print_usage();
 int send_signal(int signal, int pid);
 

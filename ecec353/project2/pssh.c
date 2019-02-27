@@ -14,6 +14,7 @@
 #include "parse.h"
 #include "job.h"
 #include "kill.h"
+#include "helper.h"
 
 /*******************************************
  * Set to 1 to view the command line parse *
@@ -91,11 +92,8 @@ void sigchild_handler(int sig);
 void sigint_handler(int sig);
 void sigtstp_handler(int sig);
 void sigquit_handler(int sig);
-void safe_print(char* str);
-void set_fg_pgid(pid_t pgid);
 
 sig_atomic_t child_term = 0;
-sig_atomic_t child_lead = 0;
 
 void sigchild_handler(int sig)
 {
@@ -103,48 +101,55 @@ void sigchild_handler(int sig)
     int status;
     job_t* J;
     char prnt[1000];
+    int admin = 0;
     
     while( (child = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0 ) {
         if ( WIFSTOPPED(status) ) {
             if ( tcgetpgrp(STDOUT_FILENO) != getpgrp() ) {
-                child_term--;
+                child_term = child_term ? child_term-1 : 0;
+            }
+            if ( (J = get_job(child)) != NULL ) {
+                J->status = SUSPENDED;
+                view_job(J, prnt);
+                safe_print(prnt);
+                J->status = STOPPED;
             }
             if ( child_term == 0 ) {
-                if ( (J = get_job(getpgid(child))) != NULL ) {
-                    J->status = STOPPED;
-                    view_job(J, prnt);
-                    safe_print(prnt);
-                }
                 set_fg_pgid(getpgrp()); 
             }
         }
         else if ( WIFCONTINUED(status) ) {
-            if ( tcgetpgrp(STDOUT_FILENO) != getpgrp() ) {
-                child_term++; 
-                set_fg_pgid(getpgid(child));
-            }
             if ( child == getpgid(child) ) {
                 if ( (J = get_job(getpgid(child))) != NULL ) {
-                    J->status = FG;
+                    if ( J-> status == STOPPED ) {
+                        J->status = CONTINUED;
+                    }
                     view_job(J, prnt);
                     safe_print(prnt);
+                    J->status = BG;
                 }
             }
         }
         else {
             if ( tcgetpgrp(STDOUT_FILENO) != getpgrp() ) {
-                child_term--;
+                child_term = child_term ? child_term-1 : 0;
             }
             // printf("child_term: %i\n", child_term);
             if ( (J = remove_job(child)) != NULL ) {
-                    if ( J->status == BG ) {
+                if ( J->status == BG || J->status == STOPPED || J->status == KILLED ) {
+                    if ( J->status != KILLED ) {
                         J->status = TERM;
-                        view_job(J, prnt);
-                        safe_print(prnt);
                     }
+                    view_job(J, prnt);
+                    safe_print(prnt);
                 }
+                admin = J->status == ADMIN ? 1 : 0;
+            }
             if ( child_term == 0 ) {
-                set_fg_pgid(getpgrp());
+                if ( !admin ) {
+                    set_fg_pgid(getpgrp());
+                }
+                admin = 0;
             }
             continue;
         }
@@ -180,27 +185,6 @@ void sigquit_handler(int sig)
     if ( curr_tc != getpgrp() ) {
         kill(-curr_tc, SIGQUIT);
     }
-}
-
-void safe_print(char* str)
-{
-    pid_t fg_pgid;
-    
-    fg_pgid = tcgetpgrp(STDOUT_FILENO);
-
-    set_fg_pgid(getpgrp());
-    printf("%s", str);
-    set_fg_pgid(fg_pgid);
-}
-
-void set_fg_pgid(pid_t pgid)
-{
-    void (*old)(int);
-    old = signal(SIGTTOU, SIG_IGN);
-    tcsetpgrp(STDIN_FILENO, pgid);
-    tcsetpgrp(STDOUT_FILENO, pgid);
-    // printf("tc set to: %i\n", tcgetpgrp(STDOUT_FILENO));
-    signal(SIGTTOU, old);
 }
 
 // PROJECT 2
@@ -280,6 +264,8 @@ void execute_tasks (Parse* P)
     int num_tasks = P->ntasks;  // just for convenience sake
     pid_t pgid = 0;
 
+    JobStatus status;
+
     for ( t = 0; t < num_tasks; t++ ) {
         if ( command_found (P->tasks[t].cmd) || is_builtin (P->tasks[t].cmd) ) {
             if ( !strcmp(P->tasks[t].cmd, "exit") )
@@ -296,7 +282,12 @@ void execute_tasks (Parse* P)
                 if ( t == 0 ) {
                     execute_command(P->tasks[t].cmd, P->tasks[t].argv, P->infile, NULL, NULL, newfd, &pgid, 1, P->background);
                     memcpy(oldfd, newfd, sizeof(newfd));
-                    if ( add_job(P, pgid, P->background ? BG : FG) == -1 ) {
+                    if ( !strcmp(P->tasks[t].cmd, "fg") ) {
+                        status = ADMIN;
+                    } else {
+                        status = P->background ? BG : FG;
+                    }
+                    if ( add_job(P, pgid, status) == -1 ) {
                         fprintf(stderr, "Failed to add new job\n");
                     }
                 } else if ( t > 0 && t < num_tasks-1 ) {
@@ -307,7 +298,12 @@ void execute_tasks (Parse* P)
                 }
             } else {    // if there is only one tasks, dont care about pipes
                 execute_command(P->tasks[t].cmd, P->tasks[t].argv, P->infile, P->outfile, NULL, NULL, &pgid, 1, P->background);
-                if ( add_job(P, pgid, P->background ? BG : FG) == -1 ) {
+                if ( !strcmp(P->tasks[t].cmd, "fg") ) {
+                    status = ADMIN;
+                } else {
+                    status = P->background ? BG : FG;
+                }
+                if ( add_job(P, pgid, status) == -1 ) {
                     fprintf(stderr, "Failed to add new job\n");
                 }
             }

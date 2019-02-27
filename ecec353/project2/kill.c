@@ -6,23 +6,12 @@
 #include <errno.h>
 
 #include "kill.h"
+#include "helper.h"
 
 void print_usage()
 {
     printf("Usage: kill [-s <signal>] <pid> | %%<job> ...\n");
 }
-
-int check_int(char* str)
-{
-    int i;
-    for ( i = 0; i < strlen(str); i++ ) {
-        if ( !isdigit(str[i]) )
-            return 0;
-    }
-    return 1;
-}
-
-
 
 killsig_t* parse_kill_args(char** argv)
 {
