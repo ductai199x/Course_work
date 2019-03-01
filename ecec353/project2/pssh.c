@@ -105,9 +105,8 @@ void sigchild_handler(int sig)
     
     while( (child = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0 ) {
         if ( WIFSTOPPED(status) ) {
-            if ( tcgetpgrp(STDOUT_FILENO) != getpgrp() ) {
-                child_term = child_term ? child_term-1 : 0;
-            }
+            child_term = child_term ? child_term-1 : 0;
+            
             if ( (J = get_job(child)) != NULL ) {
                 J->status = SUSPENDED;
                 view_job(J, prnt);
@@ -131,9 +130,8 @@ void sigchild_handler(int sig)
             }
         }
         else {
-            if ( tcgetpgrp(STDOUT_FILENO) != getpgrp() ) {
-                child_term = child_term ? child_term-1 : 0;
-            }
+            child_term = child_term ? child_term-1 : 0;
+            
             // printf("child_term: %i\n", child_term);
             if ( (J = remove_job(child)) != NULL ) {
                 if ( J->status == BG || J->status == STOPPED || J->status == KILLED ) {

@@ -137,7 +137,10 @@ void builtin_fg(char** argv)
             j->status = FG;
         } else {
             printf("pssh: fg: no such task %%%i.\n", jobs[i]);
+            set_fg_pgid(getppid());
         }
+    } else {
+        set_fg_pgid(getppid());
     }
 
     free(f);

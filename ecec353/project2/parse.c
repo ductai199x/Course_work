@@ -360,7 +360,7 @@ static Parse* parse_new ()
 
 static void parse_init (Parse* P, char* cmdline)
 {
-    P->raw_cmd = malloc(sizeof(cmdline));
+    P->raw_cmd = malloc(strlen(cmdline) + 1);
     strcpy(P->raw_cmd, cmdline);
     P->background = is_background (cmdline);
 
