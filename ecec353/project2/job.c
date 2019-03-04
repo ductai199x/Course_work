@@ -66,7 +66,7 @@ job_t* parse_job(Parse* p)
 {
     job_t* J = malloc(sizeof(J));
     J = new_job();
-    J->name = malloc(sizeof(p->raw_cmd));
+    J->name = malloc(strlen(p->raw_cmd) + 1);
     strcpy(J->name, p->raw_cmd);
     J->npids = p->ntasks;
 
