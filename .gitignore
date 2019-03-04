@@ -1,1 +1,4 @@
 includes.txt
+*.o
+*.out
+*.swp
