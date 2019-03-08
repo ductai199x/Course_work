@@ -93,13 +93,15 @@ void execute_command(char* cmd, char** argv, char* infile, char* outfile, int* o
         exit(EXIT_FAILURE);
     } else if ( pid == 0 ) {    // child process
         if ( oldfd ) {          // old pipe
-            dup2(oldfd[0], STDIN_FILENO);
+             printf("reading\n");
+           dup2(oldfd[0], STDIN_FILENO);
             close(oldfd[0]);
             close(oldfd[1]);
         }
         
         if ( newfd ) {          // new pipe
-            close(newfd[0]);
+             printf("writing\n");
+          close(newfd[0]);
             dup2(newfd[1], STDOUT_FILENO);
             close(newfd[1]);
         }
@@ -111,7 +113,7 @@ void execute_command(char* cmd, char** argv, char* infile, char* outfile, int* o
         }
 
         if ( outfile ) {        // out-file
-            int of_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+             int of_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
             dup2(of_fd, STDOUT_FILENO);
             close(of_fd);
         }
@@ -124,6 +126,7 @@ void execute_command(char* cmd, char** argv, char* infile, char* outfile, int* o
         }
     } else {                    // parent process
         if ( oldfd ) {          // closing the old pipe
+            printf("close\n");
             close(oldfd[0]);
             close(oldfd[1]);
         }
