@@ -33,15 +33,15 @@ int get_lowest_unused_num()
     return i;
 }
 
-int add_job(Parse* p, pid_t pgid, JobStatus status)
+job_t* add_job(Parse* p, pid_t* pid_arr, JobStatus status)
 {
-    if ( job_num == JOB_MAX-1 ) return -1;
+    if ( job_num == JOB_MAX-1 ) return NULL;
 
     job_t* J = malloc(sizeof(*J));
     J = parse_job(p);
 
     int n = get_lowest_unused_num();
-    J->pgid = pgid;
+    J->pid_arr = pid_arr;
     J->status = status;
     J->num = n;
 
@@ -54,12 +54,12 @@ int add_job(Parse* p, pid_t pgid, JobStatus status)
     job_list[n] = J;
     if ( status == BG ) {
         char prnt[10];
-        sprintf(prnt, "[%i] %i\n", J->num, J->pgid);
+        sprintf(prnt, "[%i] %i\n", J->num, J->pid_arr[0]);
         safe_print(prnt);
     }
     job_num++;
     
-    return n;
+    return J;
 }
 
 job_t* parse_job(Parse* p)
@@ -111,7 +111,7 @@ job_t* get_job(pid_t pgid)
     job_t* ret = malloc(sizeof(ret));
     for ( i = JOB_MIN; i <= highest_job_num; i++ ) {
         if ( job_list[i] ) {
-            if ( job_list[i]->pgid == pgid ) {
+            if ( job_list[i]->pid_arr[0] == pgid ) {
                 ret = job_list[i];
                 break;
             }
@@ -141,7 +141,7 @@ job_t* remove_job(pid_t pgid)
     job_t* ret = malloc(sizeof(ret));
     for ( i = JOB_MIN; i <= highest_job_num; i++ ) {
         if ( job_list[i] ) {
-            if ( job_list[i]->pgid == pgid ) {
+            if ( job_list[i]->pid_arr[0] == pgid ) {
                 ret = job_list[i];
                 break;
             }

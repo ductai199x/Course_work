@@ -20,15 +20,13 @@ typedef enum {
 typedef struct Job {
         int num;
         char* name;
-        // pid_t* pids;
+        pid_t* pid_arr;
         unsigned int npids;
         pid_t pgid;
         JobStatus status;
-        struct Job *next_job;
-        struct Job *prev_job;
 } job_t;
 
-int add_job(Parse* p, pid_t pgid, JobStatus status);
+job_t* add_job(Parse* p, pid_t* pid_arr, JobStatus status);
 job_t* pop_last_job();
 job_t* get_last_job();
 job_t* get_job(pid_t pgid);

@@ -187,7 +187,7 @@ void sigquit_handler(int sig)
 
 // PROJECT 2
 
-void execute_command(char* cmd, char** argv, char* infile, char* outfile, int* oldfd, int* newfd, pid_t* pgid, int lead, int background)
+void execute_command(char* cmd, char** argv, char* infile, char* outfile, int* oldfd, int* newfd, pid_t* pid_arr, int index, int background)
 {
     pid_t pid;
     pid = fork();
@@ -196,9 +196,8 @@ void execute_command(char* cmd, char** argv, char* infile, char* outfile, int* o
         child_term++;
     }
 
-    setpgid(pid, *pgid);
-    if ( lead )
-        *pgid = pid;
+    setpgid(pid, pid_arr[0]);
+    pid_arr[index] = pid;
     
     if ( pid < 0 ) {
         fprintf(stderr, "Failed to fork()\n");
@@ -240,7 +239,7 @@ void execute_command(char* cmd, char** argv, char* infile, char* outfile, int* o
             close(oldfd[1]);
         }
 
-        if ( lead && !background ) {
+        if ( index == 0 && background == 0 ) {
             set_fg_pgid(pid);
         }
         // printf("bg: %i - pgid: %i\n", background, tcgetpgrp(STDOUT_FILENO));
@@ -260,15 +259,25 @@ void execute_tasks (Parse* P)
     int newfd[2];
 
     int num_tasks = P->ntasks;  // just for convenience sake
-    pid_t pgid = 0;
+    pid_t* pid_arr = (pid_t*)malloc(num_tasks*sizeof(pid_t));
 
-    JobStatus status;
+    JobStatus status = P->background ? BG : FG;;
+    job_t* J = malloc(sizeof(J));   // free later
+
+    if ( (J = add_job(P, pid_arr, status)) == NULL ) {
+        fprintf(stderr, "Failed to add new job\n");
+    }
 
     for ( t = 0; t < num_tasks; t++ ) {
-        if ( command_found (P->tasks[t].cmd) || is_builtin (P->tasks[t].cmd) ) {
+        if ( command_found (P->tasks[t].cmd) || is_builtin (P->tasks[t].cmd) ) 
+        {
             if ( !strcmp(P->tasks[t].cmd, "exit") )
                 exit(EXIT_SUCCESS);
-
+            
+            if ( !strcmp(P->tasks[t].cmd, "fg") ) {
+                J->status = ADMIN;
+            }
+            
             if ( t < num_tasks-1 ) {    // if the current task is not the last one, create pipe
                 if ( pipe(newfd) == -1 ) {
                     fprintf(stderr, "Create pipe failed\n");
@@ -278,35 +287,20 @@ void execute_tasks (Parse* P)
 
             if ( num_tasks > 1 ) {      // if there is more than one task, do things with pipes
                 if ( t == 0 ) {
-                    execute_command(P->tasks[t].cmd, P->tasks[t].argv, P->infile, NULL, NULL, newfd, &pgid, 1, P->background);
-                    memcpy(oldfd, newfd, sizeof(newfd));
-                    if ( !strcmp(P->tasks[t].cmd, "fg") ) {
-                        status = ADMIN;
-                    } else {
-                        status = P->background ? BG : FG;
-                    }
-                    if ( add_job(P, pgid, status) == -1 ) {
-                        fprintf(stderr, "Failed to add new job\n");
-                    }
+                    execute_command(P->tasks[t].cmd, P->tasks[t].argv, P->infile, NULL, NULL, newfd, pid_arr, t, P->background);
                 } else if ( t > 0 && t < num_tasks-1 ) {
-                    execute_command(P->tasks[t].cmd, P->tasks[t].argv, NULL, NULL, oldfd, newfd, &pgid, 0, P->background);
-                    memcpy(oldfd, newfd, sizeof(newfd));
+                    execute_command(P->tasks[t].cmd, P->tasks[t].argv, NULL, NULL, oldfd, newfd, pid_arr, t, P->background);
                 } else {
-                    execute_command(P->tasks[t].cmd, P->tasks[t].argv, NULL, P->outfile, oldfd, NULL, &pgid, 0, P->background);
+                    execute_command(P->tasks[t].cmd, P->tasks[t].argv, NULL, P->outfile, oldfd, NULL, pid_arr, t, P->background);
                 }
+
+                memcpy(oldfd, newfd, sizeof(newfd));
             } else {    // if there is only one tasks, dont care about pipes
-                execute_command(P->tasks[t].cmd, P->tasks[t].argv, P->infile, P->outfile, NULL, NULL, &pgid, 1, P->background);
-                if ( !strcmp(P->tasks[t].cmd, "fg") ) {
-                    status = ADMIN;
-                } else {
-                    status = P->background ? BG : FG;
-                }
-                if ( add_job(P, pgid, status) == -1 ) {
-                    fprintf(stderr, "Failed to add new job\n");
-                }
+                execute_command(P->tasks[t].cmd, P->tasks[t].argv, P->infile, P->outfile, NULL, NULL, pid_arr, t, P->background);
             }
         }
-        else {
+        else 
+        {
             printf ("pssh: command not found: %s\n", P->tasks[t].cmd);
             break;
         }
