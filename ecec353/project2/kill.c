@@ -16,6 +16,8 @@ void print_usage()
 killsig_t* parse_kill_args(char** argv)
 {
     killsig_t* k = malloc(sizeof(k));
+    k->pids = malloc(1*sizeof(int));
+    k->jobs = malloc(1*sizeof(int));
     int *pids = (int*)malloc(100 * sizeof(int));
     int *jobs = (int*)malloc(100 * sizeof(int));
     int *p, *j;

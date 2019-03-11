@@ -22,6 +22,7 @@ typedef struct Job {
         char* name;
         pid_t* pid_arr;
         unsigned int npids;
+        unsigned int active_pids;
         pid_t pgid;
         JobStatus status;
 } job_t;
@@ -31,7 +32,8 @@ job_t* pop_last_job();
 job_t* get_last_job();
 job_t* get_job(pid_t pgid);
 job_t* get_job_with_id(int job_id);
-job_t* remove_job(pid_t pgid);
+int remove_pid_from_job(job_t* J, int pid);
+int remove_job(job_t* J);
 job_t* remove_job_with_id(int job_id);
 char* get_str_status(JobStatus s);
 void view_all_jobs();

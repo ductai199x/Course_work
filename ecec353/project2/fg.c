@@ -16,8 +16,10 @@ void print_usage_fg()
 fg_t* parse_fg_args(char** argv)
 {
     fg_t* f = malloc(sizeof(f));
-    int *pids = (int*)malloc(1 * sizeof(int));
-    int *jobs = (int*)malloc(1 * sizeof(int));
+    f->pids = malloc(1*sizeof(int));
+    f->jobs = malloc(1*sizeof(int));
+    int *pids = (int*)malloc(100 * sizeof(int));
+    int *jobs = (int*)malloc(100 * sizeof(int));
     int *p, *j;
     p = pids;
     j = jobs;

@@ -54,7 +54,7 @@ job_t* add_job(Parse* p, pid_t* pid_arr, JobStatus status)
     job_list[n] = J;
     if ( status == BG ) {
         char prnt[10];
-        sprintf(prnt, "[%i] %i\n", J->num, J->pid_arr[0]);
+        sprintf(prnt, "[%i] ", J->num);
         safe_print(prnt);
     }
     job_num++;
@@ -107,52 +107,58 @@ job_t* pop_last_job()
 
 job_t* get_job(pid_t pgid)
 {
-    int i;
-    job_t* ret = malloc(sizeof(ret));
+    int i, j;
     for ( i = JOB_MIN; i <= highest_job_num; i++ ) {
         if ( job_list[i] ) {
-            if ( job_list[i]->pid_arr[0] == pgid ) {
-                ret = job_list[i];
-                break;
+            for ( j = 0; j < job_list[i]->npids; j++ ) {
+                if ( job_list[i]->pid_arr[j] == pgid ) {
+                    return job_list[i];
+                }
             }
         }
     }
     
-    if ( i <= highest_job_num ) {
-        return ret;
-    } else {
-        return NULL;
-    }
+    return NULL;
 }
 
 job_t* get_job_with_id(int job_id)
 {
-    if ( job_num < 1 || job_id < 1 ) return NULL;
-    if ( job_id >= job_num ) return NULL;
-    job_t* ret = malloc(sizeof(ret));
-    ret = job_list[job_id];
+    if ( highest_job_num == 1 || job_id < 1 ) return NULL;
+    if ( job_id > highest_job_num-1 ) return NULL;
+    if ( job_id == last_added_job_num ) return NULL;
 
-    return ret;
+    return job_list[job_id];
 }
 
-job_t* remove_job(pid_t pgid)
+int remove_pid_from_job(job_t *J, int pid)
 {
     int i;
-    job_t* ret = malloc(sizeof(ret));
+    for ( i = 0; i < J->npids; i++ ) {
+        if ( J->pid_arr[i] == pid ) {
+            J->pid_arr[i] = -1;
+            J->active_pids--;
+            return 0;
+        }
+    }
+    
+    
+    return -1;
+}
+
+int remove_job(job_t* J)
+{
+    int i;
     for ( i = JOB_MIN; i <= highest_job_num; i++ ) {
-        if ( job_list[i] ) {
-            if ( job_list[i]->pid_arr[0] == pgid ) {
-                ret = job_list[i];
-                break;
-            }
+        if ( job_list[i] == J ) {
+            break;
         }
     }
     if ( i <= highest_job_num ) {
         job_list[i] = NULL;
         job_num--;
-        return ret;
+        return 0;
     } else {
-        return NULL;
+        return -1;
     }
 }
 
@@ -172,8 +178,9 @@ void view_all_jobs()
 {
     int i;
     char prnt[1000];
-    for ( i = JOB_MIN; i < job_num; i++ ) {
-        if ( job_list[i] ) {
+    for ( i = JOB_MIN; i < highest_job_num; i++ ) {
+        if ( job_list[i] && i != last_added_job_num ) {
+
             sprintf(prnt, "[%i] + %s\t\t%s\n", i, get_str_status(job_list[i]->status), job_list[i]->name);
             safe_print(prnt);
             memset(prnt, 0, 1000);
@@ -186,7 +193,7 @@ char* get_str_status(JobStatus s)
     if ( s == 0 )
         return "stopped";
     else if ( s == 1 )
-        return "terminated";
+        return "done";
     else if ( s == 2 )
         return "running";
     else if ( s == 3 )

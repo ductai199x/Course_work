@@ -132,8 +132,8 @@ void builtin_fg(char** argv)
 
         int i = 0;
         if ( (j = get_job_with_id(jobs[i])) != NULL ) {
-            send_signal(SIGCONT, (-1)*j->pgid);
-            set_fg_pgid(j->pgid);
+            send_signal(SIGCONT, (-1)*j->pid_arr[0]);
+            set_fg_pgid(j->pid_arr[0]);
             j->status = FG;
         } else {
             printf("pssh: fg: no such task %%%i.\n", jobs[i]);
@@ -162,7 +162,7 @@ void builtin_bg(char** argv)
 
         int i = 0;
         if ( (j = get_job_with_id(jobs[i])) != NULL ) {
-            send_signal(SIGCONT, (-1)*j->pgid);
+            send_signal(SIGCONT, (-1)*j->pid_arr[0]);
             j->status = CONTINUED;
         } else {
             printf("pssh: fg: no such task %%%i.\n", jobs[i]);
@@ -178,7 +178,7 @@ void builtin_kill(char** argv)
     killsig_t *k = malloc(sizeof(k));
     k = parse_kill_args(argv);
 
-    job_t *j = malloc(sizeof(j));;
+    job_t *j = malloc(sizeof(j));
 
     if ( k ) {
         int *pids = k->pids;
@@ -194,9 +194,9 @@ void builtin_kill(char** argv)
         while ( jobs[i] > -1 ) {
             if ( (j = get_job_with_id(jobs[i])) != NULL ) {
                 if ( k->signal == SIGINT && j->status == STOPPED ) {
-                    send_signal(SIGKILL, (-1)*j->pgid);
+                    while ( kill((-1)*j->pid_arr[0], SIGKILL) == 0 ) {}
                 } else {
-                    send_signal(k->signal, (-1)*j->pgid);
+                    while ( kill((-1)*j->pid_arr[0], k->signal) == 0 ) {}
                 }
                 j->status = KILLED;
             } else {
@@ -204,7 +204,10 @@ void builtin_kill(char** argv)
             }
             i++;
         }
+
     }
+
+    set_fg_pgid(getppid());
 
     free(j);
     free(k);
@@ -233,4 +236,6 @@ void builtin_execute (char* cmd, char** argv)
     else {
         printf ("pssh: builtin command: %s (not implemented!)\n", cmd);
     }
+
+    exit(EXIT_SUCCESS);
 }
