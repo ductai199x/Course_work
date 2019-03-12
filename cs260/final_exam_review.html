@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>final_exam_review.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+</head>
+<body>
+<ol>
+<li><a href="#b-tree">B-Tree</a></li>
+<li><a href="#mfs-(disjoint-sets)">Merge-Find Set</a></li>
+<li><a href="#graph">Graph</a></li>
+<li><a href="#single-source-shortest-path-(SSSP)">Single-Source Shortest Path</a></li>
+<li><a href="#all-pairs-shortest-path-(APSP)">All-Pairs Shortest Path</a></li>
+<li><a href="#minimum-spanning-tree">Minimum Spanning Tree</a></li>
+<li><a href="#dependency-graph">Dependency Graph</a></li>
+<li><a href="#bipartite-matching">Bipartite Matching</a></li>
+<li><a href="#recurrence-relations">Recurrence Relations</a></li>
+<li><a href="#sort">Sort</a></li>
+<li><a href="#search">Search</a></li>
+</ol>
+<!-- 
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+	MathJax.Hub.Config({ tex2jax: {inlineMath: [['$', '$']]}, messageStyle: "none" });
+</script>
+-->
+<h1 id="b-tree">B-Tree</h1>
+<h2 id="2-3-tree">2-3 Tree:</h2>
+<ul>
+<li>All operation have TC of $O(logn)$</li>
+<li>1 &lt;= # of keys in node &lt;= 2</li>
+<li>2 &lt;= # of children of a node &lt;= 3</li>
+</ul>
+<h1 id="mfs-disjoint-sets">MFS (disjoint sets)</h1>
+<h3 id="finds-value-find-the-root-with-path-compression">Find(S, value): <em>Find the root, with path compression</em></h3>
+<ul>
+<li>Time = 1: $O(n)$  n=# of element in the set</li>
+<li>Time &gt; 1: $O(1)$ due to path compression*</li>
+</ul>
+<ul>
+<li>Keep an array of looped through elements</li>
+<li>Traverse until meet the root element. Return the root element</li>
+<li>Direct the parent of those elements to be the root (set representative) element</li>
+</ul>
+<pre class="hljs"><code><div>    idx = S.values.index(value)
+    p = []
+    while ( s.parents[idx] != -1 ):
+        p.append(idx)
+        idx = s.parents[idx]
+        
+    for i in p:
+        s.parents[i] = idx
+    
+    return s.values[idx]
+</div></code></pre>
+<h3 id="merges-value1-value2">Merge(S, value1, value2):</h3>
+<ul>
+<li>Get the root of the 2 values</li>
+<li>Set root of 1 value to point at the root of the other value</li>
+</ul>
+<pre class="hljs"><code><div>    set1 = self.Find(s, value1)
+    set2 = self.Find(s, value2)
+
+    idx1 = s.values.index(set1)
+    idx2 = s.values.index(set2)
+
+    # Check if loop -&gt; exit
+    if ( set1 != set2 ):
+        s.parents[idx1] = idx2
+</div></code></pre>
+<h1 id="graph">Graph</h1>
+<h1 id="discovery">Discovery</h1>
+<h2 id="dfsg-v-general-preorder-traversal---oe">DFS(G, v): (general preorder traversal) - $O(e)$</h2>
+<ul>
+<li>Have a visited array</li>
+<li>Visit v, mark as visited. Then visit each adjacent elements of v recursively</li>
+<li>If dead end, choose at random an element that's not visited and do the same procedure until all elements are visited</li>
+</ul>
+<pre class="hljs"><code><div>def dfs_helper(tree, is_visited, i):
+    is_leaf = True
+    is_print = False
+    for j in range(0, len(tree.parents)):
+        if is_visited[j]:
+            continue
+        if tree.parents[j] == i:
+            is_leaf = False
+            is_visited[i] = 1
+            if not is_print:
+                print(tree.values[i], end=&quot; &quot;)
+                is_print=True
+            dfs_helper(tree, is_visited, j)
+    if is_leaf:
+        print(tree.values[i], end=&quot; &quot;)
+</div></code></pre>
+<h3 id="check-for-cycles">Check for cycles</h3>
+<ul>
+<li>Have a visited array. Init to all false</li>
+<li>Have a recursion stack array. Init to all false</li>
+<li>Loop through all nodes in graph. For each node, run check_if_cycles(node, visited, recstack)</li>
+<li>On each iteration: mark el as visited in both array. Loop through each of el's neighbor. If neighbor is not visited, check_if_cycle(neighbor, visited, recstack). If neighbor is visited, means that there is a loop, return true. If loop finishes, mark recstack[node] false and return false.</li>
+</ul>
+<pre class="hljs"><code><div>def isCyclicUtil(self, v, visited, recStack): 
+    visited[v] = True
+    recStack[v] = True
+    for neighbour in self.graph[v]: 
+        if visited[neighbour] == False: 
+            if self.isCyclicUtil(neighbour, visited, recStack) == True: 
+                return True
+        elif recStack[neighbour] == True: 
+            return True
+
+    # The node needs to be poped from  
+    # recursion stack before function ends 
+    recStack[v] = False
+    return False
+
+def isCyclic(self): 
+    visited = [False] * self.V 
+    recStack = [False] * self.V 
+    for node in range(self.V): 
+        if visited[node] == False: 
+            if self.isCyclicUtil(node,visited,recStack) == True: 
+                return True
+    return False
+</div></code></pre>
+<h3 id="strongly-connected-component">Strongly connected component</h3>
+<ul>
+<li>Create an empty stack ‘S’ and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0</li>
+<li>Reverse directions of all arcs to obtain the transpose graph</li>
+<li>One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS on v. The DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack)</li>
+</ul>
+<h2 id="bfsg-v">BFS(G, v):</h2>
+<ul>
+<li>Have a visited array</li>
+<li>Have a stack. Add v to stack</li>
+<li>Pop from stack, mark el as visited. Add el's adjancents to the stack if el is not visited. And repeat until stack is empty</li>
+</ul>
+<pre class="hljs"><code><div>    is_visited = [0 for i in range(0, len(tree.parents)) ]
+    queue = []
+    root_idx = tree.parents.index(-1)
+    queue.append(tree.values[root_idx])
+    is_visited[root_idx] = 1
+    while sum(is_visited) &lt; len(is_visited):
+        if queue:
+            i = queue.pop(0)
+            print(i, end=&quot; &quot;)
+
+        for j in range(0, len(tree.parents)):
+            if is_visited[j]:
+                continue
+            if tree.parents[j] == root_idx:
+                queue.append(tree.values[j])
+                is_visited[j] = 1
+        root_idx = tree.values.index(i)
+    while queue:
+        print(queue.pop(0), end=&quot; &quot;)
+    print()
+</div></code></pre>
+<h1 id="single-source-shortest-path-sssp">Single-Source Shortest Path (SSSP)</h1>
+<p><strong>Find the shortest path between v and all elements in graph</strong></p>
+<h3 id="unweighted-graph-use-bfs">Unweighted graph: Use BFS</h3>
+<h3 id="weighted-graph-use-dijkstra">Weighted graph: Use Dijkstra</h3>
+<h3 id="dijkstrag-v">Dijkstra(G, v):</h3>
+<ul>
+<li>Have a distance array. Initialize all distances to infinity</li>
+<li>Have a predecessor array</li>
+<li>If distance from v to a1 &lt; dist[a1] =&gt; dist[a1] = dist_v_a1. Do this for all v's adjacents</li>
+<li>Pick the shortest distance from v to any of its adjacency. Update the predecessor array. Do the step above with the picked node until all nodes are reached</li>
+<li><em>Dijkstra works because adding up all local minimum will result in a global minimum. Hence, the algorithm only works with non-negative edge weights</em></li>
+<li><em>With adjacency matrix -&gt; loop is $O(n)$, executed n-1 times -&gt; $O(n^2)$</em></li>
+<li><em>When $e &lt;&lt; n^2$, it's better to use adjacency list (using a priority queue), which results in e updates, each costs $O(logn)$ -&gt; $O(elogn)$</em></li>
+</ul>
+<h3 id="bellman-ford">Bellman-Ford:</h3>
+<p>Bellman-Ford is another example of a single-source shortest-path algorithm, like <em>Dijkstra</em>. Bellman-Ford and Floyd-Warshall are similar—for example, they're both dynamic programming algorithms—but Floyd-Warshall is not the same algorithm as &quot;for each node v, run Bellman-Ford with v as the source node&quot;. In particular, Floyd-Warshall runs in $O(v^3)$ time, while repeated-Bellman-Ford runs in $O(v^2<em>e)$ time ($O(v</em>e)$ time for each source vertex).</p>
+<h1 id="all-pairs-shortest-path-apsp">All-Pairs Shortest Path (APSP)</h1>
+<p><strong>Find the shortest path between v and w in graph G</strong></p>
+<h3 id="use-dijkstra">Use Dijkstra:</h3>
+<ul>
+<li>Can run Dijkstra on all vertices</li>
+<li>Cost = $O(n<em>e</em>logn)$ for adj list and $O(n^3)$ for adj matrix</li>
+</ul>
+<h3 id="use-floyd-warshall">Use Floyd-Warshall:</h3>
+<ul>
+<li>Use n x n distance matrix. Initialize to all inf. All diagonals are 0's</li>
+<li>Make n iterations over dist matrix. After $k_{th}$ iteration, dist[i, j] will have for its value the smallest length of any path from vertex i to vertex j that does not pass through a vertex numbered higher than k. In the $k_{th}$ iteration, $A_k[i, j] = min(A_{k-1}[i, j], A_{k-1}[i, k] + A_{k-1}[k, j])$</li>
+</ul>
+<pre class="hljs"><code><div>    init_dist_mat()
+    init_pred_mat()
+    
+    for k in range (0, len(vtx_array)):
+        for i in range (0, len(vtx_array)):
+            for j in range (0, len(vtx_array)):
+                if distance_matrix[i][j] &gt; distance_matrix[i][k] + distance_matrix[k][j]:
+                    distance_matrix[i][j] = distance_matrix[i][k] + distance_matrix[k][j]
+                    predecessor_matrix[i][j] = k
+</div></code></pre>
+<h1 id="minimum-spanning-tree">Minimum Spanning Tree</h1>
+<p><strong>Find the sub tree (all vertices are connected) such that it's weight is minimum</strong></p>
+<h2 id="prim">Prim:</h2>
+<ul>
+<li>Create a set mstSet that keeps track of vertices already included in MST</li>
+<li>Assign a key value to all vertices in the input graph. Initialize all key values as INFINITE. Assign key value as 0 for the first vertex so that it is picked first</li>
+<li>While mstSet doesn’t include all vertices
+<ul>
+<li>Pick a vertex u which is not there in mstSet and has minimum key value</li>
+<li>Include u to mstSet</li>
+<li>Update key value of all adjacent vertices of u. To update the key values, iterate through all adjacent vertices. For every adjacent vertex v, if weight of edge u-v is less than the previous key value of v, update the key value as weight of u-v</li>
+</ul>
+</li>
+</ul>
+<h2 id="kruskal">Kruskal:</h2>
+<ul>
+<li>Sort all the edges in non-decreasing order of their weight</li>
+<li>Pick the smallest edge. Check if it forms a cycle with the spanning tree formed so far. If cycle is not formed, include this edge. Else, discard it</li>
+<li>Repeat the step above until there are (V-1) edges in the spanning tree</li>
+</ul>
+<h1 id="dependency-graph">Dependency Graph</h1>
+<h2 id="directed-acyclic-graph-dag">Directed Acyclic Graph (DAG):</h2>
+<ul>
+<li>Directed graph with no cycles</li>
+</ul>
+<h2 id="topological-sort">Topological Sort</h2>
+<ul>
+<li>Topological sort is a process of assigning a linear ordering to the vertices of a DAG so that if there is an arc from vertex i to vertex j, then i appears before j in the linear ordering.</li>
+<li>Can be achieved with a print statement after DFS</li>
+<li>This technique works because there are no back arcs in a dag. Consider what happens when depth-first search leaves a vertex x for the last time. The only arcs emanating from v are tree, forward, and cross arcs. But all these arcs are directed towards vertices that have already been completely visited by the search and therefore precede x in the order being constructed.</li>
+</ul>
+<h2 id="scc">SCC</h2>
+<ul>
+<li>Technically explained above:
+<ul>
+<li>Get Topological Sort of Graph (push on a stack)</li>
+<li>Get Transpose of Graph</li>
+<li>Run DFS on the top-sort stack with the tranposed graph</li>
+</ul>
+</li>
+</ul>
+<h2 id="critical-path">Critical Path</h2>
+<ul>
+<li>The Longest Path through all components (in a DAG). Reverse of SSSP.</li>
+</ul>
+<h1 id="bipartite-matching">Bipartite Matching</h1>
+<ul>
+<li>A graph whose vertices can be divided into two disjoint groups with each edge having one end in each group is called bipartite.</li>
+<li>The matching problem can be formulated in general terms as follows:
+<ul>
+<li>Given a graph G=(V, E), a subset of the edges in E with no two edges incident upon the same vertex in V is called a matching.</li>
+<li>The task of selecting a maximum subset of such edges is called the maximal matching problem.  A complete matching is a matching in which every vertex is an endpoint of some edge in the matching.</li>
+</ul>
+</li>
+</ul>
+<h3 id="augmenting-paths">Augmenting paths</h3>
+<ul>
+<li>Start with M = Ø.</li>
+<li>Find an augmenting path P relative to M and replace M by M ⊕ P.</li>
+<li>Repeat step (2) until no further augmenting paths exist, at which point M is a maximal matching.</li>
+</ul>
+<h1 id="recurrence-relations">Recurrence Relations</h1>
+<h2 id="master-method">Master Method</h2>
+<blockquote>
+<p>$$T(n) = aT(n/b) + f(n)$$</p>
+</blockquote>
+<h3 id="3-cases">3 Cases</h3>
+<ol>
+<li>The running time is dominated by the cost at the leaves:</li>
+</ol>
+<blockquote>
+<p>If $f(n) = O(n^{log_b(a)-\epsilon})$, then $T(n) = \theta(n^{log_b(a)})$ for an $\epsilon &gt; 0$</p>
+</blockquote>
+<ol start="2">
+<li>The running time is evenly distributed through out the tree:</li>
+</ol>
+<blockquote>
+<p>If $f(n) = \theta(n^{log_b(a)})$, then $T(n) = \theta(n^{log_b(a)}*log(n))$</p>
+</blockquote>
+<ol start="3">
+<li>The running time is dominated by the cost at the root:</li>
+</ol>
+<blockquote>
+<p>If $f(n) = \Omega(n^{log_b(a)+\epsilon})$, then $T(n) = \theta(f(n))$ for an $\epsilon &gt; 0$</p>
+</blockquote>
+<h3 id="procedures">Procedures</h3>
+<ul>
+<li>Extract $a, b, f(n)$</li>
+<li>Calculate $n^{log_b(a)}$. Compare this to $f(n)$ asymtotically</li>
+<li>Select one of the 3 cases and get the answer</li>
+</ul>
+<h2 id="tree-method">Tree Method</h2>
+<p>https://www.youtube.com/watch?v=sLNPd_nPGIc</p>
+<h2 id="substitution-method">Substitution method</h2>
+<p>https://www.youtube.com/watch?v=Ob8SM0fz6p0</p>
+<h1 id="sort">Sort</h1>
+<h2 id="insertion-sort">Insertion Sort</h2>
+<p><strong>Worst case $O(n^2)$ Best case $O(n)$</strong></p>
+<ul>
+<li>Keep swaping until condition is met (e.g. A[i+1] &gt; A[i])</li>
+</ul>
+<pre class="hljs"><code><div>    i ← 1
+    while i &lt; length(A)
+        x ← A[i]
+        j ← i - 1
+        while j &gt;= 0 and A[j] &gt; x
+            A[j+1] ← A[j]
+            j ← j - 1
+        end while
+        A[j+1] ← x[4]
+        i ← i + 1
+    end while
+</div></code></pre>
+<h2 id="selection-sort-bubble">Selection Sort (Bubble)</h2>
+<p><strong>Worst case $O(n^2)$ Best case $O(n^2)$</strong></p>
+<ul>
+<li>Find min of the unsorted set, then swap with the last element in sorted set</li>
+</ul>
+<pre class="hljs"><code><div>    for i = 0-&gt;n:
+        min = i
+        for j = i+1-&gt;n:
+            if A[j] &lt; min:
+                min = j
+        if i != j:
+            A.swap(i, j)
+</div></code></pre>
+<h2 id="merge-sort">Merge Sort</h2>
+<p><strong>Worst case $O(nlogn)$ Best case $O(nlogn)$
+Memory $O(n)$ (need a temp array)</strong></p>
+<ul>
+<li>Keep dividing in halfs using the middle element until there is one element. Then call merge() on the halfs (this sort them)</li>
+</ul>
+<pre class="hljs"><code><div>def mergeSort(arr, l,  r):
+    If r &gt; l
+        1. Find the middle point to divide the array into two halves:  
+                middle m = (l+r)/2
+        2. Call mergeSort for first half:   
+                Call mergeSort(arr, l, m)
+        3. Call mergeSort for second half:
+                Call mergeSort(arr, m+1, r)
+        4. Merge the two halves sorted in step 2 and 3:
+                Call merge(arr, l, m, r)
+
+def merge(arr, l, m, r):
+    # Copy data to temp arrays L[] and R[] 
+    while i &lt; len(L) and j &lt; len(R): 
+        if L[i] &lt; R[j]: 
+            arr[k] = L[i] 
+            i+=1
+        else: 
+            arr[k] = R[j] 
+            j+=1
+        k+=1
+        
+    # Checking if any element was left 
+    while i &lt; len(L): 
+        arr[k] = L[i] 
+        i+=1
+        k+=1
+        
+    while j &lt; len(R): 
+        arr[k] = R[j] 
+        j+=1
+        k+=1
+</div></code></pre>
+<h2 id="quick-sort">Quick Sort</h2>
+<p><strong>Worst case $O(n^2)$ Best case $O(nlogn)$</strong></p>
+<ul>
+<li>Instead of dividing in halfs using the middle element, use the <em><strong>pivot</strong></em>, which can be chosen wisely to improve the algorithm run time depending on the dataset.</li>
+<li>After choosing the pivot, the keys are sorted such as all the elements &lt; pivot is on the left and all the elements &gt; pivot are on the right</li>
+<li>Run quicksort() recursively on the left set and the right set until the set only have 1 element in it.</li>
+</ul>
+<pre class="hljs"><code><div>def quickSort(arr, low, high):
+{
+    if (low &lt; high)
+    {
+        pi = partition(arr, low, high); // partition and return the position of pivot
+
+        quickSort(arr, low, pi - 1);  // Before pi
+        quickSort(arr, pi + 1, high); // After pi
+    }
+}
+
+def partition (arr, low, high):
+{
+    // pivot (Element to be placed at right position)
+    pivot = arr[high];  
+ 
+    i = (low - 1)  // Index of smaller element
+
+    for (j = low; j &lt;= high- 1; j++)
+    {
+        // If current element is smaller than or
+        // equal to pivot
+        if (arr[j] &lt;= pivot)
+        {
+            i++;    // increment index of smaller element
+            swap arr[i] and arr[j]
+        }
+    }
+    swap arr[i + 1] and arr[high])
+    return (i + 1)
+}
+</div></code></pre>
+<h2 id="heap-sort">Heap Sort</h2>
+<p><strong>Worst case $O(nlogn)$ Best case $O(n)$ or $O(nlogn)$ if all keys are distinct</strong></p>
+<ul>
+<li>Heap sort is performed on a heap. A heap is a Complete Binary Tree.</li>
+<li>Build a max-heap from the input array -&gt; get a binary tree where the root is the largest element and the left-most element is the smallest element.</li>
+<li>Hence, we swap the left-most and the root, push the root on to a stack and run heapify to get a max-heap again. Do this until the size of stack is same as arr.</li>
+</ul>
+<pre class="hljs"><code><div># To heapify subtree rooted at index i. 
+# n is size of heap 
+def heapify(arr, n, i): 
+    largest = i # Initialize largest as root 
+    l = 2 * i + 1     # left = 2*i + 1 
+    r = 2 * i + 2     # right = 2*i + 2 
+  
+    # See if left child of root exists and is 
+    # greater than root 
+    if l &lt; n and arr[i] &lt; arr[l]: 
+        largest = l 
+  
+    # See if right child of root exists and is 
+    # greater than root 
+    if r &lt; n and arr[largest] &lt; arr[r]: 
+        largest = r 
+  
+    # Change root, if needed 
+    if largest != i: 
+        arr[i],arr[largest] = arr[largest],arr[i] # swap 
+  
+        # Heapify the root. 
+        heapify(arr, n, largest) 
+
+# The main function to sort an array of given size 
+def heapSort(arr): 
+    n = len(arr) 
+  
+    # Build a maxheap. 
+    for i in range(n, -1, -1): 
+        heapify(arr, n, i) 
+  
+    # One by one extract elements 
+    for i in range(n-1, 0, -1): 
+        arr[i], arr[0] = arr[0], arr[i] # swap 
+        heapify(arr, i, 0) 
+</div></code></pre>
+<h2 id="radix-sort">Radix Sort</h2>
+<p><em><em>Let there be d digits in input integers. Radix Sort takes $O(d</em>(n+b))=O((n+b) * log_b(k))$ time, where b is the base and k is the max possible value</em>*</p>
+<p><em>If we have $log_2n$ bits for every digit, the running time of Radix appears to be better than Quick Sort. The constant factors hidden in asymptotic notation are higher for Radix Sort and Quick-Sort uses hardware caches more effectively. Also, Radix sort uses counting sort as a subroutine and counting sort takes extra space to sort numbers</em></p>
+<pre class="hljs"><code><div>def countingSort(arr, exp1): 
+    n = len(arr) 
+  
+    # The output array elements that will have sorted arr 
+    output = [0] * (n) 
+  
+    # initialize count array as 0 
+    count = [0] * (10) 
+  
+    # Store count of occurrences in count[] 
+    for i in range(0, n): 
+        index = (arr[i]/exp1) 
+        count[ (index)%10 ] += 1
+  
+    # Change count[i] so that count[i] now contains actual 
+    #  position of this digit in output array 
+    for i in range(1,10): 
+        count[i] += count[i-1] 
+  
+    # Build the output array 
+    i = n-1
+    while i&gt;=0: 
+        index = (arr[i]/exp1) 
+        output[ count[ (index)%10 ] - 1] = arr[i] 
+        count[ (index)%10 ] -= 1
+        i -= 1
+  
+    # Copying the output array to arr[], 
+    # so that arr now contains sorted numbers 
+    i = 0
+    for i in range(0,len(arr)): 
+        arr[i] = output[i] 
+  
+# Method to do Radix Sort 
+def radixSort(arr): 
+  
+    # Find the maximum number to know number of digits 
+    max1 = max(arr) 
+  
+    # Do counting sort for every digit. Note that instead 
+    # of passing digit number, exp is passed. exp is 10^i 
+    # where i is current digit number 
+    exp = 1
+    while max1/exp &gt; 0: 
+        countingSort(arr,exp) 
+        exp *= 10
+</div></code></pre>
+<h1 id="search">Search</h1>
+<h2 id="linear-search">Linear Search</h2>
+<ul>
+<li>It's just linear search <img class="emoji" alt="smiley" src="data:image/png;base64,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" /></li>
+</ul>
+<h2 id="binary-search">Binary Search</h2>
+<ul>
+<li>Cooler search. Only works on sorted sets. Run time = $O(logn)$</li>
+</ul>
+
+</body>
+</html>
