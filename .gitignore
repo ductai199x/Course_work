@@ -1,4 +1,5 @@
 includes.txt
+sync_changes.txt
 *.o
 *.out
 *.swp
