@@ -23,9 +23,34 @@
 - 1 <= # of keys in node <= 2
 - 2 <= # of children of a node <= 3
 
-# MFS (disjoint sets)
-### Find(S, value): *Find the root, with path compression*
+### Insert:
+- Insert at the leaf. Then do `split` operations if `overflow` until the tree is completed
 
+## Delete:
+- Deleting key k is similar to inserting:
+    - T is just a single (leaf) node containing k (T is made empty)
+    - The parent of the node to be deleted is found, then the tree is fixed up if necessary so that it is still a 2-3 tree.
+- Once node n (the parent of the node to be deleted) is found, there are two cases, depending on how many children n has:
+    - Case 1: n has 3 children:
+        - Remove the child with value k, then fix n.leftMax, n.middleMax, and n's ancestors' leftMax and middleMax fields if necessary. 
+    - Case 2: n has only 2 children:
+        - If n is the root of the tree, then remove the node containing k. Replace the root node with the other child (so the final tree is just a single leaf node).
+        - If n has a left or right sibling with 3 kids, then:
+        remove the node containing k
+        "steal" one of the sibling's children
+        fix n.leftMax, n.middleMax, and the leftMax and middleMax fields of n's sibling and ancestors as needed. 
+    -   - If n's sibling(s) have only 2 children, then:
+        remove the node containing k
+        make n's remaining child a child of n's sibling
+        fix leftMax and middleMax fields of n's sibling as needed
+        remove n as a child of its parent, using essentially the same two cases (depending on how many children n's parent has) as those just discussed 
+
+- The time for delete is similar to insert; the worst case involves one traversal down the tree to find n, and another "traversal" up the tree, fixing leftMax and middleMax fields along the way (the traversal up is really actions that happen after the recursive call to delete has finished).
+
+- So the total time is 2 * height-of-tree = O(log N). 
+
+# MFS (disjoint sets)
+## Find(S, value): *Find the root, with path compression*
 + Time = 1: $O(n)$  n=# of element in the set
 + Time > 1: $O(1)$ due to path compression*
 
@@ -44,7 +69,7 @@
     
     return s.values[idx]
 ```
-### Merge(S, value1, value2):
+## Merge(S, value1, value2):
 - Get the root of the 2 values
 - Set root of 1 value to point at the root of the other value
 ```
@@ -58,13 +83,16 @@
     if ( set1 != set2 ):
         s.parents[idx1] = idx2
 ```
+
 # Graph
-# Discovery
-## DFS(G, v): (general preorder traversal) - $O(e)$
+## Discovery
+### DFS(G, v): (general preorder traversal) - $O(e)$
 - Have a visited array
 - Visit v, mark as visited. Then visit each adjacent elements of v recursively
 - If dead end, choose at random an element that's not visited and do the same procedure until all elements are visited
+
 ```
+
 def dfs_helper(tree, is_visited, i):
     is_leaf = True
     is_print = False
@@ -81,11 +109,13 @@ def dfs_helper(tree, is_visited, i):
     if is_leaf:
         print(tree.values[i], end=" ")
 ```
-### Check for cycles
+
+#### <u>Check for cycles</u>
 - Have a visited array. Init to all false
 - Have a recursion stack array. Init to all false
 - Loop through all nodes in graph. For each node, run check_if_cycles(node, visited, recstack)
 - On each iteration: mark el as visited in both array. Loop through each of el's neighbor. If neighbor is not visited, check_if_cycle(neighbor, visited, recstack). If neighbor is visited, means that there is a loop, return true. If loop finishes, mark recstack[node] false and return false.
+
 ```
 def isCyclicUtil(self, v, visited, recStack): 
     visited[v] = True
@@ -112,12 +142,12 @@ def isCyclic(self):
     return False
 ```
 
-### Strongly connected component
+#### <u>Strongly connected component</u>
 - Create an empty stack ‘S’ and do DFS traversal of a graph. In DFS traversal, after calling recursive DFS for adjacent vertices of a vertex, push the vertex to stack. In the above graph, if we start DFS from vertex 0, we get vertices in stack as 1, 2, 4, 3, 0
 - Reverse directions of all arcs to obtain the transpose graph
 - One by one pop a vertex from S while S is not empty. Let the popped vertex be ‘v’. Take v as source and do DFS on v. The DFS starting from v prints strongly connected component of v. In the above example, we process vertices in order 0, 3, 4, 2, 1 (One by one popped from stack)
 
-## BFS(G, v):
+### BFS(G, v):
 - Have a visited array
 - Have a stack. Add v to stack
 - Pop from stack, mark el as visited. Add el's adjancents to the stack if el is not visited. And repeat until stack is empty
