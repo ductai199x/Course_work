@@ -26,7 +26,7 @@
 ### Insert:
 - Insert at the leaf. Then do `split` operations if `overflow` until the tree is completed
 
-## Delete:
+### Delete:
 - Deleting key k is similar to inserting:
     - T is just a single (leaf) node containing k (T is made empty)
     - The parent of the node to be deleted is found, then the tree is fixed up if necessary so that it is still a 2-3 tree.
