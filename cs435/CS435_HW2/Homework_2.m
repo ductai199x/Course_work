@@ -203,19 +203,3 @@ bw2 = bwselect(aboveT2, aboveT1col, aboveT1row, 8);
 
 figure(4)
 imshow(bw2)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
