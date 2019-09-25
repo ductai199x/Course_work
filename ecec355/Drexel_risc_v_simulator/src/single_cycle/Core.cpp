@@ -30,6 +30,9 @@ long int Core::exec_branch(bitset<32> rs1, bitset<32> rs2, bitset<32> type, bits
     int reg1 = rs1.to_ulong();
     int reg2 = rs2.to_ulong();
     long int pc_offset = (rd[11] == 1) ? rd.to_ulong()-4097 : rd.to_ulong();
+    cout << pc_offset << endl;
+
+
     long int ret = 4;
     int funct = type.to_ulong();
 
