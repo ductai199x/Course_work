@@ -36,20 +36,20 @@ z5_eu_ = euclid_classifier(m,X5_);
 % Calculate error for the bayes classifiers
 error_x5_bayes = z5_bayes-y5;
 error_x5_bayes(error_x5_bayes > 0) = 1; error_x5_bayes(error_x5_bayes < 0) = 1;
-error_x5_bayes = sum(error_x5_bayes)/N
+error_x5_bayes = sum(error_x5_bayes)/length(z5_bayes)
 
 error_x5_bayes_ = z5_bayes_-y5_;
 error_x5_bayes_(error_x5_bayes_ > 0) = 1; error_x5_bayes_(error_x5_bayes_ < 0) = 1;
-error_x5_bayes_ = sum(error_x5_bayes_)/N
+error_x5_bayes_ = sum(error_x5_bayes_)/length(z5_bayes_)
 
 % Calculate error for the euclidean classifiers
 error_x5_eu = z5_eu-y5;
 error_x5_eu(error_x5_eu > 0) = 1; error_x5_eu(error_x5_eu < 0) = 1;
-error_x5_eu = sum(error_x5_eu)/N
+error_x5_eu = sum(error_x5_eu)/length(z5_eu)
 
 error_x5_eu_ = z5_eu_-y5_;
 error_x5_eu_(error_x5_eu_ > 0) = 1; error_x5_eu_(error_x5_eu_ < 0) = 1;
-error_x5_eu_ = sum(error_x5_eu_)/N
+error_x5_eu_ = sum(error_x5_eu_)/length(z5_eu_)
 
 
 %% HW CX 2.8
@@ -77,16 +77,16 @@ P = [1/3;1/3;1/3];
 
 % Run KNN classifier with k=1 and k=11
 z_knn_1 = k_nn_classifier(Z,y_z,1,X);
-z_knn_11 = k_nn_classifier(Z,y_z,11,X);
+z_knn_11 = k_nn_classifier(Z,y_z,999,X);
 
 % Calculate error for the KNN classifiers
 error_knn_1 = z_knn_1-y_x;
 error_knn_1(error_knn_1 > 0) = 1; error_knn_1(error_knn_1 < 0) = 1;
-error_knn_1 = sum(error_knn_1)/N
+error_knn_1 = sum(error_knn_1)/length(z_knn_1)
 
 error_knn_11 = z_knn_11-y_x;
 error_knn_11(error_knn_11 > 0) = 1; error_knn_11(error_knn_11 < 0) = 1;
-error_knn_11 = sum(error_knn_11)/N
+error_knn_11 = sum(error_knn_11)/length(z_knn_11)
 
 
 %% Using the data generation procedures from textbook CX 2.3 Page 80 with slight modifications
