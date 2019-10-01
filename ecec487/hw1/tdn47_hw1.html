@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>tdn47_hw1.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+</head>
+<body>
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+<div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Tai Duc Nguyen - HW1 - 09/30/2019</a></li><li><a href="#2">HW CX 2.7</a></li><li><a href="#3">HW CX 2.8</a></li><li><a href="#4">Using the data generation procedures from textbook CX 2.3 Page 80 with slight modifications</a></li><li><a href="#5">Using the Bayes classifier algorithm from textbook CX 2.5 Page 81 with slight modifications</a></li><li><a href="#6">Using the Euclidean classifier algorithm from textbook CX 2.6 Page 82 with slight modifications</a></li><li><a href="#7">Calculate the probability density value (using equation from page 30, class's slides ac_1_classifier_bayes_1.ppt)</a></li><li><a href="#8">Using the Euclidean classifier algorithm from textbook CX 2.8 Page 82-83 with modifications</a></li></ul></div><h2 id="1">Tai Duc Nguyen - HW1 - 09/30/2019</h2><pre class="codeinput">seed = 0
+randn(<span class="string">'seed'</span>,seed);
+</pre><pre class="codeoutput">
+seed =
+<pre><code> 0
+</code></pre>
+<p></pre><h2 id="2">HW CX 2.7</h2><pre class="codeinput">clear; close <span class="string">all</span>;</p>
+<p><span class="comment">% Prepare the variables:</span>
+N = 10000;</p>
+<p>m1 = [1;1];
+m2 = [4;4];
+m3 = [8;1];
+m = [m1 m2 m3];</p>
+<p>S1 = eye(2)*2;
+S2 = S1;
+S3 = S1;
+S(:,:,1) = S1; S(:,:,2) = S2; S(:,:,3) = S3;</p>
+<p>P_x5 = [1/3;1/3;1/3];
+P_x5_ = [0.8;0.1;0.1];</p>
+<p><span class="comment">% Generate data set X5 and X5_ and class assignments y5 and y5_</span>
+[X5, y5] = generate_gauss_classes(m, S, P_x5, N);
+[X5_, y5_] = generate_gauss_classes(m, S, P_x5_, N);</p>
+<p><span class="comment">% Classify data set</span>
+z5_bayes = bayes_classifier(m,S,P_x5,X5);
+z5_bayes_ = bayes_classifier(m,S,P_x5_,X5_);
+z5_eu = euclid_classifier(m,X5);
+z5_eu_ = euclid_classifier(m,X5_);</p>
+<p><span class="comment">% Calculate error for the bayes classifiers</span>
+error_x5_bayes = z5_bayes-y5;
+error_x5_bayes(error_x5_bayes &gt; 0) = 1; error_x5_bayes(error_x5_bayes &lt; 0) = 1;
+error_x5_bayes = sum(error_x5_bayes)/N</p>
+<p>error_x5_bayes_ = z5_bayes_-y5_;
+error_x5_bayes_(error_x5_bayes_ &gt; 0) = 1; error_x5_bayes_(error_x5_bayes_ &lt; 0) = 1;
+error_x5_bayes_ = sum(error_x5_bayes_)/N</p>
+<p><span class="comment">% Calculate error for the euclidean classifiers</span>
+error_x5_eu = z5_eu-y5;
+error_x5_eu(error_x5_eu &gt; 0) = 1; error_x5_eu(error_x5_eu &lt; 0) = 1;
+error_x5_eu = sum(error_x5_eu)/N</p>
+<p>error_x5_eu_ = z5_eu_-y5_;
+error_x5_eu_(error_x5_eu_ &gt; 0) = 1; error_x5_eu_(error_x5_eu_ &lt; 0) = 1;
+error_x5_eu_ = sum(error_x5_eu_)/N
+</pre><h2 id="3">HW CX 2.8</h2><pre class="codeinput">clear; close <span class="string">all</span>;</p>
+<p><span class="comment">% Prepare the variables:</span>
+N = 1000;</p>
+<p>m1 = [1;1];
+m2 = [8;6];
+m3 = [13;1];
+m = [m1 m2 m3];</p>
+<p>S1 = eye(2)*6;
+S2 = S1;
+S3 = S1;
+S(:,:,1) = S1; S(:,:,2) = S2; S(:,:,3) = S3;</p>
+<p>P = [1/3;1/3;1/3];</p>
+<p><span class="comment">% Generate data set X, Z and class assignments y_x, y_z</span>
+[X, y_x] = generate_gauss_classes(m, S, P, N);
+[Z, y_z] = generate_gauss_classes(m, S, P, N);</p>
+<p><span class="comment">% Run KNN classifier with k=1 and k=11</span>
+z_knn_1 = k_nn_classifier(Z,y_z,1,X);
+z_knn_11 = k_nn_classifier(Z,y_z,11,X);</p>
+<p><span class="comment">% Calculate error for the KNN classifiers</span>
+error_knn_1 = z_knn_1-y_x;
+error_knn_1(error_knn_1 &gt; 0) = 1; error_knn_1(error_knn_1 &lt; 0) = 1;
+error_knn_1 = sum(error_knn_1)/N</p>
+<p>error_knn_11 = z_knn_11-y_x;
+error_knn_11(error_knn_11 &gt; 0) = 1; error_knn_11(error_knn_11 &lt; 0) = 1;
+error_knn_11 = sum(error_knn_11)/N
+</pre><h2 id="4">Using the data generation procedures from textbook CX 2.3 Page 80 with slight modifications</h2><pre class="codeinput"><span class="keyword">function</span> [X,y] = generate_gauss_classes(m,S,P,N)
+[~,c]=size(m);
+X=[];
+y=[];
+<span class="keyword">for</span> j=1:c
+<span class="comment">% Generating the [p(j)*N)] vectors from each distribution</span>
+t=mvnrnd(m(:,j),S(:,:,j),fix(P(j)*N));
+<span class="comment">% The total number of points may be slightly less than N</span>
+<span class="comment">% due to the fix operator</span>
+X=[X; t];
+y=[y ones(1,fix(P(j)<em>N))<em>j];
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2 id="5">Using the Bayes classifier algorithm from textbook CX 2.5 Page 81 with slight modifications</h2><pre class="codeinput"><span class="keyword">function</span> z = bayes_classifier(m,S,P,X)
+[~,c]= size(m); <span class="comment">% c=no. of classes</span>
+[N,~]=size(X);  <span class="comment">% N=no. of vectors</span>
+t=zeros(c,1);
+z=zeros(1,N);
+<span class="keyword">for</span> i=1:N
+<span class="keyword">for</span> j=1:c
+t(j)=P(j)<em>prob_density_value(X(i,:),m(:,j)',S(:,:,j));
+<span class="keyword">end</span>
+<span class="comment">% Determining the maximum quantity Pi</em>p(x|wi)</span>
+[~,z(i)]=max(t);
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2 id="6">Using the Euclidean classifier algorithm from textbook CX 2.6 Page 82 with slight modifications</h2><pre class="codeinput"><span class="keyword">function</span> z = euclid_classifier(m,X)
+[~,c]=size(m); <span class="comment">% c=no. of classes</span>
+[N,~]=size(X); <span class="comment">% N=no. of vectors/</span>
+t=zeros(c,1);
+z=zeros(1,N);
+<span class="keyword">for</span> i=1:N
+<span class="keyword">for</span> j=1:c
+t(j)=sqrt((X(i,:)-m(:,j)')</em>(X(i,:)-m(:,j)')');
+<span class="keyword">end</span>
+<span class="comment">% Determining the maximum quantity Pi</em>p(x|wi)</span>
+[~,z(i)]=min(t);
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+error_x5_bayes =</p>
+<pre><code>0.0711
+</code></pre>
+<p>error_x5_bayes_ =</p>
+<pre><code>0.0436
+</code></pre>
+<p>error_x5_eu =</p>
+<pre><code>0.0711
+</code></pre>
+<p>error_x5_eu_ =</p>
+<pre><code>0.0708
+</code></pre>
+<p></pre><h2 id="7">Calculate the probability density value (using equation from page 30, class's slides ac_1_classifier_bayes_1.ppt)</h2><pre class="codeinput"><span class="keyword">function</span> res = prob_density_value(X,m,S)
+[b,~]=size(m);
+res = 1/((2*pi)^(b/2)*det(S)^(1/2))<em>exp(-1/2</em>(X-m)<em>inv(S)</em>(X-m)');
+<span class="keyword">end</span>
+</pre><h2 id="8">Using the Euclidean classifier algorithm from textbook CX 2.8 Page 82-83 with modifications</h2><pre class="codeinput"><span class="keyword">function</span> z=k_nn_classifier(Z,v,k,X)
+[~,N1]=size(Z);
+[N,~]=size(X);
+c=max(v); <span class="comment">% The number of classes</span>
+<span class="comment">% Computation of the (squared) Euclidean distance</span>
+<span class="comment">% of a point from each reference vector</span>
+z=zeros(1,N);
+<span class="keyword">for</span> i=1:N
+dist=sum(((repmat(X(i,:),N,1)-Z).^ 2),2);
+<span class="comment">%Sorting the above distances in ascending order</span>
+[~,n]=sort(dist);
+<span class="comment">% Counting the class occurrences among the k-closest</span>
+<span class="comment">% reference vectors Z(:,i)</span>
+refe=zeros(1,c); <span class="comment">%Counting the reference vectors per class</span>
+<span class="keyword">for</span> q=1:k
+class=v(n(q));
+refe(class)=refe(class)+1;
+<span class="keyword">end</span>
+[~,z(i)]=max(refe);
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+error_knn_1 =</p>
+<pre><code>0.1050
+</code></pre>
+<p>error_knn_11 =</p>
+<pre><code>0.0700
+</code></pre>
+<p></pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB® R2018a</a><br></p></div></p>
+
+</body>
+</html>
