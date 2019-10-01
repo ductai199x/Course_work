@@ -21,6 +21,7 @@ import numpy as np
 ## DEFINE GLOBAL VARIABLES
 picture = [[]]
 xpm = ""
+T_rot = 
 
 class Point():
     def __init__(self, x, y):
