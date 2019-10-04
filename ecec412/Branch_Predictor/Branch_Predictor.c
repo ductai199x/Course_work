@@ -6,7 +6,7 @@ const unsigned instShiftAmt = 2; // Number of bits to shift a PC by
 const unsigned localPredictorSize = 2048;
 const unsigned localCounterBits = 2;
 const unsigned localHistoryTableSize = 2048; 
-const unsigned globalPredictorSize = 8192;
+const unsigned globalPredictorSize = 8192 ;
 const unsigned globalCounterBits = 2;
 const unsigned choicePredictorSize = 8192; // Keep this the same as globalPredictorSize.
 const unsigned choiceCounterBits = 2;
@@ -219,6 +219,7 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr)
 
     // Step six, update global history register
     branch_predictor->global_history = branch_predictor->global_history << 1 | instr->taken;
+    branch_predictor->local_history_table[local_history_table_idx] = branch_predictor->local_history_table[local_history_table_idx] << 1 | instr->taken;
     // exit(0);
     //
     return prediction_correct;
