@@ -1,0 +1,9 @@
+Author: Tai D. Nguyen
+CS430
+09/27/2019
+
+# This program parses a postscript file, constructs lines from such file, does affine transformation, and finally, crop the resulting image to the world window.
+
+# Language used: Python
+# OS: Ubuntu 18.04
+# Name of main source code: tdn47_hw1.py
