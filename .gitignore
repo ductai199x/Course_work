@@ -3,3 +3,4 @@ sync_changes.txt
 *.o
 *.out
 *.swp
+.vscode*
