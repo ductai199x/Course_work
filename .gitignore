@@ -4,3 +4,4 @@ sync_changes.txt
 *.out
 *.swp
 .vscode*
+*.cpu_trace*

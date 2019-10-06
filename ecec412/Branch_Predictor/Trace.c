@@ -18,16 +18,16 @@ bool getInstruction(TraceParser *cpu_trace)
 
     if ((read = getline(&line, &len, cpu_trace->fd)) != -1)
     {
-	char delim[] = " \n";
+        char delim[] = " \n";
 
-        // This is the PC
-	char *ptr = strtok(line, delim);
-	cpu_trace->cur_instr->PC = convToUint64(ptr);
+            // This is the PC
+        char *ptr = strtok(line, delim);
+        cpu_trace->cur_instr->PC = convToUint64(ptr);
 
         // This is the instruction type
         ptr = strtok(NULL, delim);
         if (strcmp(ptr, "B") == 0)
-	{
+	    {
             cpu_trace->cur_instr->instr_type = BRANCH;
         }
         else if (strcmp(ptr, "E") == 0)
