@@ -1,33 +1,400 @@
 <!DOCTYPE html>
-    <html>
-    <head>
-        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-        <title>Tai Duc Nguyen - ECEC487 - HW1 - 09/29/2019</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
-        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
-        <style>
-.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+<html>
+<head>
+<title>tdn47_hw2.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+<style>
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+	font-size: 14px;
+	padding: 0 12px;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	color: #4080D0;
+	text-decoration: none;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+	font-size: inherit;
+	line-height: auto;
+}
+
+a:hover {
+	color: #4080D0;
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left: 5px solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 14px;
+	line-height: 19px;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+.mac code {
+	font-size: 12px;
+	line-height: 18px;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+/** Theming */
+
+.vscode-light,
+.vscode-light pre code {
+	color: rgb(30, 30, 30);
+}
+
+.vscode-dark,
+.vscode-dark pre code {
+	color: #DDD;
+}
+
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
+	color: white;
+}
+
+.vscode-light code {
+	color: #A31515;
+}
+
+.vscode-dark code {
+	color: #D7BA7D;
+}
+
+.vscode-light pre:not(.hljs),
+.vscode-light code > div {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre:not(.hljs),
+.vscode-dark code > div {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre:not(.hljs),
+.vscode-high-contrast code > div {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.vscode-light blockquote,
+.vscode-dark blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.vscode-high-contrast blockquote {
+	background: transparent;
+	border-color: #fff;
+}
 </style>
-        <style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
-                font-size: 14px;
-                line-height: 1.8;
-            }
-        </style>
-        
-        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
-    </head>
-    <body>
-        <h2 id="tai-duc-nguyen---ecec487---hw1---09292019">Tai Duc Nguyen - ECEC487 - HW1 - 09/29/2019</h2>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family:  "Meiryo", "Segoe WPC", "Segoe UI", "SFUIText-Light", "HelveticaNeue-Light", sans-serif, "Droid Sans Fallback";
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+</head>
+<body>
+<h2 id="tai-duc-nguyen---ecec487---hw1---09292019">Tai Duc Nguyen - ECEC487 - HW1 - 09/29/2019</h2>
 <h2 id="contents">Contents</h2>
 <ul>
 <li><a href="#computer-exercises-cx">Computer Exercises (CX)</a>
 <ul>
 <li><a href="#hw-cx-31">HW CX 3.1</a></li>
 <li><a href="#hw-cx-32">HW CX 3.2</a></li>
+<li><a href="#calculate-performance-of-algorithm">Calculate performance of algorithm</a></li>
 <li><a href="#using-the-data-generation-procedures-from-textbook-cx-23-page-80-with-slight-modifications">Using the data generation procedures from textbook CX 2.3 Page 80 with slight modifications</a></li>
 <li><a href="#using-the-data-plotting-procedures-from-textbook-cx-24-page-80-with-slight-modifications">Using the data plotting procedures from textbook CX 2.4 Page 80 with slight modifications</a></li>
 <li><a href="#using-the-perception-algorithm-from-textbook-cx-31-page-145-with-slight-modifications">Using the Perception algorithm from textbook CX 3.1 Page 145 with slight modifications</a></li>
@@ -44,13 +411,13 @@
 </li>
 </ul>
 <h1 id="computer-exercises-cx">Computer Exercises (CX)</h1>
-<pre><code><div>seed = 0
+<pre class="hljs"><code><div>seed = 0
 randn('seed',seed);
 </div></code></pre>
 <p><code>seed =</code></p>
-<p><code>0</code></p>
+<p><code>    0</code></p>
 <h2 id="hw-cx-31">HW CX 3.1</h2>
-<pre><code><div>clear; close all;
+<pre class="hljs"><code><div>clear; close all;
 
 % Prepare the variables:
 N = 200;
@@ -69,7 +436,14 @@ P = [1/2;1/2];
 [X1, y1] = generate_gauss_classes(m, S, P, N);
 [X1_, y1_] = generate_gauss_classes(m, S, P, N);
 
-[~,c]=size(X1);
+% Add an additional coordinate and set it equal to 1
+X1(:,3) = ones(size(X1,1),1);
+X1_(:,3) = ones(size(X1_,1),1);
+
+X1 = X1';
+X1_ = X1_';
+
+[c,~]=size(X1);
 w0 = ones(c,1);
 y_temp1 = y1;
 y_temp1(y_temp1==2) = -1;
@@ -81,30 +455,41 @@ r_plt = 3;
 c_plt = 2;
 figure()
 
-% Train the data with the Perception algorithm to create a classifier
+% Train the data with the Perceptron algorithm to create a classifier
 w1_per = perceptron_train(X1,y_temp1,w0);
-plot_data(X1, y1, m, w1_per, w0, &quot;Data and decision surface for X1 dataset using Perceptron algorithm&quot;, r_plt, c_plt, 1);
+plot_data(X1, y1, m, w1_per, &quot;Data and decision surface for X1 dataset using Perceptron algorithm&quot;, r_plt, c_plt, 1);
+perf = calculate_performance(X1,y_temp1,w1_per);
+sprintf(&quot;X1 Perceptron: %f&quot;, perf)
 
-w1_per = perceptron_train(X1_,y_temp1_,w0);
-plot_data(X1_, y1_, m, w1_per, w0, &quot;Data and decision surface for X1' dataset using Perceptron algorithm&quot;, r_plt, c_plt, 2);
+w1_per_ = perceptron_train(X1_,y_temp1_,w0);
+plot_data(X1_, y1_, m, w1_per_, &quot;Data and decision surface for X1' dataset using Perceptron algorithm&quot;, r_plt, c_plt, 2);
+perf = calculate_performance(X1_,y_temp1_,w1_per_);
+sprintf(&quot;X1' Perceptron: %f&quot;, perf)
 
 % Train the data with the Sum of Error Squares algorithm to create a classifier
 w1_ses = SSErr_train(X1,y_temp1);
-plot_data(X1, y1, m, w1_ses, w0, &quot;Data and decision surface for X1 dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 3);
+plot_data(X1, y1, m, w1_ses, &quot;Data and decision surface for X1 dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 3);
+perf = calculate_performance(X1,y_temp1,w1_ses);
+sprintf(&quot;X1 Sum of Error Squares: %f&quot;, perf)
 
-w1_ses = SSErr_train(X1_,y_temp1_);
-plot_data(X1_, y1_, m, w1_ses, w0, &quot;Data and decision surface for X1' dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 4);
+w1_ses_ = SSErr_train(X1_,y_temp1_);
+plot_data(X1_, y1_, m, w1_ses, &quot;Data and decision surface for X1' dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 4);
+perf = calculate_performance(X1_,y_temp1_,w1_ses_);
+sprintf(&quot;X1' Sum of Error Squares: %f&quot;, perf)
 
 % Train the data with the LMS algorithm to create a classifier
 w1_lms = LMSalg_train(X1,y_temp1,w0);
-plot_data(X1, y1, m, w1_lms, w0, &quot;Data and decision surface for X1 dataset using LMS algorithm&quot;, r_plt, c_plt, 5);
+plot_data(X1, y1, m, w1_lms, &quot;Data and decision surface for X1 dataset using LMS algorithm&quot;, r_plt, c_plt, 5);
+perf = calculate_performance(X1,y_temp1,w1_lms);
+sprintf(&quot;X1 LMS: %f&quot;, perf)
 
-w1_lms = LMSalg_train(X1_,y_temp1_,w0);
-plot_data(X1_, y1_, m, w1_lms, w0, &quot;Data and decision surface for X1' dataset using LMS algorithm&quot;, r_plt, c_plt, 6);
-
+w1_lms_ = LMSalg_train(X1_,y_temp1_,w0);
+plot_data(X1_, y1_, m, w1_lms_, &quot;Data and decision surface for X1' dataset using LMS algorithm&quot;, r_plt, c_plt, 6);
+perf = calculate_performance(X1_,y_temp1_,w1_lms_);
+sprintf(&quot;X1' LMS: %f&quot;, perf)
 </div></code></pre>
 <h2 id="hw-cx-32">HW CX 3.2</h2>
-<pre><code><div>% Prepare the variables:
+<pre class="hljs"><code><div>% Prepare the variables:
 N = 200;
 
 m1 = [-2;0];
@@ -121,7 +506,14 @@ P = [1/2;1/2];
 [X2, y2] = generate_gauss_classes(m, S, P, N);
 [X2_, y2_] = generate_gauss_classes(m, S, P, N);
 
-[~,c]=size(X2);
+% Add an additional coordinate and set it equal to 1
+X2(:,3) = ones(size(X2,1),1);
+X2_(:,3) = ones(size(X2_,1),1);
+
+X2 = X2';
+X2_ = X2_';
+
+[c,~]=size(X2);
 w0 = ones(c,1);
 y_temp2 = y2;
 y_temp2(y_temp2==2) = -1;
@@ -133,32 +525,46 @@ r_plt = 3;
 c_plt = 2;
 figure()
 
-% Train the data with the Perception algorithm to create a classifier
+% Train the data with the Perceptron algorithm to create a classifier
 w2_per = perceptron_train(X2,y_temp2,w0);
-plot_data(X2, y2, m, w2_per, w0, &quot;Data and decision surface for X2 dataset using Perceptron algorithm&quot;, r_plt, c_plt, 1);
+plot_data(X2, y2, m, w2_per, &quot;Data and decision surface for X2 dataset using Perceptron algorithm&quot;, r_plt, c_plt, 1);
+perf = calculate_performance(X2,y_temp2,w2_per);
+sprintf(&quot;X2 Perceptron: %f&quot;, perf)
 
-w2_per = perceptron_train(X2_,y_temp2_,w0);
-plot_data(X2_, y2_, m, w2_per, w0, &quot;Data and decision surface for X2' dataset using Perceptron algorithm&quot;, r_plt, c_plt, 2);
-
+w2_per_ = perceptron_train(X2_,y_temp2_,w0);
+plot_data(X2_, y2_, m, w2_per_, &quot;Data and decision surface for X2' dataset using Perceptron algorithm&quot;, r_plt, c_plt, 2);
+perf = calculate_performance(X2_,y_temp2_,w2_per_);
+sprintf(&quot;X2' Perceptron: %f&quot;, perf)
 
 % Train the data with the Sum of Error Squares algorithm to create a classifier
 w2_ses = SSErr_train(X2,y_temp2);
-plot_data(X2, y2, m, w2_ses, w0, &quot;Data and decision surface for X2 dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 3);
+plot_data(X2, y2, m, w2_ses, &quot;Data and decision surface for X2 dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 3);
+perf = calculate_performance(X2,y_temp2,w2_ses);
+sprintf(&quot;X2 Sum of Error Squares: %f&quot;, perf)
 
-w2_ses = SSErr_train(X2_,y_temp2_);
-plot_data(X2_, y2_, m, w2_ses, w0, &quot;Data and decision surface for X2' dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 4);
-
+w2_ses_ = SSErr_train(X2_,y_temp2_);
+plot_data(X2_, y2_, m, w2_ses_, &quot;Data and decision surface for X2' dataset using Sum of Error Squares algorithm&quot;, r_plt, c_plt, 4);
+perf = calculate_performance(X2_,y_temp2_,w2_ses_);
+sprintf(&quot;X2' Sum of Error Squares: %f&quot;, perf)
 
 % Train the data with the LMS algorithm to create a classifier
 w2_lms = LMSalg_train(X2,y_temp2,w0);
-plot_data(X2, y2, m, w2_lms, w0, &quot;Data and decision surface for X2 dataset using LMS algorithm&quot;, r_plt, c_plt, 5);
+plot_data(X2, y2, m, w2_lms, &quot;Data and decision surface for X2 dataset using LMS algorithm&quot;, r_plt, c_plt, 5);
+perf = calculate_performance(X2,y_temp2,w2_lms);
+sprintf(&quot;X2 LMS: %f&quot;, perf)
 
-w2_lms = LMSalg_train(X2_,y_temp2_,w0);
-plot_data(X2_, y2_, m, w2_lms, w0, &quot;Data and decision surface for X2' dataset using LMS algorithm&quot;, r_plt, c_plt, 6);
-
+w2_lms_ = LMSalg_train(X2_,y_temp2_,w0);
+plot_data(X2_, y2_, m, w2_lms_, &quot;Data and decision surface for X2' dataset using LMS algorithm&quot;, r_plt, c_plt, 6);
+perf = calculate_performance(X2_,y_temp2_,w2_lms_);
+sprintf(&quot;X2' LMS: %f&quot;, perf)
+</div></code></pre>
+<h2 id="calculate-performance-of-algorithm">Calculate performance of algorithm</h2>
+<pre class="hljs"><code><div>function P = calculate_performance(X,y,w)
+    P = sum(w'*X.*y &lt; 0);
+end
 </div></code></pre>
 <h2 id="using-the-data-generation-procedures-from-textbook-cx-23-page-80-with-slight-modifications">Using the data generation procedures from textbook CX 2.3 Page 80 with slight modifications</h2>
-<pre><code><div>function [X,y] = generate_gauss_classes(m,S,P,N)
+<pre class="hljs"><code><div>function [X,y] = generate_gauss_classes(m,S,P,N)
 [~,c]=size(m);
 X=[];
 y=[];
@@ -173,8 +579,7 @@ y=[];
 end
 </div></code></pre>
 <h2 id="using-the-data-plotting-procedures-from-textbook-cx-24-page-80-with-slight-modifications">Using the data plotting procedures from textbook CX 2.4 Page 80 with slight modifications</h2>
-<pre><code><div>function plot_data(X,y,m,w,w0,TLE,r_plt,c_plt,iplot)
-    [N,~]=size(X); % N=no. of data vectors, l=dimensionality
+<pre class="hljs"><code><div>function plot_data(X,y,m,w,TLE,r_plt,c_plt,iplot)
     [l,c]=size(m); % c=no. of classes
     if(l ~= 2)
         fprintf('NO PLOT CAN BE GENERATED\n')
@@ -184,16 +589,16 @@ end
         subplot(r_plt,c_plt,iplot);
         % Plot of the data vectors
         hold on
-        X1 = X(:,1);
-        X2 = X(:,2);
+        X1 = X(1,:);
+        X2 = X(2,:);
         for j=1:c
             scatter(X1(y == j),X2(y == j),pale(j,:))
         end
         scatter(m(1,:),m(2,:),'k+')
     end
-   
+
     decision_x = linspace(min(X1), max(X1));
-    decision_y = -(w(1)/w(2))*decision_x - (w0/w(2));
+    decision_y = -(w(1)/w(2))*decision_x - (w(3)/w(2));
     plot(decision_x, decision_y, &quot;k&quot;);
     hold off
     title(TLE)
@@ -204,53 +609,65 @@ end
 end
 </div></code></pre>
 <h2 id="using-the-perception-algorithm-from-textbook-cx-31-page-145-with-slight-modifications">Using the Perception algorithm from textbook CX 3.1 Page 145 with slight modifications</h2>
-<pre><code><div>function w = perceptron_train(X,y,w_ini)
-    [N,c]=size(X);
-    max_iter=10000;     % Maximum allowable number of iterations
-    rho=0.05;           % Learning rate
-    w=w_ini;            % Initialization of the parameter vector
-    iter=0;             % Iteration counter
-    mis_clas=N;         % Number of misclassified vectors
+<pre class="hljs"><code><div>function w = perceptron_train(X,y,w_ini)
+    [l,N]=size(X);
+    max_iter=10000; % Maximum allowable number of iterations
+    rho=0.05; % Learning rate
+    w=w_ini; % Initialization of the parameter vector
+    iter=0; % Iteration counter
+    mis_clas=N; % Number of misclassified vectors
     while (mis_clas&gt;0) &amp;&amp; (iter&lt;max_iter)
         iter=iter+1;
         mis_clas=0;
-        gradi=zeros(c,1);   % Computation of the &quot;gradient&quot; term
+        gradi=zeros(l,1);% Computation of the &quot;gradient&quot;
+        % term
         for i=1:N
-            if ((X(i,:)*w)*y(i)&gt;0)
+            if((X(:,i)'*w)*y(i)&lt;0)
                 mis_clas=mis_clas+1;
-                gradi=gradi+rho*(-y(i)*X(i,:)');
+                gradi=gradi+rho*(-y(i)*X(:,i));
             end
         end
-        w=w-rho*gradi;      % Updating the parameter vector
+        w=w-rho*gradi; % Updating the parameter vector
     end
 end
 </div></code></pre>
 <h2 id="using-the-sum-of-error-squares-algorithm-from-textbook-cx-32-page-145-with-slight-modifications">Using the Sum of Error Squares algorithm from textbook CX 3.2 Page 145 with slight modifications</h2>
-<pre><code><div>function w = SSErr_train(X,y)
-    w = (X'*X)'*X'*y';
+<pre class="hljs"><code><div>function w = SSErr_train(X,y)
+    w = inv(X*X')*(X*y');
 end
 </div></code></pre>
 <h2 id="using-the-lms-algorithm-from-textbook-cx-33-page-146-with-slight-modifications">Using the LMS algorithm from textbook CX 3.3 Page 146 with slight modifications</h2>
-<pre><code><div>function w = LMSalg_train(X,y,w_ini)
-    [N,~]=size(X);
+<pre class="hljs"><code><div>function w = LMSalg_train(X,y,w_ini)
+    [~,N]=size(X);
     rho=0.1; % Learning rate initialization
     w=w_ini; % Initialization of the parameter vector
     for i=1:N
-        w=w-(rho/i)*(y(i)-X(i,:)*w)*X(i,:)';
+        w = w + (rho/i)*(y(i)-X(:,i)'*w)*X(:,i);
     end
 end
 </div></code></pre>
 <h2 id="conclusion-and-remarks">Conclusion and remarks</h2>
-<p><img src="file:///d:\coursework\ecec487\hw2\hw3.1.jpg" alt="hw3.1">
-<img src="file:///d:\coursework\ecec487\hw2\hw3.2.jpg" alt="hw3.2"></p>
-<p>From the results of the experiment 1 (CX 3.1), it is observed that all 3 algorithms produces such vector <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>w</mi></mrow><annotation encoding="application/x-tex">w</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span></span></span></span> that has 100% accuracy after training. This is due to the large separation of the data points into their own class (<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mn>1</mn><mo>=</mo><mo stretchy="false">[</mo><mo>−</mo><mn>5</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo><mo>&amp;</mo><mi>m</mi><mn>2</mn><mo>=</mo><mo stretchy="false">[</mo><mn>5</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">m1 = [-5,0] \And m2=[5,0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&amp;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mn>1</mn><mo>=</mo><mi>S</mi><mn>2</mn><mo>=</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">S1=S2=I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span></span></span></span>)</p>
-<p>However, in experiment 2 (CX 3.2), <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mn>1</mn><mo>=</mo><mo stretchy="false">[</mo><mo>−</mo><mn>2</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo><mo>&amp;</mo><mi>m</mi><mn>2</mn><mo>=</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">m1 = [-2,0] \And m2=[2,0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&amp;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mn>1</mn><mo>=</mo><mi>S</mi><mn>2</mn><mo>=</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">S1=S2=I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span></span></span></span>, which makes the data points of both classes overlaps -- there is no clear boundaries separating the two classes. It is apparent that the performance of all 3 algorithms are very similar:</p>
-<ul>
-<li>Perceptron: 6 misses in X2 and 3 misses in X2'</li>
-<li>SES: 7 misses in X2 and 3 misses in X2'</li>
-<li>LMS: 8 misses in X2 and 3 misses in X2'</li>
-</ul>
-<p>The differences in the amount of miss classification for each algorithm is statistically small, which means that the performance of all 3 algorithms are the same.</p>
+<pre><code>The miss classifications due to different algorithms on different data sets are:
+&quot;X1 Perceptron: 0.000000&quot;
+&quot;X1' Perceptron: 0.000000&quot;
+&quot;X1 Sum of Error Squares: 0.000000&quot;
+&quot;X1' Sum of Error Squares: 0.000000&quot;
+&quot;X1 LMS: 24.000000&quot;
+&quot;X1' LMS: 26.000000&quot;
+&quot;X2 Perceptron: 5.000000&quot;
+&quot;X2' Perceptron: 2.000000&quot;
+&quot;X2 Sum of Error Squares: 8.000000&quot;
+&quot;X2' Sum of Error Squares: 3.000000&quot;
+&quot;X2 LMS: 88.000000&quot;
+&quot;X2' LMS: 99.000000&quot;
+</code></pre>
+<p><img src="hw3.1.jpg" alt="hw3.1">
+<img src="hw3.2.jpg" alt="hw3.2"></p>
+<p>With <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>0</mn></msub><mo>=</mo><mo stretchy="false">[</mo><mn>1</mn><mo separator="true">;</mo><mn>1</mn><mo separator="true">;</mo><mn>1</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">w_0 = [1; 1; 1]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">1</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mclose">]</span></span></span></span>, there are two remarks:</p>
+<p>From the results of the experiment 1 (CX 3.1) (<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mn>1</mn><mo>=</mo><mo stretchy="false">[</mo><mo>−</mo><mn>5</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo><mo>&amp;</mo><mi>m</mi><mn>2</mn><mo>=</mo><mo stretchy="false">[</mo><mn>5</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">m1 = [-5,0] \And m2=[5,0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&amp;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mn>1</mn><mo>=</mo><mi>S</mi><mn>2</mn><mo>=</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">S1=S2=I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span></span></span></span>), it is observed that the Perceptron and the Sum of Error Squares algorithm both achieve good accuracy due to the data being partitioned far apart. However, the LMS algorithm did not achieve good results.</p>
+<p>In experiment 2 (CX 3.2), <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mn>1</mn><mo>=</mo><mo stretchy="false">[</mo><mo>−</mo><mn>2</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo><mo>&amp;</mo><mi>m</mi><mn>2</mn><mo>=</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">m1 = [-2,0] \And m2=[2,0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">−</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">&amp;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">0</span><span class="mclose">]</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>S</mi><mn>1</mn><mo>=</mo><mi>S</mi><mn>2</mn><mo>=</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">S1=S2=I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span></span></span></span>, which makes the data points of both classes overlaps -- there is no clear boundaries separating the two classes. It is apparent that the performance of all 3 algorithms reduces. The Perceptron algorithm seems to achieve a little bit better result than the Sum of Error Squares algorithm. The LMS algorithm, again, did not achieve good results.</p>
+<p>Changing the <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">w_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> vector does not affect the Perceptron algorithm by a large margin. The Sum of Error Squares algorithm does not depend on <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">w_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>. However, the LMS algorithm can achieve better result for better values of <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>w</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">w_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.58056em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>. Also, LMS algorithm depends largely on the step-size, which is supposed to change rather steep. A better configuration of the step-size variable can have considerable impact to the performance of this algorithm</p>
+<p>From the remarks above, it is possible to conclude that for the data set generated, the Perceptron and the Sum of Error Square algorithms generate good classifiers, while the LMS algorithm needs a lot more tunning to achieve the same results.</p>
 <h1 id="written-homework">Written Homework</h1>
 <h2 id="question">Question</h2>
 <p>Explain why the perceptron cost function is a continuous piecewise linear function.</p>
@@ -273,5 +690,5 @@ end
 <p>Assume that the algorithm works and coverges to a solution (a.k.a <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Y</mi><mo>=</mo><mi mathvariant="normal">∅</mi></mrow><annotation encoding="application/x-tex">Y=\emptyset</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.80556em;vertical-align:-0.05556em;"></span><span class="mord">∅</span></span></span></span> after step (**)), then, naturally, after each iteration of the outer loop (*), the number of elements in set <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span> will ideally reduce. Hence, while the the number of elements in set <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span> stay the same, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>J</mi><mo stretchy="false">(</mo><mi mathvariant="bold">w</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mo>∑</mo><mrow><mi>x</mi><mo>∈</mo><mi>y</mi></mrow></msub><mo stretchy="false">(</mo><msub><mi>δ</mi><mi>x</mi></msub><msup><mi mathvariant="bold">w</mi><mi>T</mi></msup><mi mathvariant="bold">x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">J(\bold{w}) = \sum_{x\in y}(\delta_x \bold{w}^T \bold{x})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.09618em;">J</span><span class="mopen">(</span><span class="mord"><span class="mord mathbf" style="margin-right:0.01597em;">w</span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.277149em;vertical-align:-0.43581800000000004em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.07765999999999995em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="mrel mtight">∈</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03785em;">δ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.03785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">x</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord"><span class="mord mathbf" style="margin-right:0.01597em;">w</span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathbf">x</span></span><span class="mclose">)</span></span></span></span> is a <strong>linear</strong> function. However, when
 number of elements in set <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Y</mi></mrow><annotation encoding="application/x-tex">Y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span></span></span></span> changes, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>J</mi><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo></mrow><mrow><mi mathvariant="normal">∂</mi><mi>w</mi></mrow></mfrac><msub><mi mathvariant="normal">∣</mi><mrow><mi>w</mi><mo>=</mo><mi>w</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow></msub></mrow><annotation encoding="application/x-tex">\frac{\partial J(w)}{\partial w}\vert_{w=w(t)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.3652em;vertical-align:-0.3551999999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mathdefault mtight" style="margin-right:0.09618em;">J</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord">∣</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.34480000000000005em;"><span style="top:-2.5198em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="mrel mtight">=</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">t</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3551999999999999em;"><span></span></span></span></span></span></span></span></span></span> is undefined and therefore, <strong>discontinuous</strong>. Hence, the perceptron cost function is a <strong>continuous</strong> <strong>piecewise</strong> <strong>linear</strong> function.</p>
 
-    </body>
-    </html>
+</body>
+</html>
