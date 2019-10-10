@@ -23,6 +23,31 @@ Branch_Predictor *initBranchPredictor(BP_Config *config)
         }
     }
 
+    else if (!strcmp(config->bp_type, "gshare")) {
+        branch_predictor->global_predictor_sets = config->global_predictor_size;
+        assert(checkPowerofTwo(branch_predictor->global_predictor_sets));
+
+        branch_predictor->global_history_mask = branch_predictor->global_predictor_sets - 1;
+
+        // Initialize sat counters
+        branch_predictor->global_counters = 
+            (Sat_Counter *)malloc(config->global_predictor_size * sizeof(Sat_Counter));
+
+        for (int i = 0; i < config->global_predictor_size; i++)
+        {
+            initSatCounter(&(branch_predictor->global_counters[i]), config->global_counter_bits);
+        }
+
+        // Initialize global history table
+        branch_predictor->global_history_table = 
+            (unsigned *)malloc(config->global_predictor_size * sizeof(unsigned));
+
+        for (int i = 0; i < config->global_predictor_size; i++)
+        {
+            branch_predictor->global_history_table[i] = 0;
+        }
+    }
+
     else if (!strcmp(config->bp_type, "tournament")) {
         assert(checkPowerofTwo(config->local_predictor_size));
         assert(checkPowerofTwo(config->local_history_table_size));
@@ -141,6 +166,34 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
         }
 
         return prediction == instr->taken;
+    }
+
+    else if (!strcmp(config->bp_type, "gshare")) {
+        unsigned GHT_index = getIndex(branch_address, branch_predictor->global_history_mask);
+        
+        unsigned GHT_value = branch_predictor->global_history_table[GHT_index] & branch_predictor->global_history_mask;
+
+        unsigned branch_address_nbit = 64;
+        unsigned mask_nbit = (int)log2(branch_predictor->global_history_mask)+1;
+
+        unsigned global_predictor_idx = (GHT_value ^ (branch_address >> (branch_address_nbit - mask_nbit)));
+
+        
+        bool global_prediction = 
+            getPrediction(&(branch_predictor->global_counters[global_predictor_idx]));
+
+        if (instr->taken)
+        {
+            incrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
+        }
+        else
+        {
+            decrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
+        }
+
+        branch_predictor->global_history_table[GHT_index] = branch_predictor->global_history_table[GHT_index] << 1 | instr->taken;
+
+        return global_prediction == instr->taken;
     }
 
     else if (!strcmp(config->bp_type, "tournament")) {

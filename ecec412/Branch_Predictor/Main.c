@@ -11,6 +11,7 @@ typedef struct BP_TABLE {
     int row;
     unsigned* local_predictor_size;
     unsigned* local_counter_bits;
+    unsigned* global_counter_bits;
     unsigned* local_history_table_size;
     unsigned* global_predictor_size;
     unsigned* choice_predictor_size;
@@ -47,10 +48,12 @@ int main(int argc, const char *argv[])
     twobitlocal_table->local_counter_bits = lcb_arr;
 
     BP_TABLE *gshare_table = malloc(sizeof(BP_TABLE));
-    gshare_table->row = 7;
+    gshare_table->row = 9;
     gshare_table->name = "gshare";
-    gshare_table->local_predictor_size = lps_arr;
-    gshare_table->local_counter_bits = lcb_arr;
+    unsigned gps_arr_gshare[] = {256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536};
+    unsigned gcb_arr_gshare[] = {2, 2, 2, 2, 2, 2, 2, 2, 2};
+    gshare_table->global_predictor_size = gps_arr_gshare;
+    gshare_table->global_counter_bits = gcb_arr_gshare;
 
     BP_TABLE *tournament_table = malloc(sizeof(BP_TABLE));
     tournament_table->row = 3;
@@ -62,7 +65,8 @@ int main(int argc, const char *argv[])
     tournament_table->global_predictor_size = gps_arr;
     tournament_table->choice_predictor_size = cps_arr;
 
-    BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table };
+    BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table };
+    // BP_TABLE *bp_tables[] = { gshare_table };
 
     int num_tables = (int)( sizeof(bp_tables) / sizeof(bp_tables[0]) );
 
@@ -79,6 +83,11 @@ int main(int argc, const char *argv[])
                 config.global_predictor_size = bp_tables[t]->global_predictor_size[r];
                 config.choice_predictor_size = bp_tables[t]->choice_predictor_size[r];
                 printf("%s, %u, %u, %u, ", config.bp_type, config.local_history_table_size, config.global_predictor_size, config.choice_predictor_size);
+            }
+            else if (!strcmp(bp_tables[t]->name, "gshare")) {
+                config.global_predictor_size = bp_tables[t]->global_predictor_size[r];
+                config.global_counter_bits = bp_tables[t]->global_counter_bits[r];
+                printf("%s, %u, %u, ", config.bp_type, config.global_predictor_size, config.global_counter_bits);
             }
             // Initialize a CPU trace parser
             TraceParser *cpu_trace = initTraceParser(argv[1]);

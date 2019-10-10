@@ -34,6 +34,7 @@ typedef struct BP_Config
 typedef struct Branch_Predictor
 {
     unsigned local_predictor_sets; // Number of entries in a local predictor
+    unsigned global_predictor_sets; // Number of entries in a global predictor
     unsigned index_mask;
 
     unsigned local_predictor_size;
@@ -46,6 +47,7 @@ typedef struct Branch_Predictor
 
     unsigned global_predictor_size;
     unsigned global_history_mask;
+    unsigned *global_history_table;
     Sat_Counter *global_counters;
 
     unsigned choice_predictor_size;
