@@ -37,15 +37,8 @@ Branch_Predictor *initBranchPredictor(BP_Config *config)
         {
             initSatCounter(&(branch_predictor->global_counters[i]), config->global_counter_bits);
         }
-
-        // Initialize global history table
-        branch_predictor->global_history_table = 
-            (unsigned *)malloc(config->global_predictor_size * sizeof(unsigned));
-
-        for (int i = 0; i < config->global_predictor_size; i++)
-        {
-            branch_predictor->global_history_table[i] = 0;
-        }
+        
+        branch_predictor->global_history_table = 0;
     }
 
     else if (!strcmp(config->bp_type, "tournament")) {
@@ -169,15 +162,7 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
     }
 
     else if (!strcmp(config->bp_type, "gshare")) {
-        unsigned GHT_index = getIndex(branch_address, branch_predictor->global_history_mask);
-        
-        unsigned GHT_value = branch_predictor->global_history_table[GHT_index] & branch_predictor->global_history_mask;
-
-        unsigned branch_address_nbit = 64;
-        unsigned mask_nbit = (int)log2(branch_predictor->global_history_mask)+1;
-
-        unsigned global_predictor_idx = GHT_value ^ (branch_address >> (branch_address_nbit - mask_nbit));
-
+        unsigned global_predictor_idx = (branch_predictor->global_history_table ^ branch_address) & branch_predictor->global_history_mask;
         
         bool global_prediction = getPrediction(&(branch_predictor->global_counters[global_predictor_idx]));
 
@@ -190,7 +175,7 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
             decrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
         }
 
-        branch_predictor->global_history_table[GHT_index] = branch_predictor->global_history_table[GHT_index] << 1 | instr->taken;
+        branch_predictor->global_history_table = branch_predictor->global_history_table << 1 | instr->taken;
 
         return global_prediction == instr->taken;
     }

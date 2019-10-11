@@ -48,25 +48,25 @@ int main(int argc, const char *argv[])
     twobitlocal_table->local_counter_bits = lcb_arr;
 
     BP_TABLE *gshare_table = malloc(sizeof(BP_TABLE));
-    gshare_table->row = 9;
+    gshare_table->row = 7;
     gshare_table->name = "gshare";
-    unsigned gps_arr_gshare[] = {256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536};
-    unsigned gcb_arr_gshare[] = {2, 2, 2, 2, 2, 2, 2, 2, 2};
+    unsigned gps_arr_gshare[] = {2048, 2048, 4096, 8192, 16384, 32768, 65536};
+    unsigned gcb_arr_gshare[] = {1, 2, 2, 2, 2, 2, 2};
     gshare_table->global_predictor_size = gps_arr_gshare;
     gshare_table->global_counter_bits = gcb_arr_gshare;
 
     BP_TABLE *tournament_table = malloc(sizeof(BP_TABLE));
-    tournament_table->row = 3;
+    tournament_table->row = 4;
     tournament_table->name = "tournament";
-    unsigned lhts_arr[] = {2048, 2048, 4096};
-    unsigned gps_arr[] = {8192, 8192, 16384};
-    unsigned cps_arr[] = {8192, 8192, 16384};
+    unsigned lhts_arr[] = {8192, 16384, 32768, 65536};
+    unsigned gps_arr[] = {16384, 32768, 65536, 65536};
+    unsigned cps_arr[] = {16384, 32768, 65536, 65536};
     tournament_table->local_history_table_size = lhts_arr;
     tournament_table->global_predictor_size = gps_arr;
     tournament_table->choice_predictor_size = cps_arr;
 
-    // BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table };
-    BP_TABLE *bp_tables[] = { gshare_table };
+    BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table };
+    // BP_TABLE *bp_tables[] = { tournament_table };
 
     int num_tables = (int)( sizeof(bp_tables) / sizeof(bp_tables[0]) );
 

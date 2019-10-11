@@ -47,7 +47,7 @@ typedef struct Branch_Predictor
 
     unsigned global_predictor_size;
     unsigned global_history_mask;
-    unsigned *global_history_table;
+    uint64_t global_history_table;
     Sat_Counter *global_counters;
 
     unsigned choice_predictor_size;
