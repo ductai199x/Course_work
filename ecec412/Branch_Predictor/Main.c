@@ -65,8 +65,8 @@ int main(int argc, const char *argv[])
     tournament_table->global_predictor_size = gps_arr;
     tournament_table->choice_predictor_size = cps_arr;
 
-    BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table };
-    // BP_TABLE *bp_tables[] = { gshare_table };
+    // BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table };
+    BP_TABLE *bp_tables[] = { gshare_table };
 
     int num_tables = (int)( sizeof(bp_tables) / sizeof(bp_tables[0]) );
 

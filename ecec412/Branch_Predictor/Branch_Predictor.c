@@ -176,11 +176,10 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
         unsigned branch_address_nbit = 64;
         unsigned mask_nbit = (int)log2(branch_predictor->global_history_mask)+1;
 
-        unsigned global_predictor_idx = (GHT_value ^ (branch_address >> (branch_address_nbit - mask_nbit)));
+        unsigned global_predictor_idx = GHT_value ^ (branch_address >> (branch_address_nbit - mask_nbit));
 
         
-        bool global_prediction = 
-            getPrediction(&(branch_predictor->global_counters[global_predictor_idx]));
+        bool global_prediction = getPrediction(&(branch_predictor->global_counters[global_predictor_idx]));
 
         if (instr->taken)
         {
