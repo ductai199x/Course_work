@@ -5,3 +5,4 @@ sync_changes.txt
 *.swp
 .vscode*
 *.cpu_trace*
+*.exe*
