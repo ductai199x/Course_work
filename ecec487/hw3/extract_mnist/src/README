@@ -1,0 +1,4 @@
+
+Please download and extract the ubyte files from http://yann.lecun.com/exdb/mnist/ into this directory.
+
+The algorithm to extract to images are taken from https://medium.com/@mannasiladittya/converting-mnist-data-in-idx-format-to-python-numpy-array-5cb9126f99f1

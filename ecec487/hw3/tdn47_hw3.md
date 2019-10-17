@@ -9,6 +9,7 @@
     - [a. What are the characteristics of a `normal` compressor and how do these relate to the notion of a metric distance?](#a-what-are-the-characteristics-of-a-normal-compressor-and-how-do-these-relate-to-the-notion-of-a-metric-distance)
     - [b. Why is the specific choice of compression algorithm important in the NCD? (trying this as an undergrad)](#b-why-is-the-specific-choice-of-compression-algorithm-important-in-the-ncd-trying-this-as-an-undergrad)
     - [c. Why is the NCD robust to variations in different compression algorithms? (trying this as an undergrad)](#c-why-is-the-ncd-robust-to-variations-in-different-compression-algorithms-trying-this-as-an-undergrad)
+    - [d. Extract 3 different digits and compress them using any compression algorithm of your choice. Report the compressed and uncompressed size of each digit in bytes.](#d-extract-3-different-digits-and-compress-them-using-any-compression-algorithm-of-your-choice-report-the-compressed-and-uncompressed-size-of-each-digit-in-bytes)
   
 # Written Questions
 
@@ -51,3 +52,16 @@ Different compression algorithms produces different NCD, hence, different approx
 
 
 ### c. Why is the NCD robust to variations in different compression algorithms? (trying this as an undergrad)
+The NCD is a metric distance that minorizes all other feature-based similarity metrics (these features must be rather `simple` and can be `expressed` under some method that a compressor uses to analyze). Therefore, NCD can captures most (if not all) dominant features that characterize the data. Hence, whenever a compressor follow the architecture of a `normal compressor` (which gives rise to NCD), then it can be used for clustering. Another reason for the robustness of NCD is that: the algorithm does not depend on the type of the input, how the input was constructed or the underlining features inside the input. 
+
+### d. Extract 3 different digits and compress them using any compression algorithm of your choice. Report the compressed and uncompressed size of each digit in bytes.
+After Extracting 3 different digits (5, 9, 6) into byte format:
+![digit3](extract_mnist/src/training_set_images/00000.jpg) ![digit9](extract_mnist/src/training_set_images/00045.jpg) ![digit8](extract_mnist/src/training_set_images/00093.jpg), they have the following (uncompressed & compressed -- with `gzip`) file size:
+
+1. Digit 5 Uncompressed: 6272 B // Compressed: 386 B
+2. Digit 9 Uncompressed: 6272 B // Compressed: 381 B
+3. Digit 6 Uncompressed: 6272 B // Compressed: 405 B
+
+Screenshot of terminal
+
+![terminal](terminal_screen_shot.png)
