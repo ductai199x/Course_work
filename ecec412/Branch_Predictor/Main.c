@@ -15,6 +15,8 @@ typedef struct BP_TABLE {
     unsigned* local_history_table_size;
     unsigned* global_predictor_size;
     unsigned* choice_predictor_size;
+    unsigned* perceptron_count;
+    unsigned* perceptron_layers;
     char* name;
 }BP_TABLE;
 
@@ -40,33 +42,41 @@ int main(int argc, const char *argv[])
 
     
     BP_TABLE *twobitlocal_table = malloc(sizeof(BP_TABLE));
-    twobitlocal_table->row = 7;
     twobitlocal_table->name = "twobitlocal";
     unsigned lps_arr[] = {2048, 2048, 4096, 8192, 16384, 32768, 65536};
     unsigned lcb_arr[] = {1, 2, 2, 2, 2, 2, 2};
+    twobitlocal_table->row = sizeof(lps_arr)/sizeof(lps_arr[0]);
     twobitlocal_table->local_predictor_size = lps_arr;
     twobitlocal_table->local_counter_bits = lcb_arr;
 
     BP_TABLE *gshare_table = malloc(sizeof(BP_TABLE));
-    gshare_table->row = 7;
     gshare_table->name = "gshare";
     unsigned gps_arr_gshare[] = {2048, 2048, 4096, 8192, 16384, 32768, 65536};
     unsigned gcb_arr_gshare[] = {1, 2, 2, 2, 2, 2, 2};
+    gshare_table->row = sizeof(gps_arr_gshare)/sizeof(gps_arr_gshare[0]);
     gshare_table->global_predictor_size = gps_arr_gshare;
     gshare_table->global_counter_bits = gcb_arr_gshare;
 
     BP_TABLE *tournament_table = malloc(sizeof(BP_TABLE));
-    tournament_table->row = 4;
     tournament_table->name = "tournament";
     unsigned lhts_arr[] = {8192, 16384, 32768, 65536};
     unsigned gps_arr[] = {16384, 32768, 65536, 65536};
     unsigned cps_arr[] = {16384, 32768, 65536, 65536};
+    tournament_table->row = sizeof(lhts_arr)/sizeof(lhts_arr[0]);
     tournament_table->local_history_table_size = lhts_arr;
     tournament_table->global_predictor_size = gps_arr;
     tournament_table->choice_predictor_size = cps_arr;
 
-    BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table };
-    // BP_TABLE *bp_tables[] = { tournament_table };
+    BP_TABLE *perceptron_table = malloc(sizeof(BP_TABLE));
+    perceptron_table->name = "perceptron";
+    unsigned perceptron_count[] = {11, 11, 12, 13, 14, 15, 16};
+    unsigned perceptron_layers[] = {1, 2, 2, 2, 2, 2, 2};
+    perceptron_table->row = sizeof(perceptron_count)/sizeof(perceptron_count[0]);
+    perceptron_table->perceptron_count = perceptron_count;
+    perceptron_table->perceptron_layers = perceptron_layers;
+
+    // BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table };
+    BP_TABLE *bp_tables[] = { perceptron_table };
 
     int num_tables = (int)( sizeof(bp_tables) / sizeof(bp_tables[0]) );
 
@@ -89,6 +99,15 @@ int main(int argc, const char *argv[])
                 config.global_counter_bits = bp_tables[t]->global_counter_bits[r];
                 printf("%s, %u, %u, ", config.bp_type, config.global_predictor_size, config.global_counter_bits);
             }
+            else if (!strcmp(bp_tables[t]->name, "perceptron")) {
+                config.perceptron_count = bp_tables[t]->perceptron_count[r];
+                config.perceptron_layers = bp_tables[t]->perceptron_layers[r];
+                printf("%s, %u, %u, ", config.bp_type, config.perceptron_count, config.perceptron_layers);
+            }
+            else {
+                return 1;
+            }
+
             // Initialize a CPU trace parser
             TraceParser *cpu_trace = initTraceParser(argv[1]);
             // Initialize a branch predictor
@@ -99,8 +118,6 @@ int main(int argc, const char *argv[])
             uint64_t num_of_branches = 0;
             uint64_t num_of_correct_predictions = 0;
             uint64_t num_of_incorrect_predictions = 0;
-
-            
 
             while (getInstruction(cpu_trace))
             {
@@ -121,13 +138,7 @@ int main(int argc, const char *argv[])
                 ++num_of_instructions;
             }
 
-            // printf("Number of instructions: %"PRIu64"\n", num_of_instructions);
-            // printf("Number of branches: %"PRIu64"\n", num_of_branches);
-            // printf("Number of correct predictions: %"PRIu64"\n", num_of_correct_predictions);
-            // printf("Number of incorrect predictions: %"PRIu64"\n", num_of_incorrect_predictions);
-
             float performance = (float)num_of_correct_predictions / (float)num_of_branches * 100;
-            // printf("Predictor Correctness: %f%%\n", performance);
             printf("%"PRIu64", %"PRIu64", %"PRIu64", %"PRIu64", %f%%\n", num_of_instructions, num_of_branches, num_of_correct_predictions, num_of_incorrect_predictions, performance);
         }
         printf("\n----------------------------------\n");

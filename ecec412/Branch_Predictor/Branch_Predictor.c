@@ -105,6 +105,41 @@ Branch_Predictor *initBranchPredictor(BP_Config *config)
         branch_predictor->history_register_mask = config->choice_predictor_size - 1;
     }
 
+    else if (!strcmp(config->bp_type, "perceptron")) {
+        branch_predictor->perceptron_count = config->perceptron_count;
+        branch_predictor->global_history_mask = branch_predictor->perceptron_count;
+        branch_predictor->perceptron_layers = config->perceptron_layers;
+
+        branch_predictor->global_history_table = 0;
+
+        Neural_Network* nn = malloc(sizeof(Neural_Network));
+        nn->layer_arr = malloc(sizeof(Perceptron_Layer)*branch_predictor->perceptron_layers);
+
+        nn->learning_rate = 0.1;
+        nn->threshold = 0;
+        // Initialize neural network
+        for (int i = 0; i < branch_predictor->perceptron_layers; i++) {
+
+            nn->layer_arr->perceptron_arr = malloc(sizeof(Perceptron)*branch_predictor->perceptron_count);
+            nn->layer_arr->output_arr = malloc(sizeof(float)*branch_predictor->perceptron_count);
+
+            for (int j = 0; j < branch_predictor->perceptron_count; j++) {
+                
+                // if (i < branch_predictor->perceptron_layers - 1) {
+                    
+                    nn->layer_arr->perceptron_arr[j].weight_arr = malloc(sizeof(float)*branch_predictor->perceptron_count);
+                    for (int k = 0; k < branch_predictor->perceptron_count; k++) {
+                        nn->layer_arr->perceptron_arr[j].weight_arr[k] = 1;
+                    }
+
+                // }
+
+            }
+            
+        }
+        
+    }
+
     return branch_predictor;
 }
 
@@ -252,6 +287,25 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
         //
         return prediction_correct;
     }
+
+    else if (!strcmp(config->bp_type, "perceptron")) {
+        unsigned perceptron_idx = (branch_predictor->global_history_table ^ branch_address) & branch_predictor->global_history_mask;
+        
+        bool perceptron_prediction = perceptronPredict(&(branch_predictor->neural_network), branch_predictor->global_history_mask, branch_predictor->global_history_table, perceptron_idx);
+
+        if (instr->taken)
+        {
+            incrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
+        }
+        else
+        {
+            decrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
+        }
+
+        branch_predictor->global_history_table = branch_predictor->global_history_table << 1 | instr->taken;
+
+        return perceptron_prediction == instr->taken;
+    }
 }
 
 inline unsigned getIndex(uint64_t branch_addr, unsigned index_mask)
@@ -266,6 +320,26 @@ inline bool getPrediction(Sat_Counter *sat_counter)
 
     // MSB determins the direction
     return (counter >> (counter_bits - 1));
+}
+
+inline bool perceptronPredict(Neural_Network *nn, unsigned mask, unsigned ght, unsigned perc_index)
+{
+
+    nn->layer_arr[0].perceptron_arr[perc_index].input_arr = malloc(sizeof(unsigned)*mask);
+
+    for (int i = 0; i < mask; i++) {
+        unsigned ght_mask = 1 << (i);
+        nn->layer_arr[0].perceptron_arr[perc_index].input_arr[i] = ght & mask;
+    }
+
+      /* sum means dot product here */
+    float sum = 0;
+
+    /* figure out the dot product here */
+    sum = (input1 * weight1) + (input2 * weight2);
+    sum = sum + BIAS; // add bias
+
+    // return (counter >> (counter_bits - 1));
 }
 
 int checkPowerofTwo(unsigned x)

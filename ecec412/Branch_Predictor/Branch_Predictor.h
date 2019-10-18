@@ -18,6 +18,30 @@ typedef struct Sat_Counter
     uint8_t counter;
 }Sat_Counter;
 
+// perceptron
+typedef struct Perceptron
+{
+    unsigned* input_arr;
+    float* weight_arr;
+    float output;
+    float error;
+}Perceptron;
+
+// perceptron layer
+typedef struct Perceptron_Layer
+{
+    Perceptron* perceptron_arr;
+    float* output_arr;
+}Perceptron_Layer;
+
+// neural network
+typedef struct Neural_Network
+{
+    Perceptron_Layer* layer_arr;
+    float learning_rate;
+    unsigned threshold;
+}Neural_Network;
+
 typedef struct BP_Config 
 {
     unsigned local_predictor_size;
@@ -28,6 +52,10 @@ typedef struct BP_Config
     unsigned local_counter_bits;
     unsigned global_counter_bits;
     unsigned choice_counter_bits;
+
+    unsigned perceptron_count;
+    unsigned perceptron_layers;
+
     char* bp_type;
 }BP_Config;
 
@@ -56,6 +84,10 @@ typedef struct Branch_Predictor
 
     uint64_t global_history;
     unsigned history_register_mask;
+
+    unsigned perceptron_count;
+    unsigned perceptron_layers;
+    Neural_Network* neural_network;
 
 }Branch_Predictor;
 
