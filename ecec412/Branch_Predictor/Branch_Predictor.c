@@ -1,5 +1,8 @@
 #include "Branch_Predictor.h"
 
+#define MAX_WEIGHT 127
+#define MIN_WEIGHT -128
+
 const unsigned instShiftAmt = 2; // Number of bits to shift a PC by
 
 Branch_Predictor *initBranchPredictor(BP_Config *config)
@@ -38,7 +41,7 @@ Branch_Predictor *initBranchPredictor(BP_Config *config)
             initSatCounter(&(branch_predictor->global_counters[i]), config->global_counter_bits);
         }
         
-        branch_predictor->global_history_table = 0;
+        branch_predictor->global_history_reg = 0;
     }
 
     else if (!strcmp(config->bp_type, "tournament")) {
@@ -106,38 +109,28 @@ Branch_Predictor *initBranchPredictor(BP_Config *config)
     }
 
     else if (!strcmp(config->bp_type, "perceptron")) {
-        branch_predictor->perceptron_count = config->perceptron_count;
-        branch_predictor->global_history_mask = branch_predictor->perceptron_count;
-        branch_predictor->perceptron_layers = config->perceptron_layers;
+        srand(0);
+        branch_predictor->total_budget = config->total_budget;
+        assert(checkPowerofTwo(branch_predictor->total_budget));
 
-        branch_predictor->global_history_table = 0;
+        branch_predictor->n_weights = config->n_weights;
+        branch_predictor->bits_in_weight = config->bits_in_weight;
+        // branch_predictor->global_history_mask = branch_predictor->to - 1;
 
-        Neural_Network* nn = malloc(sizeof(Neural_Network));
-        nn->layer_arr = malloc(sizeof(Perceptron_Layer)*branch_predictor->perceptron_layers);
+        branch_predictor->global_history_reg = 0;
 
-        nn->learning_rate = 0.1;
-        nn->threshold = 0;
+        branch_predictor->n_perceptrons = branch_predictor->total_budget/((branch_predictor->n_weights + 1) * branch_predictor->bits_in_weight);
+
+        branch_predictor->perc_table = (Perceptron *)malloc(sizeof(Perceptron)*branch_predictor->n_perceptrons);
+
         // Initialize neural network
-        for (int i = 0; i < branch_predictor->perceptron_layers; i++) {
-
-            nn->layer_arr->perceptron_arr = malloc(sizeof(Perceptron)*branch_predictor->perceptron_count);
-            nn->layer_arr->output_arr = malloc(sizeof(float)*branch_predictor->perceptron_count);
-
-            for (int j = 0; j < branch_predictor->perceptron_count; j++) {
-                
-                // if (i < branch_predictor->perceptron_layers - 1) {
-                    
-                    nn->layer_arr->perceptron_arr[j].weight_arr = malloc(sizeof(float)*branch_predictor->perceptron_count);
-                    for (int k = 0; k < branch_predictor->perceptron_count; k++) {
-                        nn->layer_arr->perceptron_arr[j].weight_arr[k] = 1;
-                    }
-
-                // }
-
+        for (int i = 0; i < branch_predictor->n_perceptrons; i++) {
+            branch_predictor->perc_table[i].weights = (int8_t *)malloc(sizeof(int8_t)*branch_predictor->n_weights);
+            for (int j = 0; j < branch_predictor->n_weights; j++) {
+                // branch_predictor->perc_table[i].weights[j] = rand() % 3 - 1;
+                branch_predictor->perc_table[i].weights[j] = 0;
             }
-            
         }
-        
     }
 
     return branch_predictor;
@@ -197,7 +190,7 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
     }
 
     else if (!strcmp(config->bp_type, "gshare")) {
-        unsigned global_predictor_idx = (branch_predictor->global_history_table ^ branch_address) & branch_predictor->global_history_mask;
+        unsigned global_predictor_idx = (branch_predictor->global_history_reg ^ branch_address) & branch_predictor->global_history_mask;
         
         bool global_prediction = getPrediction(&(branch_predictor->global_counters[global_predictor_idx]));
 
@@ -210,7 +203,7 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
             decrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
         }
 
-        branch_predictor->global_history_table = branch_predictor->global_history_table << 1 | instr->taken;
+        branch_predictor->global_history_reg = branch_predictor->global_history_reg << 1 | instr->taken;
 
         return global_prediction == instr->taken;
     }
@@ -289,22 +282,20 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
     }
 
     else if (!strcmp(config->bp_type, "perceptron")) {
-        unsigned perceptron_idx = (branch_predictor->global_history_table ^ branch_address) & branch_predictor->global_history_mask;
+        // unsigned perceptron_idx = (branch_predictor->global_history_reg ^ branch_address) & branch_predictor->global_history_mask;
+        unsigned perceptron_idx = branch_address % branch_predictor->n_perceptrons;
+
+        // printf("%d -- ", perceptron_idx); fflush(stdout);
+
+        int y = getPercOutput(&(branch_predictor->perc_table[perceptron_idx]), branch_predictor->global_history_reg, branch_predictor->n_weights);
         
-        bool perceptron_prediction = perceptronPredict(&(branch_predictor->neural_network), branch_predictor->global_history_mask, branch_predictor->global_history_table, perceptron_idx);
-
-        if (instr->taken)
-        {
-            incrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
-        }
-        else
-        {
-            decrementCounter(&(branch_predictor->global_counters[global_predictor_idx]));
+        if (abs(y) < (branch_predictor->n_weights*1.93 + 14)) {
+            updateWeights(&(branch_predictor->perc_table[perceptron_idx]), branch_predictor->global_history_reg, y, instr->taken, branch_predictor->n_weights);
         }
 
-        branch_predictor->global_history_table = branch_predictor->global_history_table << 1 | instr->taken;
+        branch_predictor->global_history_reg = branch_predictor->global_history_reg << 1 | instr->taken;
 
-        return perceptron_prediction == instr->taken;
+        return (y > 0 ? 1 : 0) == instr->taken;
     }
 }
 
@@ -322,24 +313,37 @@ inline bool getPrediction(Sat_Counter *sat_counter)
     return (counter >> (counter_bits - 1));
 }
 
-inline bool perceptronPredict(Neural_Network *nn, unsigned mask, unsigned ght, unsigned perc_index)
+inline void updateWeights(Perceptron *perc, unsigned ght, int y, int outcome, unsigned n_weights)
 {
+	if (perc->bias > MIN_WEIGHT && perc->bias < MAX_WEIGHT) {
+		// updating bias
+		perc->bias += (outcome ? 1 : -1);
+	}
+   
+    unsigned ght_mask = 1;
+    for (int i = 0; i < n_weights; i++) {
+        if (perc->weights[i] <= MIN_WEIGHT && perc->weights[i] >= MAX_WEIGHT)
+            continue;
+        if( ( ( (ght & ght_mask) != 0) && (outcome == 1) ) || ( ((ght & ght_mask) == 0) && (outcome == 0) ) ) 
+            perc->weights[i] += 1;
+        else
+            perc->weights[i] -= 1;
 
-    nn->layer_arr[0].perceptron_arr[perc_index].input_arr = malloc(sizeof(unsigned)*mask);
+        ght_mask = ght_mask << 1;
+    }
+}
 
-    for (int i = 0; i < mask; i++) {
-        unsigned ght_mask = 1 << (i);
-        nn->layer_arr[0].perceptron_arr[perc_index].input_arr[i] = ght & mask;
+inline int getPercOutput(Perceptron *perc, unsigned ght, unsigned n_weights)
+{
+    int output_sum = perc->bias;
+
+    unsigned ght_mask = 1;
+    for (int i = 0; i < n_weights; i++) {
+        output_sum += ((ght & ght_mask) == 0 ? -1 : 1)*perc->weights[i];
+        ght_mask = ght_mask << 1;
     }
 
-      /* sum means dot product here */
-    float sum = 0;
-
-    /* figure out the dot product here */
-    sum = (input1 * weight1) + (input2 * weight2);
-    sum = sum + BIAS; // add bias
-
-    // return (counter >> (counter_bits - 1));
+    return output_sum;
 }
 
 int checkPowerofTwo(unsigned x)

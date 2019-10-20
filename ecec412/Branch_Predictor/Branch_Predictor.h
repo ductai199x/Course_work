@@ -18,29 +18,11 @@ typedef struct Sat_Counter
     uint8_t counter;
 }Sat_Counter;
 
-// perceptron
 typedef struct Perceptron
 {
-    unsigned* input_arr;
-    float* weight_arr;
-    float output;
-    float error;
+    int8_t bias;
+    int8_t *weights;
 }Perceptron;
-
-// perceptron layer
-typedef struct Perceptron_Layer
-{
-    Perceptron* perceptron_arr;
-    float* output_arr;
-}Perceptron_Layer;
-
-// neural network
-typedef struct Neural_Network
-{
-    Perceptron_Layer* layer_arr;
-    float learning_rate;
-    unsigned threshold;
-}Neural_Network;
 
 typedef struct BP_Config 
 {
@@ -53,8 +35,9 @@ typedef struct BP_Config
     unsigned global_counter_bits;
     unsigned choice_counter_bits;
 
-    unsigned perceptron_count;
-    unsigned perceptron_layers;
+    uint64_t total_budget;
+    unsigned n_weights;
+    unsigned bits_in_weight;
 
     char* bp_type;
 }BP_Config;
@@ -75,7 +58,7 @@ typedef struct Branch_Predictor
 
     unsigned global_predictor_size;
     unsigned global_history_mask;
-    uint64_t global_history_table;
+    uint64_t global_history_reg;
     Sat_Counter *global_counters;
 
     unsigned choice_predictor_size;
@@ -85,9 +68,11 @@ typedef struct Branch_Predictor
     uint64_t global_history;
     unsigned history_register_mask;
 
-    unsigned perceptron_count;
-    unsigned perceptron_layers;
-    Neural_Network* neural_network;
+    uint64_t total_budget;
+    unsigned n_weights;
+    unsigned n_perceptrons;
+    unsigned bits_in_weight;
+    Perceptron *perc_table;
 
 }Branch_Predictor;
 
@@ -104,6 +89,8 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
 
 unsigned getIndex(uint64_t branch_addr, unsigned index_mask);
 bool getPrediction(Sat_Counter *sat_counter);
+int getPercOutput(Perceptron *perc, unsigned ght, unsigned n_weights);
+void updateWeights(Perceptron *perc, unsigned ght, int y, int outcome, unsigned n_weights);
 
 // Utility
 int checkPowerofTwo(unsigned x);
