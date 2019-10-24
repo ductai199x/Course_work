@@ -284,7 +284,7 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
 
         int y = getPercOutput(&(branch_predictor->perc_table[perceptron_idx]), branch_predictor->global_history_reg, branch_predictor->n_weights);
         
-        if (((y >= 0 ? 1 : 0) != instr->taken) && abs(y) < (branch_predictor->n_weights*1.93 + 14)) {
+        if (((y >= 0 ? 1 : 0) != instr->taken) || abs(y) < (branch_predictor->n_weights*1.93 + 14)) {
             updateWeights(&(branch_predictor->perc_table[perceptron_idx]), branch_predictor->global_history_reg, y, instr->taken, branch_predictor->n_weights);
         }
 
@@ -314,7 +314,7 @@ inline void updateWeights(Perceptron *perc, unsigned ght, int y, int outcome, un
 		perc->bias += (outcome ? 1 : -1);
 	}
    
-    unsigned ght_mask = 1;
+    uint64_t ght_mask = 1;
     for (int i = 0; i < n_weights; i++) {
         if (perc->weights[i] <= MIN_WEIGHT && perc->weights[i] >= MAX_WEIGHT)
             continue;
@@ -331,7 +331,7 @@ inline int getPercOutput(Perceptron *perc, unsigned ght, unsigned n_weights)
 {
     int output_sum = perc->bias;
 
-    unsigned ght_mask = 1;
+    uint64_t ght_mask = 1;
     for (int i = 0; i < n_weights; i++) {
         output_sum += ((ght & ght_mask) == 0 ? -1 : 1)*perc->weights[i];
         ght_mask = ght_mask << 1;

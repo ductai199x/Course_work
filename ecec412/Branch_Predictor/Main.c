@@ -72,12 +72,12 @@ int main(int argc, const char *argv[])
 
     BP_TABLE *perceptron_table = malloc(sizeof(BP_TABLE));
     perceptron_table->name = "perceptron";
-    // uint64_t total_budget[] = {2*1024, 4*1024, 8*1024, 16*1024, 32*1024, 64*1024, 128*1024, 256*1024, 512*1024};
-    // unsigned n_weights[] = {22, 28, 34, 36, 59, 59, 62, 62, 62};
-    // unsigned bits_in_weight[] = {8, 8, 8, 8, 8, 8, 8, 8, 8};
-    uint64_t total_budget[] = {16*1024, 256*1024, 512*1024};
-    unsigned n_weights[] = {36, 62, 62};
-    unsigned bits_in_weight[] = {8, 8, 8};
+    uint64_t total_budget[] = {2*1024, 4*1024, 8*1024, 16*1024, 32*1024, 64*1024, 128*1024, 256*1024, 512*1024};
+    unsigned n_weights[] = {22, 28, 34, 36, 59, 59, 62, 62, 62};
+    unsigned bits_in_weight[] = {8, 8, 8, 8, 8, 8, 8, 8, 8};
+    // uint64_t total_budget[] = {16*1024, 256*1024, 512*1024};
+    // unsigned n_weights[] = {36, 62, 62};
+    // unsigned bits_in_weight[] = {8, 8, 8};
     perceptron_table->row = sizeof(total_budget)/sizeof(total_budget[0]);
     perceptron_table->total_budget = total_budget;
     perceptron_table->n_weights = n_weights;

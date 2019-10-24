@@ -346,5 +346,186 @@ Perceptron Training and Predicting:
 
 \end_layout
 
+\begin_layout Section
+Evaluation of the Perceptron Branch Predictor
+\end_layout
+
+\begin_layout Standard
+This branch predictor performs quite well in the 3 traces: 531.deepsjeng_r_branch
+es, 541.leela_r_branches, and 548.exchange2_r_branches.
+ The results are shown in the tables below:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename 531_table.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename 541_table.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename 548_table.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From this experiment's results, it is apparent that Gshare still out-performed
+ the Perceptron predictor by a small margin at buget sizes bigger than 16k.
+ This is possibly due to the fact that the indexing scheme for Gshare is
+ much better in identifying different behavior of one branch since it take
+ into account the value of the GHR during the Pattern History table-indexing
+ process, while Perceptron only uses the branch address.
+ Also, with branches whose behaviors out put a 1 for a long time, then switch
+ to a 0 for another period, the weight vector needs to make, worst case,
+ 128 + 1 miss predictions before it can make a correct one.
+ In addition, since the neural network is so simple, with one input layer
+ and one output layer, only linear relationship (AND, OR) between the branches
+ can be learned.
+ In contrast, Gshare can learn any Boolean relationships.
+ However, the Perceptron algorithms should out-performed Gshare in applications
+ where there are many more linear separable branches than inseparable ones.
+\end_layout
+
+\begin_layout Standard
+The reason why the results above are different from the ones obtained by
+ JimCnez and Lin is probably due to the different cpu trace used in the
+ experiment (Figure 1 and 2)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename accuracy_ref.png
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Accuracy curves reported by JimCnez and Lin
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename avg_acc_graph.png
+	width 100text%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Accuracy curve from this experiment
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Best configurations for the Perceptron Branch Predictor
+\end_layout
+
+\begin_layout Standard
+The best configurations for this perdictor really come down to the available
+ hardware budget.
+ The highest jump in terms of accuracy results in going from 4KB to 8KB,
+ or 8KB to 16KB.
+ However, the higher the budget size, the better the performance of the
+ predictor.
+\end_layout
+
+\begin_layout Section
+Appendix
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename /home/snapple/2-coursework/ecec412/Branch_Predictor/proj1/531_results.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename /home/snapple/2-coursework/ecec412/Branch_Predictor/proj1/541_results.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename /home/snapple/2-coursework/ecec412/Branch_Predictor/proj1/548_results.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
 \end_body
 \end_document
