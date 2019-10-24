@@ -22,7 +22,7 @@ elseif nargin < 6
     maxiter = 50000;
 end
 
-eta = 1e-3;
+eta = 0.75;
 L = inf(1,maxiter);
 
 k = [size(X,1);k(:);size(Y,1)];
@@ -46,18 +46,22 @@ for iter = 2:maxiter
 %     loss
     E = Z{T+1}-Y;     
     Wn = cellfun(@(x) dot(x(:),x(:)),W);            % |W|^2
-    L(iter) = dot(E(:),E(:))+lambda*sum(Wn);
+%     L(iter) = dot(E(:),E(:))+lambda*sum(Wn);
+    L(iter) = mean(mean(E.^2));
 
 %     backward
     R{T} = E;                % delta
     for t = T-1:-1:1
-        df = 1-Z{t+1}.^2;    % h'(a)
-        R{t} = df.*(W{t+1}*R{t+1});    % delta
+%         df = 1-Z{t+1}.^2;    % h'(a)
+        df = Z{t+1}-Z{t+1}.^2;
+%         R{t} = df.*(W{t+1}*R{t+1});    % delta
+        R{t} = df.*(E);
     end
     
 %     gradient descent
     for t=1:T
-        dW = Z{t}*R{t}'+lambda*W{t};
+%         dW = Z{t}*R{t}'+lambda*W{t};
+        dW = Z{t}*R{t}'+lambda/size(X,2);
         db = sum(R{t},2);
         W{t} = W{t}-eta*dW;
         b{t} = b{t}-eta*db;

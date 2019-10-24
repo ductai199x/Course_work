@@ -5,12 +5,16 @@ clear; close all;
 %% Disclaimer
 
 % Both problems 4.1 and 4.2 (below) uses the Multilayer Perceptron Neural
-% Network Framework from Mo Chen (sth4nth@gmail.com) available here:
-% https://www.mathworks.com/matlabcentral/fileexchange/55946-mlp-neural-network-trained-by-backpropagation
+% Network Framework from Marcelo Augusto Costa Fernandes (mfernandes@dca.ufrn.br) available here:
+% https://www.mathworks.com/matlabcentral/fileexchange/36253-the-matrix-implementation-of-the-two-layer-multilayer-perceptron-mlp-neural-networks
 % with modifications for easy exploration of different parameters used in
 % side the algorithm.
 
-% The architecture of the neural network written by Mo 
+% The architecture of the neural network written by Fernandes is a simple 1
+% input layer size p, 1 hidden layer with number of neurons H, and 1 output
+% layer size m. The error calculation uses Mean Square Error. This
+% algoirthm only back-propagates after finishing feed-forwarding on a batch
+% of inputs.
 
 %% Problem 4.1 Chapter 4 Page 240
 
@@ -18,111 +22,287 @@ x1 = [0.1 0.2 -0.15 1.1 1.2; -0.2 0.1 0.2 0.8 1.1];
 x2 = [1.1 1.25 0.9 0.1 0.2; -0.1 0.15 0.1 1.2 0.9];
 x = [x1 x2];
 
-y = [ones(1,size(x1,2))*1 ones(1,size(x2,2))*-1];
-lambda = 1e-3;
-maxiter = 1000;
+y = [ones(1,size(x1,2))*1 ones(1,size(x2,2))*0];
 
-%%
+%% H = 1; maxiter = 5000;
 p = 2;
-H = 4;
+H = 1;
 m = 1;
 
-mu = .75;
-alpha = 0.001;
-
-epoch = 4000;
+maxiter = 5000;
+mu = .5;
+alpha = 0;
 MSEmin = 1e-20;
+actfn1 = @(x) (1./(1+exp(-x)));
+actfn2 = @(x) (1./(1+exp(-x)));
 
-% X = [0 0 1 1;0 1 0 1];
-% D = [0 1 1 0];
+[Wx,Wy,MSE]=trainMLP(p,H,m,mu,alpha,x,y,actfn1,maxiter,MSEmin);
 
-[Wx,Wy,MSE]=trainMLP(p,H,m,mu,alpha,x,y,epoch,MSEmin);
-
+figure();
 semilogy(MSE);
+title(['MSE for network with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter)]);
+xlabel('epoch'); ylabel('MSE');
 
 disp(['D = [' num2str(y) ']']);
 
-t = runMLP(x,Wx,Wy);
+t = runMLP(x,Wx,Wy,actfn2);
 
 disp(['Y = [' num2str(t) ']']);
 
-
-
-%% 
-
-k = [2];
-actfn = @(x) tansig(x);
-[model, L] = mlpReg(x',y',k,actfn,lambda,maxiter);
-t = mlpRegPred(model,actfn,x');
-figure;
+figure();
 hold on
-scatter(x1(:,1),x1(:,2),'g.', 'LineWidth', 5);
-scatter(x2(:,1),x2(:,2),'k.', 'LineWidth', 5);
+scatter(x1(1,:),x1(2,:),'g.', 'LineWidth', 5);
+scatter(x2(1,:),x2(2,:),'k.', 'LineWidth', 5);
 
-% decision_x = linspace(min(x(:,1)), max(x(:,1)));
-% for i=1:size(model.W,1)
-% %     for j=1:size(model.W{i},1)
-%         decision_y = -(model.W{i}(1)/model.W{i}(2))*decision_x - (model.b{i}(1)/model.W{i}(2));
-%         plot(decision_x, decision_y, "r");function net = NN_training(x,y,k,code,iter,par_vec)
-
-for i=1:size(x,1)
-    if t(i) < 0
-        plot(x(i,1), x(i,2), 'go','MarkerSize',10, 'LineWidth', 2)
+for i=1:size(x,2)
+    if t(i) > 0.5
+        plot(x(1,i), x(2,i), 'go','MarkerSize',10, 'LineWidth', 2)
     else
-        plot(x(i,1), x(i,2), 'ko','MarkerSize',10, 'LineWidth', 2)
+        plot(x(1,i), x(2,i), 'ko','MarkerSize',10, 'LineWidth', 2)
     end
 end
 hold off
 
-title(['MLP with ', num2str(size(k,2)), ' hidden layer, each layer with ', mat2str(k), ' hidden neuron']);
+title(['MLP with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter), 'mu=', num2str(mu)]);
 dim = [.2 .5 .3 .3];
 annotation('textbox',dim,'String', {'green circle = \omega_1', 'black circle = \omega_2'},'FitBoxToText','on');
 
-%% Problem 4.1 Conclusion
+%% H = 1; maxiter = 50000;
+p = 2;
+H = 1;
+m = 1;
 
+maxiter = 50000;
+mu = .5;
+alpha = 0;
+MSEmin = 1e-20;
+actfn1 = @(x) (1./(1+exp(-x)));
+actfn2 = @(x) (1./(1+exp(-x)));
 
+[Wx,Wy,MSE]=trainMLP(p,H,m,mu,alpha,x,y,actfn1,maxiter,MSEmin);
 
-%% Problem 4.2 Chapter 4 Page 240
+figure();
+semilogy(MSE);
+title(['MSE for network with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter)]);
+xlabel('epoch'); ylabel('MSE');
 
+disp(['D = [' num2str(y) ']']);
 
+t = runMLP(x,Wx,Wy,actfn2);
 
+disp(['Y = [' num2str(t) ']']);
 
+figure();
+hold on
+scatter(x1(1,:),x1(2,:),'g.', 'LineWidth', 5);
+scatter(x2(1,:),x2(2,:),'k.', 'LineWidth', 5);
 
-
-
-function pe = NN_evaluation(net,x,y)
-    y1 = sim(net,x); %Computation of the network outputs
-    pe=sum(y.*y1<0)/length(y);
-end
-
-
-
-function net = NN_training(x,y,k,code,iter,par_vec)
-    rand('seed',0) % Initialization of the random number
-    % generators
-    randn('seed',0) % for reproducibility of net initial
-    % conditions
-    % List of training methods
-    methods_list = {'traingd'; 'traingdm'; 'traingda'};
-    % Limits of the region where data lie
-    limit = [min(x(:,1)) max(x(:,1)); min(x(:,2)) max(x(:,2))];
-    % Neural network definition
-    net = newff(limit,k,{'tansig','tansig'},...
-    methods_list{code,1});
-    % Neural network initialization
-    net = init(net);
-    % Setting parameters
-    net.trainParam.epochs = iter;
-    net.trainParam.lr=par_vec(1);
-    if(code == 2)
-    net.trainParam.mc=par_vec(2);
-    elseif(code == 3)
-    net.trainParam.lr_inc = par_vec(3);
-    net.trainParam.lr_dec = par_vec(4);
-    net.trainParam.max_perf_inc = par_vec(5);
+for i=1:size(x,2)
+    if t(i) > 0.5
+        plot(x(1,i), x(2,i), 'go','MarkerSize',10, 'LineWidth', 2)
+    else
+        plot(x(1,i), x(2,i), 'ko','MarkerSize',10, 'LineWidth', 2)
     end
-    % Neural network training
-    net = train(net,x,y);
-    %NOTE: During training, the MATLAB shows a plot of the
-    % MSE vs the number of iterations.
 end
+hold off
+
+title(['MLP with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter), 'mu=', num2str(mu)]);
+dim = [.2 .5 .3 .3];
+annotation('textbox',dim,'String', {'green circle = \omega_1', 'black circle = \omega_2'},'FitBoxToText','on');
+
+
+%% H = 3; maxiter = 10000;
+p = 2;
+H = 3;
+m = 1;
+
+maxiter = 10000;
+mu = .75;
+alpha = 0;
+MSEmin = 1e-20;
+actfn1 = @(x) (1./(1+exp(-x)));
+actfn2 = @(x) (1./(1+exp(-x)));
+
+[Wx,Wy,MSE]=trainMLP(p,H,m,mu,alpha,x,y,actfn1,maxiter,MSEmin);
+
+figure();
+semilogy(MSE);
+title(['MSE for network with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter)]);
+xlabel('epoch'); ylabel('MSE');
+
+disp(['D = [' num2str(y) ']']);
+
+t = runMLP(x,Wx,Wy,actfn2);
+
+disp(['Y = [' num2str(t) ']']);
+
+figure();
+hold on
+scatter(x1(1,:),x1(2,:),'g.', 'LineWidth', 5);
+scatter(x2(1,:),x2(2,:),'k.', 'LineWidth', 5);
+
+for i=1:size(x,2)
+    if t(i) > 0.5
+        plot(x(1,i), x(2,i), 'go','MarkerSize',10, 'LineWidth', 2)
+    else
+        plot(x(1,i), x(2,i), 'ko','MarkerSize',10, 'LineWidth', 2)
+    end
+end
+hold off
+
+title(['MLP with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter)]);
+dim = [.2 .5 .3 .3];
+annotation('textbox',dim,'String', {'green circle = \omega_1', 'black circle = \omega_2'},'FitBoxToText','on');
+
+
+%% Problem 4.2
+
+M1 = [0 0];
+M2 = [1 1];
+M3 = [0 1];
+M4 = [1 0];
+
+S = [0.01 0; 0 0.01];
+N = 100;
+
+a1 = mvnrnd(M1, S, N);
+a2 = mvnrnd(M2, S, N);
+a3 = mvnrnd(M3, S, N);
+a4 = mvnrnd(M4, S, N);
+
+x1 = [a1' a2'];
+x2 = [a3' a4'];
+
+x = [x1 x2];
+
+y = [ones(1,N*2) ones(1,N*2)*0];
+
+%% maxiter = 10000; mu (learning param) = 0.2
+p = 2;
+H = 2;
+m = 1;
+
+maxiter = 10000;
+mu = .2;
+alpha = 0;
+MSEmin = 1e-20;
+actfn1 = @(x) (1./(1+exp(-x)));
+actfn2 = @(x) (1./(1+exp(-x)));
+
+[Wx,Wy,MSE]=trainMLP(p,H,m,mu,alpha,x,y,actfn1,maxiter,MSEmin);
+
+figure();
+semilogy(MSE);
+title(['MSE for network with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter)]);
+xlabel('epoch'); ylabel('MSE');
+
+disp(['D = [' num2str(y) ']']);
+
+t = runMLP(x,Wx,Wy,actfn2);
+
+disp(['Y = [' num2str(t) ']']);
+
+figure();
+hold on
+scatter(x1(1,:),x1(2,:),'g.', 'LineWidth', 5);
+scatter(x2(1,:),x2(2,:),'k.', 'LineWidth', 5);
+
+for i=1:size(x,2)
+    if t(i) > 0.5
+        plot(x(1,i), x(2,i), 'go','MarkerSize',10, 'LineWidth', 2)
+    else
+        plot(x(1,i), x(2,i), 'ko','MarkerSize',10, 'LineWidth', 2)
+    end
+end
+hold off
+
+title(['MLP with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter), 'mu=', num2str(mu)]);
+dim = [.2 .5 .3 .3];
+annotation('textbox',dim,'String', {'green circle = \omega_1', 'black circle = \omega_2'},'FitBoxToText','on');
+
+%% maxiter = 10000; mu (learning param) = 0.75
+p = 2;
+H = 2;
+m = 1;
+
+maxiter = 10000;
+mu = .75;
+alpha = 0;
+MSEmin = 1e-20;
+actfn1 = @(x) (1./(1+exp(-x)));
+actfn2 = @(x) (1./(1+exp(-x)));
+
+[Wx,Wy,MSE]=trainMLP(p,H,m,mu,alpha,x,y,actfn1,maxiter,MSEmin);
+
+figure();
+semilogy(MSE);
+title(['MSE for network with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter)]);
+xlabel('epoch'); ylabel('MSE');
+
+disp(['D = [' num2str(y) ']']);
+
+t = runMLP(x,Wx,Wy,actfn2);
+
+disp(['Y = [' num2str(t) ']']);
+
+figure();
+hold on
+scatter(x1(1,:),x1(2,:),'g.', 'LineWidth', 5);
+scatter(x2(1,:),x2(2,:),'k.', 'LineWidth', 5);
+
+for i=1:size(x,2)
+    if t(i) > 0.5
+        plot(x(1,i), x(2,i), 'go','MarkerSize',10, 'LineWidth', 2)
+    else
+        plot(x(1,i), x(2,i), 'ko','MarkerSize',10, 'LineWidth', 2)
+    end
+end
+hold off
+
+title(['MLP with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter), 'mu=', num2str(mu)]);
+dim = [.2 .5 .3 .3];
+annotation('textbox',dim,'String', {'green circle = \omega_1', 'black circle = \omega_2'},'FitBoxToText','on');
+
+
+%% Produce 50 more vectors, use calculated weights to classify.
+
+M1 = [0 0];
+M2 = [1 1];
+M3 = [0 1];
+M4 = [1 0];
+
+S = [0.01 0; 0 0.01];
+N = 50;
+
+a1 = mvnrnd(M1, S, N);
+a2 = mvnrnd(M2, S, N);
+a3 = mvnrnd(M3, S, N);
+a4 = mvnrnd(M4, S, N);
+
+x1 = [a1' a2'];
+x2 = [a3' a4'];
+
+x = [x1 x2];
+
+y = [ones(1,N*2) ones(1,N*2)*0];
+
+t = runMLP(x,Wx,Wy,actfn2);
+
+figure();
+hold on
+scatter(x1(1,:),x1(2,:),'g.', 'LineWidth', 5);
+scatter(x2(1,:),x2(2,:),'k.', 'LineWidth', 5);
+
+for i=1:size(x,2)
+    if t(i) > 0.5
+        plot(x(1,i), x(2,i), 'go','MarkerSize',10, 'LineWidth', 2)
+    else
+        plot(x(1,i), x(2,i), 'ko','MarkerSize',10, 'LineWidth', 2)
+    end
+end
+hold off
+
+title(['MLP with 1 hidden layer with ', num2str(H), ' hidden neurons; max iter=', num2str(maxiter), 'mu=', num2str(mu)]);
+dim = [.2 .5 .3 .3];
+annotation('textbox',dim,'String', {'green circle = \omega_1', 'black circle = \omega_2'},'FitBoxToText','on');
+

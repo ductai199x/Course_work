@@ -1,4 +1,4 @@
-function Y=runMLP(X,Wx,Wy)
+function Y=runMLP(X,Wx,Wy,actfn)
 % The matrix implementation of the two-layer Multilayer Perceptron (MLP) neural networks.
 %
 % Author: Marcelo Augusto Costa Fernandes
@@ -20,9 +20,11 @@ bias = -1;
 X = [bias*ones(1,N) ; X];
 
 V = Wx*X;
-Z = 1./(1+exp(-V));
+% Z = 1./(1+exp(-V));
+Z = actfn(V);
 
 S = [bias*ones(1,N);Z];
 G = Wy*S;
 
-Y = 1./(1+exp(-G));
+% Y = 1./(1+exp(-G));
+Y = actfn(G);
