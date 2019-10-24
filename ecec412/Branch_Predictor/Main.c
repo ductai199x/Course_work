@@ -52,10 +52,10 @@ int main(int argc, const char *argv[])
 
     BP_TABLE *gshare_table = malloc(sizeof(BP_TABLE));
     gshare_table->name = "gshare";
-    // unsigned gps_arr_gshare[] = {2048, 2048, 4096, 8192, 16384, 32768, 65536};
-    // unsigned gcb_arr_gshare[] = {1, 2, 2, 2, 2, 2, 2};
-    unsigned gps_arr_gshare[] = {2048};
+    unsigned gps_arr_gshare[] = {65536};
     unsigned gcb_arr_gshare[] = {2};
+    // unsigned gps_arr_gshare[] = {8192};
+    // unsigned gcb_arr_gshare[] = {2};
     gshare_table->row = sizeof(gps_arr_gshare)/sizeof(gps_arr_gshare[0]);
     gshare_table->global_predictor_size = gps_arr_gshare;
     gshare_table->global_counter_bits = gcb_arr_gshare;
@@ -72,16 +72,19 @@ int main(int argc, const char *argv[])
 
     BP_TABLE *perceptron_table = malloc(sizeof(BP_TABLE));
     perceptron_table->name = "perceptron";
-    uint64_t total_budget[] = {2*8*1024, 4*8*1024, 8*8*1024, 16*8*1024};
-    unsigned n_weights[] = {22, 28, 34, 36};
-    unsigned bits_in_weight[] = {8, 8, 8, 8};
+    // uint64_t total_budget[] = {2*1024, 4*1024, 8*1024, 16*1024, 32*1024, 64*1024, 128*1024, 256*1024, 512*1024};
+    // unsigned n_weights[] = {22, 28, 34, 36, 59, 59, 62, 62, 62};
+    // unsigned bits_in_weight[] = {8, 8, 8, 8, 8, 8, 8, 8, 8};
+    uint64_t total_budget[] = {16*1024, 256*1024, 512*1024};
+    unsigned n_weights[] = {36, 62, 62};
+    unsigned bits_in_weight[] = {8, 8, 8};
     perceptron_table->row = sizeof(total_budget)/sizeof(total_budget[0]);
     perceptron_table->total_budget = total_budget;
     perceptron_table->n_weights = n_weights;
     perceptron_table->bits_in_weight = bits_in_weight;
 
     // BP_TABLE *bp_tables[] = { twobitlocal_table, tournament_table, gshare_table, perceptron_table };
-    BP_TABLE *bp_tables[] = { gshare_table, perceptron_table };
+    BP_TABLE *bp_tables[] = { perceptron_table };
 
     int num_tables = (int)( sizeof(bp_tables) / sizeof(bp_tables[0]) );
 
@@ -108,7 +111,7 @@ int main(int argc, const char *argv[])
                 config.total_budget = bp_tables[t]->total_budget[r];
                 config.n_weights = bp_tables[t]->n_weights[r];
                 config.bits_in_weight = bp_tables[t]->bits_in_weight[r];
-                printf("%s, %lu, %u, %u, ", config.bp_type, config.total_budget/(8*1024), config.n_weights, config.bits_in_weight);
+                printf("%s, %lu, %u, %u, ", config.bp_type, config.total_budget/(1024), config.n_weights, config.bits_in_weight);
             }
             else {
                 return 1;
@@ -125,8 +128,8 @@ int main(int argc, const char *argv[])
             uint64_t num_of_correct_predictions = 0;
             uint64_t num_of_incorrect_predictions = 0;
 
-            while (getInstruction(cpu_trace) && num_of_instructions < 10000000)
-            // while (getInstruction(cpu_trace))
+            // while (getInstruction(cpu_trace) && num_of_instructions < 50000000)
+            while (getInstruction(cpu_trace))
             {
                 // We are only interested in BRANCH instruction
                 if (cpu_trace->cur_instr->instr_type == BRANCH)

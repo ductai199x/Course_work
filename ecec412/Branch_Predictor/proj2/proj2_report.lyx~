@@ -1,0 +1,350 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\topmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Project 2: Perceptron Branch Predictor
+\end_layout
+
+\begin_layout Author
+Tai Duc Nguyen - ECEC412
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Branch Prediction has been a serious research topic due to the importance
+ of improving softwares' runtime.
+ Various dynamic branch predictors had been proposed and brought amazing
+ results.
+ Common algorithms such as Bi-modal, Tournament and Gshare has been implemented
+ and evaluated in Project 1.
+ However, all of these predictors are very subceptible to 
+\shape italic
+alaising – 
+\shape default
+when two unrelated branches destructively interfere by using the same prediction
+ resources.
+ Hence, this project introduces a Perceptron branch predictor based on the
+ paper written by JimCnez and Lin: Dynamic Branch Prediction with Perceptrons
+ (ISBN: 0-7695-1019-1/IEEE), which uses the simplest perceptron neural network
+ of 1 input layer and 1 output layer.
+ The algorithm and pseudo-code are described in the next Section.
+\end_layout
+
+\begin_layout Section
+Algorithm of the Perceptron Branch Predictor
+\end_layout
+
+\begin_layout Standard
+The Perceptron Branch Predictor algorithm can be summed up with the following
+ block diagram:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename perc_predictor_diagram.png
+	lyxscale 50
+	scale 40
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And the pseudo-code for this algorithm can be summarized below:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=C,numbers=left,basicstyle={\sffamily},breaklines=true"
+inline false
+status collapsed
+
+\begin_layout Plain Layout
+
+Initialize Predictor:
+\end_layout
+
+\begin_layout Plain Layout
+
+	perc_size = (n_weights + 1)*(bits_in_weight)
+\end_layout
+
+\begin_layout Plain Layout
+
+	n_perc = buget/perc_size
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	for i=0 to n_perc-1
+\end_layout
+
+\begin_layout Plain Layout
+
+		perc_table[i].bias = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+		for j=0 to n_weights-1
+\end_layout
+
+\begin_layout Plain Layout
+
+			perc_table[i].weights[j] = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+		end for
+\end_layout
+
+\begin_layout Plain Layout
+
+	end for
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	GHR = 0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+//---------------------------------------------------------------//
+\end_layout
+
+\begin_layout Plain Layout
+
+Perceptron Training and Predicting:
+\end_layout
+
+\begin_layout Plain Layout
+
+	perc_idx = branch_addr % n_perc
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	y = calculate_y(perc_table[perc_idx], GHR)
+\end_layout
+
+\begin_layout Plain Layout
+
+	predict = y >= 0 ? 1 : 0
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (predict != outcome && abs(y) < training_limit) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		update_weights()
+\end_layout
+
+\begin_layout Plain Layout
+
+			for i=0 to n_weights-1
+\end_layout
+
+\begin_layout Plain Layout
+
+				if (weights in weight_limits) { //(prevent overflow)
+\end_layout
+
+\begin_layout Plain Layout
+
+					if (GHR[i] == outcome) {
+\end_layout
+
+\begin_layout Plain Layout
+
+						perc_table[perc_idx].weights[i] += 1
+\end_layout
+
+\begin_layout Plain Layout
+
+					} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+						perc_table[perc_idx].weights[i] -= 1
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			end for
+\end_layout
+
+\begin_layout Plain Layout
+
+		end update_weights()
+\end_layout
+
+\begin_layout Plain Layout
+
+		update_bias()
+\end_layout
+
+\begin_layout Plain Layout
+
+			if (perc_table[perc_idx].bias in weight_limits) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				perc_table[perc_idx].bias += (outcome ? 1 : -1)
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		end update_bias()
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	shift_GHR()
+\end_layout
+
+\begin_layout Plain Layout
+
+	return predict == outcome
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

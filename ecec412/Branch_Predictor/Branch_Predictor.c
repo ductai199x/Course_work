@@ -115,7 +115,6 @@ Branch_Predictor *initBranchPredictor(BP_Config *config)
 
         branch_predictor->n_weights = config->n_weights;
         branch_predictor->bits_in_weight = config->bits_in_weight;
-        // branch_predictor->global_history_mask = branch_predictor->to - 1;
 
         branch_predictor->global_history_reg = 0;
 
@@ -127,7 +126,6 @@ Branch_Predictor *initBranchPredictor(BP_Config *config)
         for (int i = 0; i < branch_predictor->n_perceptrons; i++) {
             branch_predictor->perc_table[i].weights = (int8_t *)malloc(sizeof(int8_t)*branch_predictor->n_weights);
             for (int j = 0; j < branch_predictor->n_weights; j++) {
-                // branch_predictor->perc_table[i].weights[j] = rand() % 3 - 1;
                 branch_predictor->perc_table[i].weights[j] = 0;
             }
         }
@@ -282,20 +280,17 @@ bool predict(Branch_Predictor *branch_predictor, Instruction *instr, BP_Config *
     }
 
     else if (!strcmp(config->bp_type, "perceptron")) {
-        // unsigned perceptron_idx = (branch_predictor->global_history_reg ^ branch_address) & branch_predictor->global_history_mask;
         unsigned perceptron_idx = branch_address % branch_predictor->n_perceptrons;
-
-        // printf("%d -- ", perceptron_idx); fflush(stdout);
 
         int y = getPercOutput(&(branch_predictor->perc_table[perceptron_idx]), branch_predictor->global_history_reg, branch_predictor->n_weights);
         
-        if (abs(y) < (branch_predictor->n_weights*1.93 + 14)) {
+        if (((y >= 0 ? 1 : 0) != instr->taken) && abs(y) < (branch_predictor->n_weights*1.93 + 14)) {
             updateWeights(&(branch_predictor->perc_table[perceptron_idx]), branch_predictor->global_history_reg, y, instr->taken, branch_predictor->n_weights);
         }
 
         branch_predictor->global_history_reg = branch_predictor->global_history_reg << 1 | instr->taken;
 
-        return (y > 0 ? 1 : 0) == instr->taken;
+        return (y >= 0 ? 1 : 0) == instr->taken;
     }
 }
 
@@ -316,7 +311,6 @@ inline bool getPrediction(Sat_Counter *sat_counter)
 inline void updateWeights(Perceptron *perc, unsigned ght, int y, int outcome, unsigned n_weights)
 {
 	if (perc->bias > MIN_WEIGHT && perc->bias < MAX_WEIGHT) {
-		// updating bias
 		perc->bias += (outcome ? 1 : -1);
 	}
    
