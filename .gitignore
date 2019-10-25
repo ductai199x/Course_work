@@ -6,3 +6,4 @@ sync_changes.txt
 .vscode*
 *.cpu_trace*
 *.exe*
+*~
