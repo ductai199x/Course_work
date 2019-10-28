@@ -1,0 +1,313 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>tdn47_hw5</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-10-28"><meta name="DC.source" content="tdn47_hw5.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Tai Duc Nguyen - ECEC 487 - 10/26/2019</a></li><li><a href="#2">Problem 4.6 Page 248</a></li><li><a href="#3">Use example code for plotting the support vectors from <a href="https://www.mathworks.com/help/stats/fitcsvm.html#bvdn8ei-1">https://www.mathworks.com/help/stats/fitcsvm.html#bvdn8ei-1</a></a></li><li><a href="#4">Decision Tree Exercise</a></li><li><a href="#5">Conclusions from previous Exercises</a></li><li><a href="#6">[Function] Using the data generation procedures from textbook CX 4.2 Page 244-245</a></li><li><a href="#7">[Function] Using the SVM Classifier from textbook CX 4.5 Page 247 with modifications</a></li></ul></div><h2 id="1">Tai Duc Nguyen - ECEC 487 - 10/26/2019</h2><pre class="codeinput">close <span class="string">all</span>; clear <span class="string">all</span>;
+</pre><h2 id="2">Problem 4.6 Page 248</h2><pre class="codeinput">m = [-5 5 5 -5; 5 -5 5 -5];
+s = 2;
+N = 100;
+
+randn(<span class="string">'seed'</span>,0);
+[x1, y1] = data_generator(m,s,N);
+
+randn(<span class="string">'seed'</span>,10);
+[x2, y2] = data_generator(m,s,N);
+
+tol = 0.001;
+
+C = [1 100 1000 1000];
+sigma = [0.5 1 2 4];
+</pre><h2 id="3">Use example code for plotting the support vectors from <a href="https://www.mathworks.com/help/stats/fitcsvm.html#bvdn8ei-1">https://www.mathworks.com/help/stats/fitcsvm.html#bvdn8ei-1</a></h2><pre class="codeinput">d = 0.02;
+[x1Grid,x2Grid] = meshgrid(min(x2(1,:)):d:max(x2(1,:)),<span class="keyword">...</span>
+    min(x2(2,:)):d:max(x2(2,:)));
+xGrid = [x1Grid(:),x2Grid(:)];
+
+<span class="keyword">for</span> i=1:length(C)
+    [svm,pe_tr,pe_te] = SVM_class(x1,y1,x2,y2,tol,C(i),sigma(i));
+
+    [~,scores1] = predict(svm,xGrid);
+    figure
+    hold <span class="string">on</span>
+    h(1:2) = gscatter(x2(1,:),x2(2,:),y2);
+    h(3) = plot(x2(1,svm.IsSupportVector),x2(2,svm.IsSupportVector),<span class="string">'ko'</span>,<span class="string">'MarkerSize'</span>,10);
+    <span class="comment">% Support vectors</span>
+    contour(x1Grid,x2Grid,reshape(scores1(:,2),size(x1Grid)),[0 0],<span class="string">'k'</span>);
+    title({[<span class="string">'error train='</span>,num2str(pe_tr),<span class="string">' error test='</span>,num2str(pe_te),<span class="keyword">...</span>
+        <span class="string">' num support vectors='</span>,num2str(length(svm.SupportVectors))],<span class="keyword">...</span>
+        [<span class="string">' C='</span>,num2str(C(i)),<span class="string">' sigma='</span>,num2str(sigma(i))]});
+    hold <span class="string">off</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="tdn47_hw5_01.png" alt=""> <img vspace="5" hspace="5" src="tdn47_hw5_02.png" alt=""> <img vspace="5" hspace="5" src="tdn47_hw5_03.png" alt=""> <img vspace="5" hspace="5" src="tdn47_hw5_04.png" alt=""> <h2 id="4">Decision Tree Exercise</h2><pre class="codeinput"><span class="comment">% This excercise will be completed with a larger dataset because the</span>
+<span class="comment">% prunning effect is not easy to be seen when the dataset is small.</span>
+
+randn(<span class="string">'seed'</span>,0);
+[x1, y1] = data_generator(m,s,N*1000);
+
+randn(<span class="string">'seed'</span>,10);
+[x2, y2] = data_generator(m,s,N*1000);
+
+
+maxSplit = 100;
+
+dectree = fitctree(x1',y1',<span class="string">'MaxNumSplits'</span>,maxSplit);
+train_res = predict(dectree,x1');
+pe_tr = sum(y1'~=train_res)/length(y1);
+
+L = max(dectree.PruneList);
+
+er = zeros(max(dectree.PruneList),1);
+
+test_res = predict(dectree,x2');
+pe_te = sum(y2'~=test_res)/length(y2);
+
+er(1) = pe_te;
+
+<span class="keyword">for</span> j=2:max(dectree.PruneList)
+    dectree = prune(dectree,<span class="string">'level'</span>,1);
+    test_res = predict(dectree,x2');
+    pe_te = sum(y2'~=test_res)/length(y2);
+    er(j) = pe_te;
+<span class="keyword">end</span>
+figure
+hold <span class="string">on</span>
+er_t = 0:1:L-1;
+plot(er_t,er)
+title({[<span class="string">'training error is: '</span>, num2str(pe_tr)],<span class="keyword">...</span>
+    [<span class="string">'Plot of test set error vs. pruning level'</span>]})
+xlabel(<span class="string">'Pruning Level'</span>);
+ylabel(<span class="string">'Test Set Error'</span>)
+[v,i] = min(er);
+plot(er_t(i),er(i),<span class="string">'ko'</span>,<span class="string">'MarkerSize'</span>,10);
+text(er_t(i),er(i),[<span class="string">'('</span> num2str(er_t(i)) <span class="string">',  '</span> num2str(er(i)) <span class="string">')'</span>])
+</pre><h2 id="5">Conclusions from previous Exercises</h2><p>The Support Vector Machine algorithm is evaluated with different number of C (box constraint) and sigma (kernel scale). It is apparent that increasing C will result in a lesser number of support vectors. The same relationship also applies for sigma.</p><pre class="codeinput"><span class="comment">% From the experiment above, the lowest error test of the SVM is 0.0025</span>
+<span class="comment">% with a dataset of 400 points.</span>
+<span class="comment">% However, the Decision Tree algorithm results in a much lower error rate</span>
+<span class="comment">% 0.00043 for a larger dataset of 400*1000=400,000 points.</span>
+<span class="comment">% With regards to the Decision Tree algorithm, the pruning level does have</span>
+<span class="comment">% an impact to the accuracy, however, dependent on the split-level and the</span>
+<span class="comment">% minimum leaf size after training because if the depth of the tree is</span>
+<span class="comment">% shallow, then removing leaves will remove necessary decisions. Hence, the</span>
+<span class="comment">% code above chose a large dataset and the maximum number of split is high</span>
+<span class="comment">% (100).</span>
+</pre><h2 id="6">[Function] Using the data generation procedures from textbook CX 4.2 Page 244-245</h2><pre class="codeinput"><span class="keyword">function</span> [x,y] = data_generator(m,s,N)
+    S = s*eye(2);
+    [l,c] = size(m);
+    x = []; <span class="comment">% Creating the training set</span>
+    <span class="keyword">for</span> i = 1:c
+        x = [x mvnrnd(m(:,i)',S,N)'];
+    <span class="keyword">end</span>
+    y=[ones(1,N) ones(1,N) -ones(1,N) -ones(1,N)];
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="tdn47_hw5_05.png" alt=""> <h2 id="7">[Function] Using the SVM Classifier from textbook CX 4.5 Page 247 with modifications</h2><pre class="codeinput"><span class="keyword">function</span> [svm,pe_tr,pe_te] = SVM_class(X1,y1,X2,y2,tol,C,sigma)
+    svm = fitcsvm(X1', y1',<span class="string">'KernelFunction'</span>,<span class="string">'rbf'</span>,<span class="keyword">...</span>
+    <span class="string">'KernelScale'</span>,sigma,<span class="string">'BoxConstraint'</span>,C,<span class="keyword">...</span>
+    <span class="string">'Solver'</span>,<span class="string">'SMO'</span>,<span class="string">'KKTTolerance'</span>,tol,<span class="keyword">...</span>
+    <span class="string">'IterationLimit'</span>,20000,<span class="string">'CacheSize'</span>,10000);
+
+    <span class="comment">%Computation of the error probability</span>
+    train_res = predict(svm,X1');
+    pe_tr = sum(y1'~=train_res)/length(y1);
+    test_res = predict(svm,X2');
+    pe_te = sum(y2'~=test_res)/length(y2);
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Tai Duc Nguyen - ECEC 487 - 10/26/2019
+
+close all; clear all;
+
+
+%% Problem 4.6 Page 248
+
+m = [-5 5 5 -5; 5 -5 5 -5];
+s = 2;
+N = 100;
+
+randn('seed',0);
+[x1, y1] = data_generator(m,s,N);
+
+randn('seed',10);
+[x2, y2] = data_generator(m,s,N);
+
+tol = 0.001;
+
+C = [1 100 1000 1000];
+sigma = [0.5 1 2 4];
+
+%% Use example code for plotting the support vectors from https://www.mathworks.com/help/stats/fitcsvm.html#bvdn8ei-1
+d = 0.02;
+[x1Grid,x2Grid] = meshgrid(min(x2(1,:)):d:max(x2(1,:)),...
+    min(x2(2,:)):d:max(x2(2,:)));
+xGrid = [x1Grid(:),x2Grid(:)];
+
+for i=1:length(C)
+    [svm,pe_tr,pe_te] = SVM_class(x1,y1,x2,y2,tol,C(i),sigma(i));
+    
+    [~,scores1] = predict(svm,xGrid);
+    figure
+    hold on
+    h(1:2) = gscatter(x2(1,:),x2(2,:),y2);
+    h(3) = plot(x2(1,svm.IsSupportVector),x2(2,svm.IsSupportVector),'ko','MarkerSize',10);
+    % Support vectors
+    contour(x1Grid,x2Grid,reshape(scores1(:,2),size(x1Grid)),[0 0],'k');
+    title({['error train=',num2str(pe_tr),' error test=',num2str(pe_te),...
+        ' num support vectors=',num2str(length(svm.SupportVectors))],...
+        [' C=',num2str(C(i)),' sigma=',num2str(sigma(i))]});
+    hold off
+end
+
+%% Decision Tree Exercise
+
+% This excercise will be completed with a larger dataset because the
+% prunning effect is not easy to be seen when the dataset is small.
+
+randn('seed',0);
+[x1, y1] = data_generator(m,s,N*1000);
+
+randn('seed',10);
+[x2, y2] = data_generator(m,s,N*1000);
+
+
+maxSplit = 100;
+
+dectree = fitctree(x1',y1','MaxNumSplits',maxSplit);
+train_res = predict(dectree,x1');
+pe_tr = sum(y1'~=train_res)/length(y1);
+
+L = max(dectree.PruneList);
+
+er = zeros(max(dectree.PruneList),1);
+
+test_res = predict(dectree,x2');
+pe_te = sum(y2'~=test_res)/length(y2);
+
+er(1) = pe_te;
+
+for j=2:max(dectree.PruneList)
+    dectree = prune(dectree,'level',1);
+    test_res = predict(dectree,x2');
+    pe_te = sum(y2'~=test_res)/length(y2);
+    er(j) = pe_te;
+end
+figure
+hold on
+er_t = 0:1:L-1;
+plot(er_t,er)
+title({['training error is: ', num2str(pe_tr)],...
+    ['Plot of test set error vs. pruning level']})
+xlabel('Pruning Level');
+ylabel('Test Set Error')
+[v,i] = min(er);
+plot(er_t(i),er(i),'ko','MarkerSize',10);
+text(er_t(i),er(i),['(' num2str(er_t(i)) ',  ' num2str(er(i)) ')'])
+
+
+%% Conclusions from previous Exercises
+% The Support Vector Machine algorithm is evaluated with different number
+% of C (box constraint) and sigma (kernel scale). It is apparent that
+% increasing C will result in a lesser number of support vectors. The same
+% relationship also applies for sigma. 
+
+% From the experiment above, the lowest error test of the SVM is 0.0025
+% with a dataset of 400 points.
+% However, the Decision Tree algorithm results in a much lower error rate
+% 0.00043 for a larger dataset of 400*1000=400,000 points.
+% With regards to the Decision Tree algorithm, the pruning level does have
+% an impact to the accuracy, however, dependent on the split-level and the
+% minimum leaf size after training because if the depth of the tree is
+% shallow, then removing leaves will remove necessary decisions. Hence, the
+% code above chose a large dataset and the maximum number of split is high
+% (100).
+
+%% [Function] Using the data generation procedures from textbook CX 4.2 Page 244-245
+function [x,y] = data_generator(m,s,N)
+    S = s*eye(2);
+    [l,c] = size(m);
+    x = []; % Creating the training set
+    for i = 1:c
+        x = [x mvnrnd(m(:,i)',S,N)'];
+    end
+    y=[ones(1,N) ones(1,N) -ones(1,N) -ones(1,N)];
+end
+
+
+%% [Function] Using the SVM Classifier from textbook CX 4.5 Page 247 with modifications
+function [svm,pe_tr,pe_te] = SVM_class(X1,y1,X2,y2,tol,C,sigma)
+    svm = fitcsvm(X1', y1','KernelFunction','rbf',...
+    'KernelScale',sigma,'BoxConstraint',C,...
+    'Solver','SMO','KKTTolerance',tol,...
+    'IterationLimit',20000,'CacheSize',10000);
+    
+    %Computation of the error probability
+    train_res = predict(svm,X1');
+    pe_tr = sum(y1'~=train_res)/length(y1);
+    test_res = predict(svm,X2');
+    pe_te = sum(y2'~=test_res)/length(y2);
+end
+
+##### SOURCE END #####
+--></body></html>

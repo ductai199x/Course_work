@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tai Duc Nguyen - ECEC 487 - 10/26/2019</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h2 id="tai-duc-nguyen---ecec-487---10262019">Tai Duc Nguyen - ECEC 487 - 10/26/2019</h2>
+<ul>
+<li><a href="#homework-part-0">Homework Part 0</a>
+<ul>
+<li><a href="#a-what-accuracy-do-you-obtain">a. What accuracy do you obtain?</a></li>
+<li><a href="#compare-the-accuracy-of-your-solution-with-the-example-solution-if-they-differ-explain-why-if-they-are-the-same-explain-why">Compare the accuracy of your solution with the example solution. If they differ, explain why. If they are the same, explain why</a></li>
+<li><a href="#show-the-digits-at-the-beginning-of-the-demo-is-an-excellent-visualization-to-confirm-the-inputs-are-correct-what-would-be-a-good-visualization-to-validate-the-classification-results">Show the digits at the beginning of the demo is an excellent visualization to confirm the inputs are correct. What would be a good visualization to validate the classification results?</a></li>
+<li><a href="#extra-credit-implement-your-visualization-suggestion">Extra credit: implement your visualization suggestion</a></li>
+</ul>
+</li>
+<li><a href="#homework-part-1-next-page">Homework Part 1 (Next Page)</a></li>
+</ul>
+<h1 id="homework-part-0">Homework Part 0</h1>
+<h2 id="a-what-accuracy-do-you-obtain">a. What accuracy do you obtain?</h2>
+<p>Attempt 1: 98.80%</p>
+<p>Attempt 2: 98.96%</p>
+<p>Attempt 3: 99.00%</p>
+<p>Attempt 4: 98.72%</p>
+<p>Attempt 5: 98.92%</p>
+<h2 id="compare-the-accuracy-of-your-solution-with-the-example-solution-if-they-differ-explain-why-if-they-are-the-same-explain-why">Compare the accuracy of your solution with the example solution. If they differ, explain why. If they are the same, explain why</h2>
+<p>The accuracies obtained from my solution is different from that of the example solution (98.72%). These small differences are due to the randomized initial weights and biases at each neuron. Although the sensitivity of the network can tolerate different initializations through the <strong>Batch Normalization Layer</strong>, the network's outputs are still subjected to its initial conditions.</p>
+<h2 id="show-the-digits-at-the-beginning-of-the-demo-is-an-excellent-visualization-to-confirm-the-inputs-are-correct-what-would-be-a-good-visualization-to-validate-the-classification-results">Show the digits at the beginning of the demo is an excellent visualization to confirm the inputs are correct. What would be a good visualization to validate the classification results?</h2>
+<p>A good visualization to validate the classification results can be made from a collage of:</p>
+<pre><code>- For each digits (0...10)
+    - Wrong classifications and their original images
+    - One correct classification and its original image
+</code></pre>
+<h2 id="extra-credit-implement-your-visualization-suggestion">Extra credit: implement your visualization suggestion</h2>
+<pre><code><div>WrongPred = YPred ~= YValidation;
+WrongPredCatg = YPred(WrongPred);
+
+WrongImg = find(WrongPred == 1);
+
+figure;
+sgtitle('20 Incorrect Classifications')
+for i = 1:20
+    subplot(4,5,i);
+    imshow(imdsValidation.Files{WrongImg(i)});
+    title(['Classified: ', WrongPredCatg(i)])
+end
+</div></code></pre>
+<p><img src="file:////home/sweet/2-coursework/ecec487/hw5/20_incorrect_class.png" alt="20_incorrect"></p>
+<pre><code><div>CorrectPred = YPred == YValidation;
+CorrectPredCatg = YPred(CorrectPred);
+idx=randperm(length(CorrectPredCatg));
+
+CorrectImg = find(CorrectPred == 1);
+
+figure;
+sgtitle('20 Correct Classifications')
+for i = 1:20
+    subplot(4,5,i);
+    imshow(imdsValidation.Files{CorrectImg(idx(i))});
+    title(['Classified: ', CorrectPredCatg(idx(i))])
+end
+</div></code></pre>
+<p><img src="file:////home/sweet/2-coursework/ecec487/hw5/20_correct_class.png" alt="20_correct"></p>
+<h1 id="homework-part-1-next-page">Homework Part 1 (Next Page)</h1>
+
+    </body>
+    </html>
