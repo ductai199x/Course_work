@@ -98,15 +98,15 @@ $$t_{a=0->1,b=0->1} = 12.05000-12.00248 = 0.04752 ns$$
 
 Therefore, the modified top level schematic is:
 
-![Figure 5d: NAND ggate modified top level schematic](nand_top_schematic_mod.png)
+![Figure 5d: NAND gate modified top level schematic](nand_top_schematic_mod.png)
 
 With regards to the NOR gate, a parametric analysis is conducted (Figure 6a), performing the DC plot on different values of the PMOS's widths, from 90nm to 300nm. The result is that: when the PMOS's width is at approximately 156nm, then the switching potential is 0.6V. Due to software constraint (Rule Grid.1-6), the chosen PMOS width is 155nm.
 
 ![Figure 6a: NOR gate parametric analysis](nor_dc_sweep.png)
 
-The parametric analysis for the NAND gate cannot be conducted if the NMOS width is not increased since there won't be any PMOS width (> 90nm) that produce the switching potential of 0.6V. Therefore, when the NMOS width is chosen to be 200nm, the PMOS width of 90nm results in a symmetric device (Figure 6b).
+The parametric analysis for the NAND gate cannot be conducted if the NMOS width is not increased since there won't be any PMOS width (> 145nm) that produce the switching potential of 0.6V. Therefore, the PMOS width is chosen to be 145nm -- from that of an inverter to create the same drive and the parametric analyis will be ran from 145nm to 400nm for the width of the NMOS (Figure 6b).
 
-![Figure 6a: NAND gate parametric analysis](nand_dc_sweep.png)
+![Figure 6b: NAND gate parametric analysis](nand_dc_sweep.png)
 
 After the parametric analysis is conducted and resulting widths for the NMOS and PMOS components of each gate are decided, the final schematics of the NOR and NAND gate are (Figure 7a, 7b):
 
@@ -117,9 +117,10 @@ After the parametric analysis is conducted and resulting widths for the NMOS and
 Finally, the design can be concluded with an analysis of the rise/fall time of both devices (Figure 8a, 8b):
 $$t_{r NOR} = 13.09148-13.01852 = 0.07296$$
 $$t_{f NOR} = 14.07627-14.00903 = 0.06724$$
-$$t_{r NAND} = 7.05552-7.01354 = 0.04198$$
-$$t_{f NAND} = 8.05000-8.00848 = 0.04152$$
+$$t_{r NAND} = 19.03837-19.01227 = 0.0261$$
+$$t_{f NAND} = 20.03327-20.00712 = 0.02615$$
 It is apparent that $t_{r NOR} \neq t_{f NOR}$, this is because of the design constraint of the software. It is not possible to have a width of 156.31nm; 155nm is chosen instead.
+
 
 ![Figure 8a: NOR gate final rise and fall time](nor_transient_final_w_delays.png)
 
@@ -165,8 +166,8 @@ $$t_{pd NAND} = 0.04752$$
 
 $$t_{r NOR} = 13.09148-13.01852 = 0.07296$$
 $$t_{f NOR} = 14.07627-14.00903 = 0.06724$$
-$$t_{r NAND} = 7.05552-7.01354 = 0.04198$$
-$$t_{f NAND} = 8.05000-8.00848 = 0.04152$$
+$$t_{r NAND} = 19.03837-19.01227 = 0.0261$$
+$$t_{f NAND} = 20.03327-20.00712 = 0.02615$$
 
 The rise time and fall time for the NAND gate does not equal `exactly` because the level of voltage captured at these measurements are different (due to the difficulty in obtaining `exact` measurement in the software used), but they are very close and could be considered as `equal`. However, as stated above, the rise time and fall time for the NOR gate are different due to the fact that the software cannot handle an input of 156nm (a restriction of the Rule.Grid.1-6 of the FreePDK45 processing design kit). Hence, a input of 155nm is used, which result in a difference shown above.
 
