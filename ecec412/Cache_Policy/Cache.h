@@ -8,6 +8,7 @@
 
 #include <math.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "Cache_Blk.h"
 #include "Request.h"
@@ -19,6 +20,16 @@ typedef struct Set
 {
     Cache_Block **ways; // Block ways within a set
 }Set;
+
+typedef struct Cache_Config
+{
+    unsigned block_size; // Size of a cache line (in Bytes)
+    unsigned cache_size; // Size of a cache (in KB)
+    unsigned assoc;
+
+    char* replacement_policy;
+}Cache_Config;
+
 
 typedef struct Cache
 {
@@ -40,9 +51,9 @@ typedef struct Cache
 }Cache;
 
 // Function Definitions
-Cache *initCache();
+Cache *initCache(Cache_Config* config);
 bool accessBlock(Cache *cache, Request *req, uint64_t access_time);
-bool insertBlock(Cache *cache, Request *req, uint64_t access_time, uint64_t *wb_addr);
+bool insertBlock(Cache *cache, Request *req, Cache_Config *config, uint64_t access_time, uint64_t *wb_addr);
 
 // Helper Function
 uint64_t blkAlign(uint64_t addr, uint64_t mask);
@@ -50,5 +61,6 @@ Cache_Block *findBlock(Cache *cache, uint64_t addr);
 
 // Replacement Policies
 bool lru(Cache *cache, uint64_t addr, Cache_Block **victim_blk, uint64_t *wb_addr);
+bool lfu(Cache *cache, uint64_t addr, Cache_Block **victim_blk, uint64_t *wb_addr);
 
 #endif
