@@ -35,9 +35,14 @@ int main(int argc, const char *argv[])
 
     Cache_Table *LRU_table = malloc(sizeof(Cache_Table));
     LRU_table->name = "lru";
-    unsigned block_size_lru[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
-    unsigned cache_size_lru[] = {128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048};
-    unsigned assoc_lru[] = {1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8};
+    // unsigned block_size_lru[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
+    // unsigned cache_size_lru[] = {128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048};
+    // unsigned assoc_lru[] = {1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8};
+
+    unsigned block_size_lru[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
+    unsigned cache_size_lru[] = {4, 8, 16, 32, 64, 4, 8, 16, 32, 64, 4, 8, 16, 32, 64};
+    unsigned assoc_lru[] = {2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8};
+
     LRU_table->row = sizeof(block_size_lru)/sizeof(block_size_lru[0]);
     LRU_table->block_size = block_size_lru;
     LRU_table->cache_size = cache_size_lru;
@@ -53,7 +58,8 @@ int main(int argc, const char *argv[])
     LFU_table->cache_size = cache_size_lfu;
     LFU_table->assoc = assoc_lfu;
 
-    Cache_Table *cache_tables[] = { LRU_table, LFU_table };
+    Cache_Table *cache_tables[] = { LRU_table };
+    // Cache_Table *cache_tables[] = { LRU_table, LFU_table };
 
     int num_tables = (int)( sizeof(cache_tables) / sizeof(cache_tables[0]) );
 
@@ -88,10 +94,11 @@ int main(int argc, const char *argv[])
             uint64_t hits = 0;
             uint64_t misses = 0;
             uint64_t num_evicts = 0;
-
+            uint64_t signature = 0;
             uint64_t cycles = 0;
             while (getRequest(mem_trace))
             {
+                if (cycles > 25000000) break;
                 // Step one, accessBlock()
                 if (accessBlock(cache, mem_trace->cur_req, cycles))
                 {
@@ -108,7 +115,6 @@ int main(int argc, const char *argv[])
                     if (insertBlock(cache, mem_trace->cur_req, &config, cycles, &wb_addr))
                     {
                         num_evicts++;
-        //                printf("Evicted: %"PRIu64"\n", wb_addr);
                     }
                 }
 

@@ -21,6 +21,12 @@ typedef struct Set
     Cache_Block **ways; // Block ways within a set
 }Set;
 
+typedef struct Sat_Counter
+{
+    uint8_t max_val;
+    uint8_t counter;
+}Sat_Counter;
+
 typedef struct Cache_Config
 {
     unsigned block_size; // Size of a cache line (in Bytes)
@@ -37,6 +43,9 @@ typedef struct Cache
     unsigned num_blocks;
     
     Cache_Block *blocks; // All cache blocks
+
+    Sat_Counter *SHCT;  //  Signature Hit Counter Table
+    uint64_t SHCT_mask;
 
     /* Set-Associative Information */
     unsigned num_sets; // Number of sets
@@ -57,7 +66,10 @@ bool insertBlock(Cache *cache, Request *req, Cache_Config *config, uint64_t acce
 
 // Helper Function
 uint64_t blkAlign(uint64_t addr, uint64_t mask);
+uint64_t calculatePCSignature(Cache_Block *blk, uint64_t mask);
 Cache_Block *findBlock(Cache *cache, uint64_t addr);
+void incrementSHCT(Cache_Block *blk, Cache *cache);
+void decrementSHCT(Cache_Block *blk, Cache *cache);
 
 // Replacement Policies
 bool lru(Cache *cache, uint64_t addr, Cache_Block **victim_blk, uint64_t *wb_addr);
