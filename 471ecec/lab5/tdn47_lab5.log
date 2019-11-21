@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.25)  18 NOV 2019 18:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.25)  19 NOV 2019 15:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -683,67 +683,94 @@ File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+<inv_chain_3_schematic.png, id=14, 1563.8425pt x 718.685pt>
+File: inv_chain_3_schematic.png Graphic file (type png)
+<use inv_chain_3_schematic.png>
+Package pdftex.def Info: inv_chain_3_schematic.png  used on input line 104.
+(pdftex.def)             Requested size: 500.484pt x 230.00583pt.
+<inv_chain_3_schematic_sim.png, id=15, 1329.96875pt x 786.94pt>
+File: inv_chain_3_schematic_sim.png Graphic file (type png)
+<use inv_chain_3_schematic_sim.png>
+Package pdftex.def Info: inv_chain_3_schematic_sim.png  used on input line 114.
 
-LaTeX Warning: Reference `fig1' on page 2 undefined on input line 99.
-
-
-LaTeX Warning: Reference `fig2' on page 2 undefined on input line 103.
-
-
-LaTeX Warning: Reference `fig3' on page 2 undefined on input line 103.
-
-
-LaTeX Warning: Reference `fig3' on page 2 undefined on input line 109.
-
-
-LaTeX Warning: Reference `fig4' on page 2 undefined on input line 124.
-
-[2]
-
-LaTeX Warning: Reference `fig5a' on page 3 undefined on input line 128.
-
-
-LaTeX Warning: Reference `fig5b' on page 3 undefined on input line 128.
-
-
-LaTeX Warning: Reference `fig6' on page 3 undefined on input line 138.
-
-
-LaTeX Warning: Reference `fig7' on page 3 undefined on input line 142.
-
-
-LaTeX Warning: Reference `fig8' on page 3 undefined on input line 167.
-
-
-LaTeX Warning: Reference `fig9' on page 3 undefined on input line 171.
-
-[3] [4] (./tdn47_lab5.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+(pdftex.def)             Requested size: 500.484pt x 296.13443pt.
+ [2]
+<inv_chain_3_prop_delay.png, id=20, 1845.89626pt x 830.10126pt>
+File: inv_chain_3_prop_delay.png Graphic file (type png)
+<use inv_chain_3_prop_delay.png>
+Package pdftex.def Info: inv_chain_3_prop_delay.png  used on input line 123.
+(pdftex.def)             Requested size: 500.484pt x 225.06764pt.
+ [3 <./inv_chain_3_schematic.png> <./inv_chain_3_schematic_sim.png>]
+<inv_chain_3_layout.png, id=25, 863.225pt x 770.88pt>
+File: inv_chain_3_layout.png Graphic file (type png)
+<use inv_chain_3_layout.png>
+Package pdftex.def Info: inv_chain_3_layout.png  used on input line 148.
+(pdftex.def)             Requested size: 350.33727pt x 312.85164pt.
+ [4 <./inv_chain_3_prop_delay.png>]
+<inv_chain_3_drc.png, id=29, 1864.9675pt x 1053.9375pt>
+File: inv_chain_3_drc.png Graphic file (type png)
+<use inv_chain_3_drc.png>
+Package pdftex.def Info: inv_chain_3_drc.png  used on input line 161.
+(pdftex.def)             Requested size: 240.23016pt x 135.74622pt.
+<inv_chain_3_lvs.png, id=30, 1863.96375pt x 1054.94125pt>
+File: inv_chain_3_lvs.png Graphic file (type png)
+<use inv_chain_3_lvs.png>
+Package pdftex.def Info: inv_chain_3_lvs.png  used on input line 167.
+(pdftex.def)             Requested size: 240.23016pt x 135.956pt.
+<inv_chain_3_calibre_view.png, id=31, 537.00626pt x 838.13126pt>
+File: inv_chain_3_calibre_view.png Graphic file (type png)
+<use inv_chain_3_calibre_view.png>
+Package pdftex.def Info: inv_chain_3_calibre_view.png  used on input line 185.
+(pdftex.def)             Requested size: 175.17244pt x 273.39975pt.
+ [5 <./inv_chain_3_layout.png> <./inv_chain_3_drc.png> <./inv_chain_3_lvs.png>]
+<inv_chain_3_calibre_prop_delay.png, id=35, 1846.9pt x 831.105pt>
+File: inv_chain_3_calibre_prop_delay.png Graphic file (type png)
+<use inv_chain_3_calibre_prop_delay.png>
+Package pdftex.def Info: inv_chain_3_calibre_prop_delay.png  used on input line
+ 195.
+(pdftex.def)             Requested size: 425.41444pt x 191.42912pt.
+ [6 <./inv_chain_3_calibre_view.png> <./inv_chain_3_calibre_prop_delay.png>]
+<ring_osc_schematic.png, id=39, 1669.23625pt x 831.105pt>
+File: ring_osc_schematic.png Graphic file (type png)
+<use ring_osc_schematic.png>
+Package pdftex.def Info: ring_osc_schematic.png  used on input line 228.
+(pdftex.def)             Requested size: 350.33727pt x 174.42307pt.
+<ring_osc_clock_period.png, id=40, 1847.90375pt x 835.12pt>
+File: ring_osc_clock_period.png Graphic file (type png)
+<use ring_osc_clock_period.png>
+Package pdftex.def Info: ring_osc_clock_period.png  used on input line 238.
+(pdftex.def)             Requested size: 375.36299pt x 169.63333pt.
+ [7 <./ring_osc_schematic.png>]
+<ring_osc_inv_delay.png, id=46, 1845.89626pt x 833.1125pt>
+File: ring_osc_inv_delay.png Graphic file (type png)
+<use ring_osc_inv_delay.png>
+Package pdftex.def Info: ring_osc_inv_delay.png  used on input line 263.
+(pdftex.def)             Requested size: 375.36299pt x 169.40353pt.
+ [8 <./ring_osc_clock_period.png> <./ring_osc_inv_delay.png>]
+(./tdn47_lab5.aux) ) 
 Here is how much of TeX's memory you used:
- 4627 strings out of 494847
- 65829 string characters out of 6179079
- 133395 words of memory out of 5000000
- 7878 multiletter control sequences out of 15000+600000
- 10871 words of font info for 40 fonts, out of 8000000 for 9000
+ 4698 strings out of 494847
+ 67626 string characters out of 6179079
+ 132502 words of memory out of 5000000
+ 7936 multiletter control sequences out of 15000+600000
+ 11170 words of font info for 41 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 42i,7n,43p,791b,197s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmsy8.pfb>
-Output written on tdn47_lab5.pdf (4 pages, 129048 bytes).
+ 42i,7n,43p,791b,461s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
+x12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmsy8.pfb>
+Output written on tdn47_lab5.pdf (8 pages, 499191 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
+ 86 PDF objects out of 1000 (max. 8388607)
+ 53 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
