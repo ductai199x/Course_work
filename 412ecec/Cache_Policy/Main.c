@@ -35,13 +35,13 @@ int main(int argc, const char *argv[])
 
     Cache_Table *LRU_table = malloc(sizeof(Cache_Table));
     LRU_table->name = "lru";
-    // unsigned block_size_lru[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
-    // unsigned cache_size_lru[] = {128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048, 128, 256, 512, 1024, 2048};
-    // unsigned assoc_lru[] = {1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8};
-
     unsigned block_size_lru[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
-    unsigned cache_size_lru[] = {4, 8, 16, 32, 64, 4, 8, 16, 32, 64, 4, 8, 16, 32, 64};
+    unsigned cache_size_lru[] = {256, 512, 1024, 2048, 4096, 256, 512, 1024, 2048, 4096, 256, 512, 1024, 2048, 4096};
     unsigned assoc_lru[] = {2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8};
+
+    // unsigned block_size_lru[] = {64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64};
+    // unsigned cache_size_lru[] = {8, 16, 32, 64, 128, 8, 16, 32, 64, 128, 8, 16, 32, 64, 128};
+    // unsigned assoc_lru[] = {2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 8, 8, 8, 8, 8};
 
     LRU_table->row = sizeof(block_size_lru)/sizeof(block_size_lru[0]);
     LRU_table->block_size = block_size_lru;
@@ -98,7 +98,7 @@ int main(int argc, const char *argv[])
             uint64_t cycles = 0;
             while (getRequest(mem_trace))
             {
-                if (cycles > 25000000) break;
+                // if (cycles > 25000000) break;
                 // Step one, accessBlock()
                 if (accessBlock(cache, mem_trace->cur_req, cycles))
                 {

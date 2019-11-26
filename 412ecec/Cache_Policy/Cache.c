@@ -167,16 +167,16 @@ bool lru(Cache *cache, uint64_t addr, Cache_Block **victim_blk, uint64_t *wb_add
     uint64_t victim_shct = cache->SHCT[victim->signature].counter;
     for (i = 1; i < cache->num_ways; i++)
     {
-        // if (cache->SHCT[ways[i]->signature].counter < victim_shct) {
-        //     victim = ways[i];
-        //     victim_shct = cache->SHCT[ways[i]->signature].counter;
-        //     continue;
-        // }
-        // if (cache->SHCT[ways[i]->signature].counter == victim_shct) {
+        if (cache->SHCT[ways[i]->signature].counter < victim_shct) {
+            victim = ways[i];
+            victim_shct = cache->SHCT[ways[i]->signature].counter;
+            continue;
+        }
+        if (cache->SHCT[ways[i]->signature].counter == victim_shct) {
             if (ways[i]->when_touched < victim->when_touched) {
                 victim = ways[i];
             }
-        // }
+        }
     }
 
     if (victim->outcome == false) {
@@ -185,7 +185,6 @@ bool lru(Cache *cache, uint64_t addr, Cache_Block **victim_blk, uint64_t *wb_add
 
     // Step three, need to write-back the victim block
     *wb_addr = (victim->tag << cache->tag_shift) | (victim->set << cache->set_shift);
-//    printf("Evicted: %"PRIu64"\n", wb_addr);
 
     // Step three, invalidate victim
     victim->tag = UINTMAX_MAX;
@@ -214,7 +213,7 @@ uint64_t calculatePCSignature(Cache_Block *blk, uint64_t mask)
     // MASK & ((PC << 5) + ((accessType == ACCESS_PREFETCH) << 4) + ((accessType == ACCESS_WRITEBACK) << 3) + ((accessType == ACCESS_IFETCH) << 2) + ((accessType == ACCESS_LOAD) << 1)  + ((accessType == ACCESS_STORE) << 0)); 
     
     return mask & (blk->PC ^ blk->tag);
-    // return blk->PC >> 
+    // return mask & blk->PC;
 }
 
 Cache_Block *findBlock(Cache *cache, uint64_t addr)
@@ -275,18 +274,27 @@ bool lfu(Cache *cache, uint64_t addr, Cache_Block **victim_blk, uint64_t *wb_add
 
     // Step two, if there is no invalid block. Locate the LFU block
     Cache_Block *victim = ways[0];
+    uint64_t victim_shct = cache->SHCT[victim->signature].counter;
     for (i = 1; i < cache->num_ways; i++)
     {
-        if (ways[i]->frequency < victim->frequency)
-        {
+        if (cache->SHCT[ways[i]->signature].counter < victim_shct) {
             victim = ways[i];
+            victim_shct = cache->SHCT[ways[i]->signature].counter;
+            continue;
         }
+        if (cache->SHCT[ways[i]->signature].counter == victim_shct) {
+            if (ways[i]->frequency < victim->frequency) {
+                victim = ways[i];
+            }
+        }
+    }
+
+    if (victim->outcome == false) {
+        decrementSHCT(victim, cache);
     }
 
     // Step three, need to write-back the victim block
     *wb_addr = (victim->tag << cache->tag_shift) | (victim->set << cache->set_shift);
-//    uint64_t ori_addr = (victim->tag << cache->tag_shift) | (victim->set << cache->set_shift);
-//    printf("Evicted: %"PRIu64"\n", ori_addr);
 
     // Step three, invalidate victim
     victim->tag = UINTMAX_MAX;
@@ -294,6 +302,10 @@ bool lfu(Cache *cache, uint64_t addr, Cache_Block **victim_blk, uint64_t *wb_add
     victim->dirty = false;
     victim->frequency = 0;
     victim->when_touched = 0;
+
+    victim->outcome = false;
+    victim->signature = 0;
+    victim->PC = 0;
 
     *victim_blk = victim;
 
