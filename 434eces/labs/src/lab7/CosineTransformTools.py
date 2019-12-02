@@ -796,11 +796,11 @@ def mdct(audio_signal, window_function):
     window_length = len(window_function)
 
     # Number of time frames
-#     number_times = int(np.ceil(2 * number_samples / window_length) + 1)
-    if number_samples == window_length:
-        number_times = 1
-    else:
-        number_times = int(np.ceil(2 * number_samples / window_length))
+    number_times = int(np.ceil(2 * number_samples / window_length) + 1)
+#     if number_samples == window_length:
+#         number_times = 1
+#     else:
+#         number_times = int(np.ceil(2 * number_samples / window_length))
 
     # Pre and post zero-padding of the signal
 #     pre_pad = (window_length*3/2 - number_samples%window_length) // 2;
