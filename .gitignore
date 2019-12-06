@@ -8,3 +8,8 @@ sync_changes.txt
 *.mem_trace*
 *.exe*
 *~
+*.pyc
+
+*ipynb_checkpoints*
+434eces/labs/src/lab7/2_libertybell.wav
+434eces/labs/src/lab7/clip*.wav
