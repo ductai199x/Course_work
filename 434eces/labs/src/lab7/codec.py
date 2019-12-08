@@ -27,6 +27,7 @@ class EncodedSignal(object):
     def __init__(self):
         self.data = None
         self.bit_allocation_table = None
+        self.num_blocks = 0
     
 npoints = 1152
 nbands = 32
@@ -34,25 +35,13 @@ window_length = 64
 window_function = np.sin(np.pi / 2 * \
                        np.power(np.sin(np.pi / window_length * \
                        np.arange(0.5, window_length + 0.5)), 2))
-num_blocks = 37
 
-scale_table = np.array([19, 19, 19, 19, 19, 20, 21, 21, 32, 23, 23, \
+scale_table = np.array([19, 19, 19, 19, 19, 21, 21, 21, 32, 20, 23, \
                    23, 23, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, \
                    32, 32, 32, 32, 32, 32], dtype='uint8')
 
 
 def encode(x):
-    def divide_into_frames(signal, npoints):
-        # Find out how many frames are needed
-        nwholeframes = np.floor(len(signal)/npoints).astype('int')
-        nframes = np.ceil(len(signal)/npoints).astype('int')
-        # Pad the signal so that its length is divisible by nframes
-        padded = np.pad(signal, (0, npoints-len(signal)%nwholeframes), 'constant', constant_values=0.0)
-        # Reshape padded signal into nframes rows, each row is one frame
-        frames = padded.reshape((nframes, len(padded)//nframes))
-        return frames
-    
-    x_frames = divide_into_frames(x, npoints)
     
     ### DISCLAIMER: Implementation based on paper written by JOEBERT S. JACABA, Dept. Mathematics, College of Science, 
     ### University of The Phillipines, Diliman, Quezon City: AUDIO COMPRESSION USING MODIFIED DISCRETE COSINE TRANSFORM:
@@ -121,32 +110,32 @@ def encode(x):
 
         return coeffs_bool[1:,:]
     
-    def filter_banks(x_frames, nbands, num_blocks):
-        x_bands = np.zeros((nbands, x_frames.shape[0], num_blocks))
+    def filter_banks(x):
+        coeff_bool = psyacoustic_analysis(x)
 
-        for i in range(0, x_frames.shape[0]):
-            coeff_bool = psyacoustic_analysis(x_frames[i,:])
-
-            x_bands[:,i,:] = mdct(x_frames[i,:], window_function)
-            x_bands[:,i,:][coeff_bool] = 0
+        x_bands = mdct(x, window_function)
+        coeff_bool = np.pad(coeff_bool, [(0,0), (0, x_bands.shape[1] - coeff_bool.shape[1])], \
+                            mode='constant', constant_values=1)
+        x_bands[coeff_bool] = 0
 
         return x_bands
 
-    x_bands = filter_banks(x_frames, nbands, num_blocks)
+    x_bands = filter_banks(x)
+    num_blocks = x_bands.shape[1]
     
     def quantization(x_bands):
         max_bits = np.max(scale_table)
         quantized_signal = []
-        for i in range(0, x_bands.shape[1]):
-            quantfr = QuantizedFrame()
-            for j in range(0, x_bands.shape[0]):
-                bit_alloc = scale_table[j]
-                quantized_mdct = powerlaw_quant(x_bands[j,i,:], 255)
-                quantized_mdct = quantized_mdct/(2**bit_alloc)
-                quantized_mdct = quantized_mdct.astype('float16')
-                quantfr.data = np.append(quantfr.data, quantized_mdct)
 
-            quantized_signal.append(quantfr)
+        quantfr = QuantizedFrame()
+        for j in range(0, x_bands.shape[0]):
+            bit_alloc = scale_table[j]
+            quantized_mdct = powerlaw_quant(x_bands[j], 255)
+            quantized_mdct = quantized_mdct/(2**bit_alloc)
+            quantized_mdct = quantized_mdct.astype('float16')
+            quantfr.data = np.append(quantfr.data, quantized_mdct)
+
+        quantized_signal.append(quantfr)
 
         return quantized_signal
     
@@ -157,6 +146,7 @@ def encode(x):
         encoded_signal = EncodedSignal()
         encoded_signal.data = quantized_signal
         encoded_signal.scale_table = scale_table
+        encoded_signal.num_blocks = num_blocks
         i_str = pickle.dumps(encoded_signal)
         compressed_signal = bz2.compress(i_str)
 
@@ -169,14 +159,13 @@ def encode(x):
 
 def decode(encoded_signal):
     decompressed_signal = pickle.loads(bz2.decompress(encoded_signal))
-    empty_frame = [0]*npoints
-    mdct_per_frame = num_blocks
-    decoded_signal = np.zeros((len(decompressed_signal.data), npoints))
+    mdct_per_frame = decompressed_signal.num_blocks
+    decoded_signal = np.array([])
 
     max_bits = np.max(decompressed_signal.scale_table)
 
     for i, frame in enumerate(decompressed_signal.data):
-        decoded_mdct = np.zeros((nbands, num_blocks))
+        decoded_mdct = np.zeros((nbands, mdct_per_frame))
         for j in range(0, len(decompressed_signal.scale_table)):
             scale_factor = decompressed_signal.scale_table[j]
             start = j*mdct_per_frame
@@ -184,12 +173,7 @@ def decode(encoded_signal):
             encoded_mdct = frame.data[start:end]*(2**scale_factor)
             decoded_mdct[j] = inv_powerlaw_quant(encoded_mdct, 255)
         decoded_frame = imdct(decoded_mdct, window_function)
-
-        diff = 1152 - len(decoded_frame)
-        if diff < 0:
-            decoded_signal[i,:] = decoded_frame[:diff]
-        if diff > 0:
-            decoded_signal[i,:] = np.append(decoded_frame, np.zeros((diff,1)))
+        decoded_signal = np.append(decoded_signal, decoded_frame)
 
     return decoded_signal.flatten().astype('int16')
 

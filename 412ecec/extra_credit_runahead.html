@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tai Duc Nguyen - ECEC 412 - 12/05/2019</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h2 id="tai-duc-nguyen---ecec-412---12052019">Tai Duc Nguyen - ECEC 412 - 12/05/2019</h2>
+<h1 id="extra-credit-questions">Extra Credit Questions</h1>
+<p><em>On &quot;Runahead Execution: An Alternative to Very LargeInstruction Windows for Out-of-order Processors&quot; by Onur Mutlu et al.</em></p>
+<ul>
+<li><a href="#extra-credit-questions">Extra Credit Questions</a>
+<ul>
+<li><a href="#can-you-name-two-alternate-strategies-that-we-have-covered-in-the-course-and-address-the-same-problem-that-this-paper-addresses">Can you name two alternate strategies that we have covered in the course and address the same problem that this paper addresses?</a></li>
+<li><a href="#summarize-in-your-own-words-the-main-idea-of-the-paper-in-less-than-90-words">Summarize in your own words the main idea of the paper in less than 90 words</a></li>
+<li><a href="#summarize-the-key-results-of-the-paper-in-less-than-90-words">Summarize the key results of the paper in less than 90 words</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="can-you-name-two-alternate-strategies-that-we-have-covered-in-the-course-and-address-the-same-problem-that-this-paper-addresses">Can you name two alternate strategies that we have covered in the course and address the same problem that this paper addresses?</h2>
+<p>The problem the paper addresses is reducing pipeline's stalls due to long latency instructions (with a finite instruction buffer). The other 2 techniques which attempt to resolve the issue of the pipeline stalling is:</p>
+<ul>
+<li>Prefetching:
+<ul>
+<li>Solves the problem by prefetching memory that is predicted to be useful in the near future</li>
+</ul>
+</li>
+<li>Multithreading:
+<ul>
+<li>An additional thread can scan the program's instruction ahead of the main thread so that memory can be fetched prior to it being needed.</li>
+</ul>
+</li>
+</ul>
+<h2 id="summarize-in-your-own-words-the-main-idea-of-the-paper-in-less-than-90-words">Summarize in your own words the main idea of the paper in less than 90 words</h2>
+<p>The paper introduces a method called <code>runahead</code>, which allows the processor to &quot;keep going&quot; in the case of a cache-miss, instead of stalling. The processor enters &quot;runahead mode&quot; when it detects an L1 cache miss. Before entering this mode, the processor:</p>
+<ul>
+<li>records the address that causes the miss</li>
+<li>issues a fetch for the missing data in L2, L3 or main</li>
+<li>check-points register file (a snapshot of the reg file before entering the mode)</li>
+</ul>
+<h2 id="summarize-the-key-results-of-the-paper-in-less-than-90-words">Summarize the key results of the paper in less than 90 words</h2>
+<p>There are 3 main key results of the paper:</p>
+<ul>
+<li>The Runahead method outperforms systems without it in most benchmarks</li>
+<li>Hardware Prefetcher can be integrated with this method, and the system performance can improve/degrade depending on the performance of the Prefetcher.</li>
+<li>Runahead Execution allow systems with low number of instruction windows buffer to perform well, hence, optimize the system for both performance and energy consumption.</li>
+</ul>
+
+    </body>
+    </html>
