@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.25)  7 DEC 2019 00:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.25)  8 DEC 2019 19:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -521,15 +521,12 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 30.
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-
-LaTeX Warning: Reference `fig1' on page 1 undefined on input line 38.
-
-<flow_diagram_codec.png, id=48, 1365.1pt x 653.44125pt>
+<flow_diagram_codec.png, id=49, 1365.1pt x 653.44125pt>
 File: flow_diagram_codec.png Graphic file (type png)
 <use flow_diagram_codec.png>
 Package pdftex.def Info: flow_diagram_codec.png  used on input line 44.
 (pdftex.def)             Requested size: 516.0pt x 246.99413pt.
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ] [2 <./flow_diagram_codec.png>] [3]
@@ -578,18 +575,14 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 251.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 251.
 Package rerunfilecheck Info: File `codec_report.out' has not changed.
 (rerunfilecheck)             Checksum: E5A3AA76B2CF972E52383E13402F82B1;723.
-
-
-LaTeX Warning: There were undefined references.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 251.
  ) 
 Here is how much of TeX's memory you used:
- 7899 strings out of 494847
- 116657 string characters out of 6179079
- 206791 words of memory out of 5000000
- 11102 multiletter control sequences out of 15000+600000
- 44367 words of font info for 93 fonts, out of 8000000 for 9000
+ 7897 strings out of 494847
+ 116629 string characters out of 6179079
+ 206835 words of memory out of 5000000
+ 11101 multiletter control sequences out of 15000+600000
+ 43260 words of font info for 92 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  28i,15n,35p,601b,317s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
@@ -606,10 +599,10 @@ are/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
 /utmri8a.pfb>
-Output written on codec_report.pdf (4 pages, 206805 bytes).
+Output written on codec_report.pdf (4 pages, 206510 bytes).
 PDF statistics:
- 167 PDF objects out of 1000 (max. 8388607)
- 143 compressed objects within 2 object streams
+ 168 PDF objects out of 1000 (max. 8388607)
+ 144 compressed objects within 2 object streams
  34 named destinations out of 1000 (max. 500000)
  94 words of extra memory for PDF output out of 10000 (max. 10000000)
 
