@@ -1,5 +1,5 @@
 #include "Trace.h"
-
+#include "Request.h"
 #include "Controller.h"
 
 extern TraceParser *initTraceParser(const char * mem_file);
@@ -8,7 +8,7 @@ extern bool getRequest(TraceParser *mem_trace);
 extern Controller *initController();
 extern unsigned ongoingPendingRequests(Controller *controller);
 extern bool send(Controller *controller, Request *req);
-extern void tick(Controller *controller);
+extern void tick(Controller *controller, uint64_t* conflict_req);
 
 typedef struct DRAM_Timing
 {
@@ -39,19 +39,31 @@ int main(int argc, const char *argv[])
 
     Controller_Config config;
 
-    Controller_Table *non_fcfs = malloc(sizeof(Controller_Table));
-    non_fcfs->dram_timing.nclks_read = 53;
-    non_fcfs->dram_timing.nclks_write = 53;
+    Controller_Table *fcfs = malloc(sizeof(Controller_Table));
+    fcfs->dram_timing.nclks_read = 53;
+    fcfs->dram_timing.nclks_write = 53;
     unsigned max_waiting_queue_size[] = {64, 64, 64, 64};
     unsigned block_size[] = {128, 128, 128, 128};
     unsigned num_of_banks[] = {2, 4, 8, 16};
-    non_fcfs->max_waiting_queue_size = max_waiting_queue_size;
-    non_fcfs->block_size = block_size;
-    non_fcfs->num_of_banks = num_of_banks;
-    non_fcfs->is_fcfs = false;
-    non_fcfs->row = sizeof(num_of_banks)/sizeof(num_of_banks[0]);
+    fcfs->max_waiting_queue_size = max_waiting_queue_size;
+    fcfs->block_size = block_size;
+    fcfs->num_of_banks = num_of_banks;
+    fcfs->is_fcfs = false;
+    fcfs->row = sizeof(num_of_banks)/sizeof(num_of_banks[0]);
 
-    Controller_Table *controller_tables[] = { non_fcfs };
+    Controller_Table *fcfs_pcm = malloc(sizeof(Controller_Table));
+    fcfs_pcm->dram_timing.nclks_read = 57;
+    fcfs_pcm->dram_timing.nclks_write = 162;
+    unsigned max_waiting_queue_size_pcm[] = {64, 64, 64, 64};
+    unsigned block_size_pcm[] = {128, 128, 128, 128};
+    unsigned num_of_banks_pcm[] = {2, 4, 8, 16};
+    fcfs_pcm->max_waiting_queue_size = max_waiting_queue_size_pcm;
+    fcfs_pcm->block_size = block_size_pcm;
+    fcfs_pcm->num_of_banks = num_of_banks_pcm;
+    fcfs_pcm->is_fcfs = false;
+    fcfs_pcm->row = sizeof(num_of_banks)/sizeof(num_of_banks[0]);
+
+    Controller_Table *controller_tables[] = { fcfs, fcfs_pcm };
     int num_tables = (int)( sizeof(controller_tables) / sizeof(controller_tables[0]) );
 
     for (int t = 0; t < num_tables; t++ ) {
@@ -73,33 +85,39 @@ int main(int argc, const char *argv[])
             // printf("%u\n", controller->bank_shift);
             // printf("%u\n", controller->bank_mask);
 
+            uint64_t conflict_req = 0;
+
             uint64_t cycles = 0;
+            uint64_t num_request = 0;
 
             bool stall = false;
             bool end = false;
 
             while (!end || ongoingPendingRequests(controller))
             {
+                // if (num_request > 100) break;
                 if (!end && !stall)
                 {
                     end = !(getRequest(mem_trace));
+                    ++num_request;
                 }
 
                 if (!end)
                 {
                     stall = !(send(controller, mem_trace->cur_req));
                 }
-
-                tick(controller);
+                tick(controller, &conflict_req);
                 ++cycles;
             }
-
+            printf("%6lu, %6lu, %6lu, ", num_request, controller->access_time/num_request, controller->bank_conficts);
+            // printf("End Execution Time: ""%"PRIu64"\n", cycles);
+            printf("""%"PRIu64"\n", cycles);
+            
             free(controller->bank_status);
             free(controller->waiting_queue);
             free(controller->pending_queue);
             free(controller);
-            // printf("End Execution Time: ""%"PRIu64"\n", cycles);
-            printf("""%"PRIu64"\n", cycles);
         }
+        printf("---------------------------------\n");
     }
 }

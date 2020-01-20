@@ -21,6 +21,7 @@ typedef struct Node
     int bank_id; // Which bank the request targets to
 
     // Some timing informations.
+    uint64_t queued_time;
     uint64_t begin_exe;
     uint64_t end_exe;
 
@@ -54,6 +55,7 @@ void pushToQueue(Queue *q, Request *req)
     node->mem_addr = req->memory_address;
     node->req_type = req->req_type;
     node->bank_id = req->bank_id;
+    node->queued_time = req->queued_time;
 
     node->prev = NULL;
     node->next = NULL;
@@ -100,6 +102,7 @@ void migrateToQueue(Queue *q, Node *_node)
     node->mem_addr = _node->mem_addr;
     node->req_type = _node->req_type;
     node->bank_id = _node->bank_id;
+    node->queued_time = _node->queued_time;
     node->begin_exe = _node->begin_exe;
     node->end_exe = _node->end_exe;
 

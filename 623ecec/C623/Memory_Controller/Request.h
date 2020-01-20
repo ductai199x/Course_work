@@ -16,6 +16,8 @@ typedef struct Request
     /* Decoding Info */
     int bank_id; // Which bank it targets to.
 
+    // Access Latency
+    uint64_t queued_time;
 }Request;
 
 #endif

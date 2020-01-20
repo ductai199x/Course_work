@@ -45,6 +45,12 @@ typedef struct Controller
     unsigned bank_shift;
     uint64_t bank_mask;
 
+    // Access Latency
+    uint64_t access_time;
+
+    // Bank-Conflicts
+    uint64_t bank_conficts;
+
     // Configs
     unsigned nclks_read;
     unsigned nclks_write;
@@ -92,6 +98,9 @@ Controller *initController(Controller_Config* config)
     controller->bank_shift = log2(controller->block_size);
     controller->bank_mask = (uint64_t)controller->num_of_banks - (uint64_t)1;
 
+    controller->access_time = 0;
+    controller->bank_conficts = 0;
+
     return controller;
 }
 
@@ -112,14 +121,14 @@ bool send(Controller *controller, Request *req)
 
     // Decode the memory address
     req->bank_id = ((req->memory_address) >> controller->bank_shift) & controller->bank_mask;
-    
+    req->queued_time = controller->cur_clk;
     // Push to queue
     pushToQueue(controller->waiting_queue, req);
 
     return true;
 }
 
-void tick(Controller *controller)
+void tick(Controller *controller, uint64_t *conflict_req)
 {
     // Step one, update system stats
     ++(controller->cur_clk);
@@ -154,10 +163,10 @@ void tick(Controller *controller)
         // Implementation One - FCFS
         Node *first = controller->waiting_queue->first;
         int target_bank_id = first->bank_id;
-
         if ((controller->bank_status)[target_bank_id].next_free <= controller->cur_clk)
         {
             first->begin_exe = controller->cur_clk;
+            controller->access_time += controller->cur_clk - first->queued_time;
             if (first->req_type == READ)
             {
                 first->end_exe = first->begin_exe + (uint64_t)controller->nclks_read;
@@ -171,7 +180,12 @@ void tick(Controller *controller)
 
             migrateToQueue(controller->pending_queue, first);
             deleteNode(controller->waiting_queue, first);
+        } else {
+            if (*conflict_req != first->queued_time)
+                ++controller->bank_conficts;
         }
+
+        *conflict_req = first->queued_time;
     }
 }
 
