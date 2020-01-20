@@ -66,6 +66,7 @@ int main(int argc, const char *argv[])
     Controller_Table *controller_tables[] = { fcfs, fcfs_pcm };
     int num_tables = (int)( sizeof(controller_tables) / sizeof(controller_tables[0]) );
 
+    printf("fcfs, max_queue, blk_size, nbanks, clk_r, clk_w,  nreqs , avg_at, bank_cfl, exec_time\n\n");
     for (int t = 0; t < num_tables; t++ ) {
         for (int r = 0; r < controller_tables[t]->row; r++) {
             config.is_fcfs = controller_tables[t]->is_fcfs;
@@ -74,7 +75,7 @@ int main(int argc, const char *argv[])
             config.num_of_banks = controller_tables[t]->num_of_banks[r];
             config.nclks_read = controller_tables[t]->dram_timing.nclks_read;
             config.nclks_write = controller_tables[t]->dram_timing.nclks_write;
-            printf("%1u, %6u, %6u, %6u, %6u, %6u, ", config.is_fcfs, config.max_waiting_queue_size, 
+            printf("%4u, %9u, %8u, %6u, %5u, %5u, ", config.is_fcfs, config.max_waiting_queue_size, 
                 config.block_size, config.num_of_banks, config.nclks_read, config.nclks_write);
 
             // Initialize a CPU trace parser
@@ -109,7 +110,7 @@ int main(int argc, const char *argv[])
                 tick(controller, &conflict_req);
                 ++cycles;
             }
-            printf("%6lu, %6lu, %6lu, ", num_request, controller->access_time/num_request, controller->bank_conficts);
+            printf("%5lu, %6lu, %8lu, ", num_request, controller->access_time/num_request, controller->bank_conficts);
             // printf("End Execution Time: ""%"PRIu64"\n", cycles);
             printf("""%"PRIu64"\n", cycles);
             
@@ -118,6 +119,6 @@ int main(int argc, const char *argv[])
             free(controller->pending_queue);
             free(controller);
         }
-        printf("---------------------------------\n");
+        printf("-------------------------------------------------------------------\n");
     }
 }
