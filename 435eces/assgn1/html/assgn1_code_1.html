@@ -1,0 +1,517 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ECECS 435 - Homework 1</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-01-27"><meta name="DC.source" content="assgn1_code_1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>ECECS 435 - Homework 1</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Tai Nguyen, Hieu Mai</a></li><li><a href="#2">PART 1</a></li><li><a href="#4">PART 2</a></li><li><a href="#5">PART 3</a></li></ul></div><h2 id="1">Tai Nguyen, Hieu Mai</h2><pre class="codeinput">clear; close <span class="string">all</span>; clc
+</pre><h2 id="2">PART 1</h2><p>If gamma = 1, the image stays unchanged. If gamma &lt; 1, the image becomes brighter with lower contrast. If gamma &gt; 1, the image becomes darker with higher contrast.</p><pre class="codeinput">input1 = imread(<span class="string">"pout.tif"</span>);
+
+figure(1)
+
+subplot(4,2,1)
+imshow(input1)
+title(<span class="string">'Original image'</span>)
+
+subplot(4,2,2)
+imhist(input1)
+title(<span class="string">'Histogram of original image'</span>)
+
+subplot(4,2,3)
+output1_1 = gamma_correction(input1, 0.5);
+imshow(output1_1)
+title(<span class="string">'Gamma = 0.5'</span>)
+
+subplot(4,2,4)
+imhist(output1_1)
+title(<span class="string">'Histogram of gamma corrected image with gamma = 0.5'</span>)
+
+subplot(4,2,5)
+output1_2 = gamma_correction(input1, 1);
+imshow(output1_2)
+title(<span class="string">'Gamma = 1'</span>)
+
+subplot(4,2,6)
+imhist(output1_2)
+title(<span class="string">'Histogram of gamma corrected image with gamma = 1'</span>)
+
+subplot(4,2,7)
+output1_3 = gamma_correction(input1, 1.5);
+imshow(output1_3)
+title(<span class="string">'Gamma = 1.5'</span>)
+
+subplot(4,2,8)
+imhist(output1_3)
+title(<span class="string">'Histogram of gamma corrected image with gamma = 1.5'</span>)
+</pre><img vspace="5" hspace="5" src="assgn1_code_1_01.png" alt=""> <p>The image processed with the gamma correction function has better contrast than the one obtained through histogram equalization, but the latter is brighter.</p><pre class="codeinput">input2 = imread(<span class="string">"MoonPhobos.tif"</span>);
+
+figure(2)
+
+subplot(3,2,1)
+imshow(input2)
+title(<span class="string">"Original image"</span>)
+
+subplot(3,2,2)
+imhist(input2)
+title(<span class="string">"Histogram of original image"</span>)
+
+subplot(3,2,3)
+output2_1 = gamma_correction(input2, 0.35);
+imshow(output2_1)
+title(<span class="string">"Gamma = 0.35"</span>)
+
+subplot(3,2,4)
+imhist(output2_1)
+title(<span class="string">"Histogram of gamma corrected image"</span>);
+
+subplot(3,2,5)
+output2_2 = histeq(input2);
+imshow(output2_2)
+title(<span class="string">"Histogram-equalized image"</span>);
+
+subplot(3,2,6)
+imhist(output2_2)
+title(<span class="string">"Histogram of the hist-equalized image"</span>)
+</pre><img vspace="5" hspace="5" src="assgn1_code_1_02.png" alt=""> <h2 id="4">PART 2</h2><p>It is impossible to completely recover the in-focus image with this filter, because of the unwanted artifacts created around the regions that are not edges, causing an unsmooth transitions between some regions.</p><pre class="codeinput">input3 = imread(<span class="string">"moon.tiff"</span>);
+input4 = imread(<span class="string">"outoffocus.tif"</span>);
+
+figure(3)
+
+subplot(2,2,1)
+imshow(input3)
+title(<span class="string">"Original image"</span>)
+
+subplot(2,2,2)
+output3 = sharpening(input3, 4);
+imshow(output3)
+title(<span class="string">"Sharpened image with alpha = 4"</span>)
+
+subplot(2,2,3)
+imshow(input4)
+title(<span class="string">"Original image"</span>)
+
+subplot(2,2,4)
+output4 = sharpening(input4, 10);
+imshow(output4)
+title(<span class="string">"Sharpened image with alpha = 4"</span>)
+</pre><img vspace="5" hspace="5" src="assgn1_code_1_04.png" alt=""> <h2 id="5">PART 3</h2><p>The average filter is good at softening and removing iid noise from images, while the median filter is good for removing pepper noise. Depending on the image that needs to be filter, generally a high filter size will result in a blurry image.</p><pre class="codeinput">input5 = imread(<span class="string">"peppersNoise1.tiff"</span>);
+input6 = imread(<span class="string">"peppersNoise2.tiff"</span>);
+
+avg_filt3x3 = ones(3,3)/9;
+avg_filt5x5 = ones(5,5)/25;
+
+figure(4)
+
+subplot(3,2,1)
+imshow(input5)
+title(<span class="string">"Original image"</span>)
+
+subplot(3,2,2)
+output5_1 = medfilt2(input5, [3,3]);
+imshow(output5_1)
+title(<span class="string">"Median Filter 3x3"</span>)
+
+subplot(3,2,3)
+output5_2 = medfilt2(input5, [5,5]);
+imshow(output5_2)
+title(<span class="string">"Median Filter 5x5"</span>)
+
+subplot(3,2,4)
+output5_3 = conv2(single(input5), avg_filt3x3, <span class="string">'same'</span>);
+imshow(output5_3, [])
+title(<span class="string">"Average Filter 3x3"</span>)
+
+subplot(3,2,5)
+output5_4 = conv2(single(input5), avg_filt5x5, <span class="string">'same'</span>);
+imshow(output5_4, [])
+title(<span class="string">"Average Filter 5x5"</span>)
+</pre><img vspace="5" hspace="5" src="assgn1_code_1_05.png" alt=""> <pre class="codeinput">figure(5)
+
+subplot(3,2,1)
+imshow(input6)
+title(<span class="string">"Original image"</span>)
+
+subplot(3,2,2)
+output6_1 = medfilt2(input6, [3,3]);
+imshow(output6_1)
+title(<span class="string">"Median Filter 3x3"</span>)
+
+subplot(3,2,3)
+output6_2 = medfilt2(input6, [5,5]);
+imshow(output6_2)
+title(<span class="string">"Median Filter 5x5"</span>)
+
+subplot(3,2,4)
+output6_3 = conv2(single(input6), avg_filt3x3, <span class="string">'same'</span>);
+imshow(output6_3, [])
+title(<span class="string">"Average Filter 3x3"</span>)
+
+subplot(3,2,5)
+output6_4 = conv2(single(input6), avg_filt5x5, <span class="string">'same'</span>);
+imshow(output6_4, [])
+title(<span class="string">"Average Filter 5x5"</span>)
+</pre><img vspace="5" hspace="5" src="assgn1_code_1_06.png" alt=""> <p>The edgemap of the average filtered image looks cleaner than the one processed with the median filter, because the average filter evens out the transition of pixels from high to low values, preserving the features around the edges, while the median filter leaves pepper noise on the image.</p><pre class="codeinput">sobel_x = [-1,0,1; -2,0,2; -1,0,1];
+sobel_y = [-1,-2,-1; 0,0,0; 1,2,1];
+
+threshold = 160;
+
+figure(6)
+
+subplot(2,2,1)
+imshow(output5_1)
+title(<span class="string">"Median filtered image (3x3)"</span>)
+
+subplot(2,2,2)
+g_x = conv2(single(output5_1), sobel_x, <span class="string">'same'</span>);
+g_y = conv2(single(output5_1), sobel_y, <span class="string">'same'</span>);
+G_1 = uint8(sqrt(g_x.^2 + g_y.^2));
+G_1(G_1 &lt; threshold) = 0;
+imshow(G_1, [])
+title(<span class="string">"Edgemap of Median filtered image"</span>)
+
+
+subplot(2,2,3)
+imshow(output5_3, [])
+title(<span class="string">"Average filtered image (3x3)"</span>)
+
+subplot(2,2,4)
+g_x = conv2(single(output5_3), sobel_x, <span class="string">'same'</span>);
+g_y = conv2(single(output5_3), sobel_y, <span class="string">'same'</span>);
+G_2 = uint8(sqrt(g_x.^2 + g_y.^2));
+G_2(G_2 &lt; threshold) = 0;
+imshow(G_2, [])
+title(<span class="string">"Edgemap of Average filtered image"</span>)
+</pre><img vspace="5" hspace="5" src="assgn1_code_1_07.png" alt=""> <pre class="codeinput"><span class="keyword">function</span> output = gamma_correction(input, gamma)
+    <span class="comment">% This function perform gamma correction on an input image, represented</span>
+    <span class="comment">% as a matlab 2D matrix.</span>
+    <span class="comment">%</span>
+    <span class="comment">% input: 2D matrix of the image</span>
+    <span class="comment">% alpha: scalar defining how stretched is the pixel histogram of the</span>
+    <span class="comment">% image</span>
+    <span class="comment">% output: 2D matrix of the gamma-corrected image</span>
+
+    output = uint8(255.*(((double(input))./255).^gamma));
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="assgn1_code_1_03.png" alt=""> <pre class="codeinput"><span class="keyword">function</span> output = sharpening(input, alpha)
+    <span class="comment">% This function perform image sharpening on an input image by extractin</span>
+    <span class="comment">% g its high frequency content and add such content back to the</span>
+    <span class="comment">% original image with a scaling factor `alpha`</span>
+    <span class="comment">%</span>
+    <span class="comment">% input: 2D matrix of the image</span>
+    <span class="comment">% alpha: scaling factor</span>
+
+    filter = [0,-0.25,0;-0.25,1,-0.25;0,-0.25,0];
+    output = uint8(double(input) + alpha*conv2(input, filter, <span class="string">'same'</span>));
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% ECECS 435 - Homework 1
+%% Tai Nguyen, Hieu Mai
+
+clear; close all; clc
+
+%% PART 1
+% If gamma = 1, the image stays unchanged.
+% If gamma < 1, the image becomes brighter with lower contrast.
+% If gamma > 1, the image becomes darker with higher contrast.
+
+input1 = imread("pout.tif");
+
+figure(1)
+
+subplot(4,2,1)
+imshow(input1)
+title('Original image')
+
+subplot(4,2,2)
+imhist(input1)
+title('Histogram of original image')
+
+subplot(4,2,3)
+output1_1 = gamma_correction(input1, 0.5);
+imshow(output1_1)
+title('Gamma = 0.5')
+
+subplot(4,2,4)
+imhist(output1_1)
+title('Histogram of gamma corrected image with gamma = 0.5')
+
+subplot(4,2,5)
+output1_2 = gamma_correction(input1, 1);
+imshow(output1_2)
+title('Gamma = 1')
+
+subplot(4,2,6)
+imhist(output1_2)
+title('Histogram of gamma corrected image with gamma = 1')
+
+subplot(4,2,7)
+output1_3 = gamma_correction(input1, 1.5);
+imshow(output1_3)
+title('Gamma = 1.5')
+
+subplot(4,2,8)
+imhist(output1_3)
+title('Histogram of gamma corrected image with gamma = 1.5')
+
+%%
+% The image processed with the gamma correction function has better
+% contrast than the one obtained through histogram equalization, but the
+% latter is brighter. 
+
+input2 = imread("MoonPhobos.tif");
+
+figure(2)
+
+subplot(3,2,1)
+imshow(input2)
+title("Original image")
+
+subplot(3,2,2)
+imhist(input2)
+title("Histogram of original image")
+
+subplot(3,2,3)
+output2_1 = gamma_correction(input2, 0.35);
+imshow(output2_1)
+title("Gamma = 0.35")
+
+subplot(3,2,4)
+imhist(output2_1)
+title("Histogram of gamma corrected image");
+
+subplot(3,2,5)
+output2_2 = histeq(input2);
+imshow(output2_2)
+title("Histogram-equalized image");
+
+subplot(3,2,6)
+imhist(output2_2)
+title("Histogram of the hist-equalized image")
+
+%% PART 2
+% It is impossible to completely recover the in-focus image with this
+% filter, because of the unwanted artifacts created around the regions that
+% are not edges, causing an unsmooth transitions between some regions.
+
+input3 = imread("moon.tiff");
+input4 = imread("outoffocus.tif");
+
+figure(3)
+
+subplot(2,2,1)
+imshow(input3)
+title("Original image")
+
+subplot(2,2,2)
+output3 = sharpening(input3, 4);
+imshow(output3)
+title("Sharpened image with alpha = 4")
+
+subplot(2,2,3)
+imshow(input4)
+title("Original image")
+
+subplot(2,2,4)
+output4 = sharpening(input4, 10);
+imshow(output4)
+title("Sharpened image with alpha = 4")
+
+%% PART 3
+% The average filter is good at softening and removing iid noise from
+% images, while the median filter is good for removing pepper noise.
+% Depending on the image that needs to be filter, generally a high filter
+% size will result in a blurry image. 
+
+input5 = imread("peppersNoise1.tiff");
+input6 = imread("peppersNoise2.tiff");
+
+avg_filt3x3 = ones(3,3)/9;
+avg_filt5x5 = ones(5,5)/25;
+
+figure(4)
+
+subplot(3,2,1)
+imshow(input5)
+title("Original image")
+
+subplot(3,2,2)
+output5_1 = medfilt2(input5, [3,3]);
+imshow(output5_1)
+title("Median Filter 3x3")
+
+subplot(3,2,3)
+output5_2 = medfilt2(input5, [5,5]);
+imshow(output5_2)
+title("Median Filter 5x5")
+
+subplot(3,2,4)
+output5_3 = conv2(single(input5), avg_filt3x3, 'same');
+imshow(output5_3, [])
+title("Average Filter 3x3")
+
+subplot(3,2,5)
+output5_4 = conv2(single(input5), avg_filt5x5, 'same');
+imshow(output5_4, [])
+title("Average Filter 5x5")
+
+%%
+figure(5)
+
+subplot(3,2,1)
+imshow(input6)
+title("Original image")
+
+subplot(3,2,2)
+output6_1 = medfilt2(input6, [3,3]);
+imshow(output6_1)
+title("Median Filter 3x3")
+
+subplot(3,2,3)
+output6_2 = medfilt2(input6, [5,5]);
+imshow(output6_2)
+title("Median Filter 5x5")
+
+subplot(3,2,4)
+output6_3 = conv2(single(input6), avg_filt3x3, 'same');
+imshow(output6_3, [])
+title("Average Filter 3x3")
+
+subplot(3,2,5)
+output6_4 = conv2(single(input6), avg_filt5x5, 'same');
+imshow(output6_4, [])
+title("Average Filter 5x5")
+
+%%
+% The edgemap of the average filtered image looks cleaner than the one
+% processed with the median filter, because the average filter evens out
+% the transition of pixels from high to low values, preserving the features
+% around the edges, while the median filter leaves pepper noise on the
+% image.
+
+sobel_x = [-1,0,1; -2,0,2; -1,0,1];
+sobel_y = [-1,-2,-1; 0,0,0; 1,2,1];
+
+threshold = 160;
+
+figure(6)
+
+subplot(2,2,1)
+imshow(output5_1)
+title("Median filtered image (3x3)")
+
+subplot(2,2,2)
+g_x = conv2(single(output5_1), sobel_x, 'same');
+g_y = conv2(single(output5_1), sobel_y, 'same');
+G_1 = uint8(sqrt(g_x.^2 + g_y.^2));
+G_1(G_1 < threshold) = 0;
+imshow(G_1, [])
+title("Edgemap of Median filtered image")
+
+
+subplot(2,2,3)
+imshow(output5_3, [])
+title("Average filtered image (3x3)")
+
+subplot(2,2,4)
+g_x = conv2(single(output5_3), sobel_x, 'same');
+g_y = conv2(single(output5_3), sobel_y, 'same');
+G_2 = uint8(sqrt(g_x.^2 + g_y.^2));
+G_2(G_2 < threshold) = 0;
+imshow(G_2, [])
+title("Edgemap of Average filtered image")
+
+
+%%
+function output = gamma_correction(input, gamma)
+    % This function perform gamma correction on an input image, represented
+    % as a matlab 2D matrix.
+    % 
+    % input: 2D matrix of the image
+    % alpha: scalar defining how stretched is the pixel histogram of the 
+    % image
+    % output: 2D matrix of the gamma-corrected image
+    
+    output = uint8(255.*(((double(input))./255).^gamma));
+    
+end
+
+%%
+function output = sharpening(input, alpha)
+    % This function perform image sharpening on an input image by extractin
+    % g its high frequency content and add such content back to the
+    % original image with a scaling factor `alpha`
+    %
+    % input: 2D matrix of the image
+    % alpha: scaling factor
+    
+    filter = [0,-0.25,0;-0.25,1,-0.25;0,-0.25,0];
+    output = uint8(double(input) + alpha*conv2(input, filter, 'same'));
+
+end
+##### SOURCE END #####
+--></body></html>
