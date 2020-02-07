@@ -1,0 +1,1064 @@
+Information: Using automatic max wire load selection group 'predcaps'. (ENV-003)
+Information: Using automatic min wire load selection group 'predcaps'. (ENV-003)
+Error: Nothing matched for to_list (SEL-005)
+0
+Error: Nothing matched for from_list (SEL-005)
+0
+Error: Nothing matched for from_list (SEL-005)
+0
+****************************************
+Report : timing
+	-path_type full
+	-delay_type max
+	-slack_lesser_than 20.00
+	-max_paths 1000
+	-sort_by slack
+Design : s35932
+Version: L-2016.06-SP3-1
+Date   : Thu Feb  6 19:13:44 2020
+****************************************
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_25 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3573/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3608/Y (NBUFFX2_RVT)                    0.17       2.81 r
+  U4544/Y (INVX0_RVT)                      0.08       2.89 f
+  U3577/Y (NBUFFX2_RVT)                    0.17       3.06 f
+  U4034/Y (XOR3X2_RVT)                     0.15       3.21 r
+  DATA_9_25 (out)                          0.01       3.22 r
+  data arrival time                                   3.22
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.22
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.87
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_30 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3573/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3608/Y (NBUFFX2_RVT)                    0.17       2.81 r
+  U4544/Y (INVX0_RVT)                      0.08       2.89 f
+  U3577/Y (NBUFFX2_RVT)                    0.17       3.06 f
+  U4024/Y (XOR3X2_RVT)                     0.15       3.21 r
+  DATA_9_30 (out)                          0.01       3.22 r
+  data arrival time                                   3.22
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.22
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.87
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_20 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3573/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3578/Y (INVX0_RVT)                      0.15       2.79 f
+  U3305/Y (NBUFFX2_RVT)                    0.09       2.89 f
+  U3576/Y (NBUFFX2_RVT)                    0.09       2.98 f
+  U4044/Y (XOR3X2_RVT)                     0.23       3.21 f
+  DATA_9_20 (out)                          0.01       3.22 f
+  data arrival time                                   3.22
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.22
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.87
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_27 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3610/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3587/Y (NBUFFX2_RVT)                    0.17       2.81 r
+  U3749/Y (INVX0_RVT)                      0.16       2.97 f
+  U4030/Y (XOR3X2_RVT)                     0.23       3.21 f
+  DATA_9_27 (out)                          0.01       3.22 f
+  data arrival time                                   3.22
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.22
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.87
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_29 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3610/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3587/Y (NBUFFX2_RVT)                    0.17       2.81 r
+  U3586/Y (INVX0_RVT)                      0.16       2.97 f
+  U4026/Y (XOR3X2_RVT)                     0.23       3.21 f
+  DATA_9_29 (out)                          0.01       3.22 f
+  data arrival time                                   3.22
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.22
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.87
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_23 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3573/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3608/Y (NBUFFX2_RVT)                    0.17       2.81 r
+  U3507/Y (NBUFFX2_RVT)                    0.10       2.91 r
+  U3543/Y (INVX0_RVT)                      0.08       2.99 f
+  U4038/Y (XOR3X2_RVT)                     0.21       3.20 f
+  DATA_9_23 (out)                          0.01       3.21 f
+  data arrival time                                   3.21
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.21
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.86
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_1 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM0 (in)                                 0.00       2.40 f
+  U4732/Y (INVX0_RVT)                      0.07       2.47 r
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 r
+  U4524/Y (NBUFFX2_RVT)                    0.10       2.66 r
+  U3581/Y (INVX0_RVT)                      0.16       2.82 f
+  U3304/Y (NBUFFX2_RVT)                    0.17       2.99 f
+  U5461/Y (OA221X1_RVT)                    0.20       3.19 f
+  DATA_9_1 (out)                           0.01       3.19 f
+  data arrival time                                   3.19
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.19
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.84
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_4 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM0 (in)                                 0.00       2.40 f
+  U4732/Y (INVX0_RVT)                      0.07       2.47 r
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 r
+  U4524/Y (NBUFFX2_RVT)                    0.10       2.66 r
+  U3581/Y (INVX0_RVT)                      0.16       2.82 f
+  U3304/Y (NBUFFX2_RVT)                    0.17       2.99 f
+  U5424/Y (OA221X1_RVT)                    0.20       3.19 f
+  DATA_9_4 (out)                           0.01       3.19 f
+  data arrival time                                   3.19
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.19
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.84
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_5 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM0 (in)                                 0.00       2.40 f
+  U4732/Y (INVX0_RVT)                      0.07       2.47 r
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 r
+  U4524/Y (NBUFFX2_RVT)                    0.10       2.66 r
+  U3581/Y (INVX0_RVT)                      0.16       2.82 f
+  U3304/Y (NBUFFX2_RVT)                    0.17       2.99 f
+  U5421/Y (OA221X1_RVT)                    0.20       3.19 f
+  DATA_9_5 (out)                           0.01       3.19 f
+  data arrival time                                   3.19
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.19
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.84
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_17 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3610/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3508/Y (INVX0_RVT)                      0.17       2.81 f
+  U4050/Y (XOR3X2_RVT)                     0.37       3.17 f
+  DATA_9_17 (out)                          0.01       3.18 f
+  data arrival time                                   3.18
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.18
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.83
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_22 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3610/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3508/Y (INVX0_RVT)                      0.17       2.81 f
+  U4040/Y (XOR3X2_RVT)                     0.37       3.17 f
+  DATA_9_22 (out)                          0.01       3.18 f
+  data arrival time                                   3.18
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.18
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.83
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_26 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM1 (in)                                 0.00       2.40 r
+  U3611/Y (INVX0_RVT)                      0.07       2.47 f
+  U3573/Y (NBUFFX2_RVT)                    0.17       2.64 f
+  U3578/Y (INVX0_RVT)                      0.15       2.79 r
+  U3305/Y (NBUFFX2_RVT)                    0.10       2.88 r
+  U3303/Y (NBUFFX2_RVT)                    0.09       2.98 r
+  U4032/Y (XOR3X2_RVT)                     0.16       3.14 f
+  DATA_9_26 (out)                          0.01       3.15 f
+  data arrival time                                   3.15
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.15
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.80
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_24 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3573/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3578/Y (INVX0_RVT)                      0.15       2.79 f
+  U3305/Y (NBUFFX2_RVT)                    0.09       2.89 f
+  U3576/Y (NBUFFX2_RVT)                    0.09       2.98 f
+  U4036/Y (XOR3X2_RVT)                     0.15       3.13 r
+  DATA_9_24 (out)                          0.01       3.14 r
+  data arrival time                                   3.14
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.14
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.79
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_18 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3610/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3587/Y (NBUFFX2_RVT)                    0.17       2.81 r
+  U3748/Y (INVX0_RVT)                      0.16       2.97 f
+  U4048/Y (XOR3X2_RVT)                     0.15       3.13 r
+  DATA_9_18 (out)                          0.01       3.13 r
+  data arrival time                                   3.13
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.13
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.78
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_31 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3610/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3587/Y (NBUFFX2_RVT)                    0.17       2.81 r
+  U3748/Y (INVX0_RVT)                      0.16       2.97 f
+  U4022/Y (XOR3X2_RVT)                     0.15       3.13 r
+  DATA_9_31 (out)                          0.01       3.13 r
+  data arrival time                                   3.13
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.13
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.78
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_19 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3573/Y (NBUFFX2_RVT)                    0.17       2.64 r
+  U3578/Y (INVX0_RVT)                      0.15       2.79 f
+  U3575/Y (NBUFFX2_RVT)                    0.10       2.89 f
+  U4046/Y (XOR3X2_RVT)                     0.23       3.12 f
+  DATA_9_19 (out)                          0.01       3.13 f
+  data arrival time                                   3.13
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.13
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.78
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_16 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3061/Y (IBUFFX2_RVT)                    0.19       2.66 f
+  U3525/Y (NBUFFX2_RVT)                    0.23       2.89 f
+  U4052/Y (XOR3X2_RVT)                     0.23       3.12 f
+  DATA_9_16 (out)                          0.01       3.12 f
+  data arrival time                                   3.12
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.12
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.77
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_9 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U4732/Y (INVX0_RVT)                      0.07       2.47 f
+  U4523/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3060/Y (NBUFFX2_RVT)                    0.09       2.65 f
+  U3530/Y (INVX0_RVT)                      0.08       2.73 r
+  U5410/Y (NAND3X0_RVT)                    0.26       2.99 f
+  U5411/Y (OA221X1_RVT)                    0.08       3.07 f
+  DATA_9_9 (out)                           0.01       3.08 f
+  data arrival time                                   3.08
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.08
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.73
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_10 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U4732/Y (INVX0_RVT)                      0.07       2.47 f
+  U4523/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3060/Y (NBUFFX2_RVT)                    0.09       2.65 f
+  U3528/Y (INVX0_RVT)                      0.08       2.73 r
+  U5457/Y (NAND3X0_RVT)                    0.26       2.99 f
+  U5458/Y (OA221X1_RVT)                    0.08       3.07 f
+  DATA_9_10 (out)                          0.01       3.08 f
+  data arrival time                                   3.08
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.08
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.73
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_3 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U4732/Y (INVX0_RVT)                      0.07       2.47 f
+  U4523/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3060/Y (NBUFFX2_RVT)                    0.09       2.65 f
+  U3528/Y (INVX0_RVT)                      0.08       2.73 r
+  U5428/Y (NAND3X0_RVT)                    0.26       2.99 f
+  U5429/Y (OA221X1_RVT)                    0.08       3.07 f
+  DATA_9_3 (out)                           0.01       3.08 f
+  data arrival time                                   3.08
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.08
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.73
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_0 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U4732/Y (INVX0_RVT)                      0.07       2.47 f
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U4524/Y (NBUFFX2_RVT)                    0.09       2.65 f
+  U3581/Y (INVX0_RVT)                      0.16       2.81 r
+  U5463/Y (NAND3X0_RVT)                    0.16       2.97 f
+  U5464/Y (OA221X1_RVT)                    0.08       3.06 f
+  DATA_9_0 (out)                           0.01       3.06 f
+  data arrival time                                   3.06
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.06
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.71
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_2 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U4732/Y (INVX0_RVT)                      0.07       2.47 f
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U4524/Y (NBUFFX2_RVT)                    0.09       2.65 f
+  U3581/Y (INVX0_RVT)                      0.16       2.81 r
+  U5441/Y (NAND3X0_RVT)                    0.16       2.97 f
+  U5442/Y (OA221X1_RVT)                    0.08       3.05 f
+  DATA_9_2 (out)                           0.01       3.06 f
+  data arrival time                                   3.06
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.06
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.71
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_15 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U4732/Y (INVX0_RVT)                      0.07       2.47 f
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U4524/Y (NBUFFX2_RVT)                    0.09       2.65 f
+  U3597/Y (INVX0_RVT)                      0.16       2.81 r
+  U3460/Y (NAND3X0_RVT)                    0.16       2.97 f
+  U5448/Y (OA221X1_RVT)                    0.08       3.05 f
+  DATA_9_15 (out)                          0.01       3.05 f
+  data arrival time                                   3.05
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.05
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.70
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_14 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U4732/Y (INVX0_RVT)                      0.07       2.47 f
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U4524/Y (NBUFFX2_RVT)                    0.09       2.65 f
+  U3527/Y (INVX0_RVT)                      0.16       2.81 r
+  U3473/Y (NAND3X0_RVT)                    0.15       2.96 f
+  U5450/Y (OA221X1_RVT)                    0.08       3.04 f
+  DATA_9_14 (out)                          0.01       3.04 f
+  data arrival time                                   3.04
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.04
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.69
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_21 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3061/Y (IBUFFX2_RVT)                    0.19       2.66 f
+  U3525/Y (NBUFFX2_RVT)                    0.23       2.89 f
+  U4042/Y (XOR3X2_RVT)                     0.15       3.04 r
+  DATA_9_21 (out)                          0.01       3.04 r
+  data arrival time                                   3.04
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.04
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.69
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_13 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U3594/Y (INVX0_RVT)                      0.07       2.47 f
+  U3518/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3808/Y (INVX0_RVT)                      0.08       2.64 r
+  U3579/Y (NBUFFX2_RVT)                    0.10       2.73 r
+  U3058/Y (NBUFFX2_RVT)                    0.16       2.89 r
+  U5452/Y (OA221X1_RVT)                    0.14       3.03 r
+  DATA_9_13 (out)                          0.01       3.04 r
+  data arrival time                                   3.04
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.04
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.69
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_7 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U3594/Y (INVX0_RVT)                      0.07       2.47 f
+  U3522/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3807/Y (INVX0_RVT)                      0.08       2.63 r
+  U3523/Y (NBUFFX2_RVT)                    0.10       2.73 r
+  U3055/Y (NBUFFX2_RVT)                    0.10       2.83 r
+  U5415/Y (OA221X1_RVT)                    0.19       3.02 r
+  DATA_9_7 (out)                           0.01       3.02 r
+  data arrival time                                   3.02
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.02
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.67
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_8 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM0 (in)                                 0.00       2.40 f
+  U4732/Y (INVX0_RVT)                      0.07       2.47 r
+  U3059/Y (NBUFFX2_RVT)                    0.09       2.56 r
+  U4522/Y (NBUFFX2_RVT)                    0.10       2.66 r
+  U3520/Y (AOI221X1_RVT)                   0.35       3.01 f
+  DATA_9_8 (out)                           0.01       3.01 f
+  data arrival time                                   3.01
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.01
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.66
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_12 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U3594/Y (INVX0_RVT)                      0.07       2.47 f
+  U3522/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3807/Y (INVX0_RVT)                      0.08       2.63 r
+  U3523/Y (NBUFFX2_RVT)                    0.10       2.73 r
+  U3533/Y (NBUFFX2_RVT)                    0.09       2.83 r
+  U3559/Y (NAND3X0_RVT)                    0.09       2.91 f
+  U5454/Y (OA221X1_RVT)                    0.08       2.99 f
+  DATA_9_12 (out)                          0.01       3.00 f
+  data arrival time                                   3.00
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -3.00
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.65
+
+
+  Startpoint: TM1 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_28 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 f
+  TM1 (in)                                 0.00       2.40 f
+  U3611/Y (INVX0_RVT)                      0.07       2.47 r
+  U3061/Y (IBUFFX2_RVT)                    0.19       2.66 f
+  U4028/Y (XOR3X2_RVT)                     0.33       2.99 f
+  DATA_9_28 (out)                          0.01       2.99 f
+  data arrival time                                   2.99
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -2.99
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.64
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_6 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U3594/Y (INVX0_RVT)                      0.07       2.47 f
+  U3522/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3807/Y (INVX0_RVT)                      0.08       2.63 r
+  U3506/Y (NBUFFX2_RVT)                    0.10       2.73 r
+  U5417/Y (NAND3X0_RVT)                    0.15       2.88 f
+  U5418/Y (OA221X1_RVT)                    0.08       2.96 f
+  DATA_9_6 (out)                           0.01       2.97 f
+  data arrival time                                   2.97
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -2.97
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.62
+
+
+  Startpoint: TM0 (input port clocked by ideal_clock)
+  Endpoint: DATA_9_11 (output port clocked by ideal_clock)
+  Path Group: ideal_clock
+  Path Type: max
+
+  Point                                    Incr       Path
+  ---------------------------------------------------------------
+  clock ideal_clock (rise edge)            0.00       0.00
+  clock network delay (ideal)              0.40       0.40
+  input external delay                     2.00       2.40 r
+  TM0 (in)                                 0.00       2.40 r
+  U3594/Y (INVX0_RVT)                      0.07       2.47 f
+  U3518/Y (NBUFFX2_RVT)                    0.09       2.56 f
+  U3808/Y (INVX0_RVT)                      0.08       2.64 r
+  U3556/Y (NBUFFX2_RVT)                    0.10       2.73 r
+  U3435/Y (OA221X1_RVT)                    0.20       2.93 r
+  DATA_9_11 (out)                          0.01       2.94 r
+  data arrival time                                   2.94
+
+  clock ideal_clock (rise edge)            2.00       2.00
+  clock network delay (ideal)              0.40       2.40
+  clock reconvergence pessimism            0.00       2.40
+  clock uncertainty                       -0.05       2.35
+  output external delay                   -2.00       0.35
+  data required time                                  0.35
+  ---------------------------------------------------------------
+  data required time                                  0.35
+  data arrival time                                  -2.94
+  ---------------------------------------------------------------
+  slack (VIOLATED)                                   -2.59
+
+
+1
+Error: Nothing matched for from_list (SEL-005)
+0
+Error: Nothing matched for from_list (SEL-005)
+0

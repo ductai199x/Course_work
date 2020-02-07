@@ -57,7 +57,7 @@ typedef struct Controller
     unsigned max_waiting_queue_size; // Size of a cache line (in Bytes)
     unsigned block_size; // Size of a cache (in KB)
     unsigned num_of_banks;
-    bool is_fcfs;
+    bool is_frfcfs;
 
 }Controller;
 
@@ -69,7 +69,7 @@ typedef struct Controller_Config
     unsigned max_waiting_queue_size; // Size of a cache line (in Bytes)
     unsigned block_size; // Size of a cache (in KB)
     unsigned num_of_banks;
-    bool is_fcfs;
+    bool is_frfcfs;
 }Controller_Config;
 
 Controller *initController(Controller_Config* config)
@@ -82,7 +82,7 @@ Controller *initController(Controller_Config* config)
     controller->max_waiting_queue_size = config->max_waiting_queue_size; // Size of a cache line (in Bytes)
     controller->block_size = config->block_size; // Size of a cache (in KB)
     controller->num_of_banks = config->num_of_banks;
-    controller->is_fcfs = config->is_fcfs;
+    controller->is_frfcfs = config->is_frfcfs;
 
 
     controller->bank_status = (Bank *)malloc(controller->num_of_banks * sizeof(Bank));
@@ -181,8 +181,13 @@ void tick(Controller *controller, uint64_t *conflict_req)
             migrateToQueue(controller->pending_queue, first);
             deleteNode(controller->waiting_queue, first);
         } else {
-            if (*conflict_req != first->queued_time)
+            if (*conflict_req != first->queued_time) {
                 ++controller->bank_conficts;
+                Node *new_instr = first->next;
+                while (new_instr != NULL) {
+                    if 
+                }
+            }
         }
 
         *conflict_req = first->queued_time;

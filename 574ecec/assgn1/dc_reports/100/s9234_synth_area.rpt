@@ -1,0 +1,31 @@
+ 
+****************************************
+Report : area
+Design : s9234
+Version: M-2016.12-SP1
+Date   : Thu Feb  6 18:55:08 2020
+****************************************
+
+Information: Updating design information... (UID-85)
+Library(s) Used:
+
+    saed32rvt_ss0p95v25c (File: /mnt/class_data/ecec574-w2019/PDKs/SAED32nm/lib/stdcell_rvt/db_ccs/saed32rvt_ss0p95v25c.db)
+
+Number of ports:                          711
+Number of nets:                          1733
+Number of cells:                         1274
+Number of combinational cells:            851
+Number of sequential cells:               212
+Number of macros/black boxes:               0
+Number of buf/inv:                        197
+Number of references:                     241
+
+Combinational area:               1825.008069
+Buf/Inv area:                      250.331841
+Noncombinational area:            1394.234030
+Macro/Black Box area:                0.000000
+Net Interconnect area:             626.394479
+
+Total cell area:                  3219.242099
+Total area:                       3845.636578
+1
