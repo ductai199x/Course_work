@@ -31,8 +31,12 @@ end
 if (d1~=rowblkN*colblkN) |(d2~=dct_block_size*dct_block_size)
     error('Dimension of ZZDCTQIm should be (rowN*colN/dct_block_size^2)x(dct_block_size^2)');
 end    
-if isempty(DisplayProcess_Flag); DisplayProcess_Flag=0; end;
+if isempty(DisplayProcess_Flag); DisplayProcess_Flag=0; end
     
+if encoder_path(end) ~= '/' || encoder_path(end) ~= '\'
+    encoder_path(end+1) = '/';
+end
+
 % open file
 [fid_out,message]=fopen(strcat(encoder_path,'JPEG_DCTQ_ZZ.txt'),'w');
 % write comment
@@ -62,7 +66,9 @@ end
 status=fclose(fid_out);
 
 % execute the jpeg entropy program
-!jpeg_entropy_encode
+% !jpeg_entropy_encode
+system(['wine ', encoder_path, 'jpeg_entropy_encode.exe']);
+
 
 [fid,message]=fopen(strcat(encoder_path,'JPEG.jpg'),'r');
 status = fseek(fid,0,'eof');
