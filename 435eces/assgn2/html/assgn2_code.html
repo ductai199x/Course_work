@@ -1,0 +1,430 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>assgn2_code</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-02-10"><meta name="DC.source" content="assgn2_code.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Tai Duc Nguyen, Hieu Mai - 02/01/2020 - ECES 435</a></li><li><a href="#2">PART 1</a></li><li><a href="#4">PART 2</a></li></ul></div><h2 id="1">Tai Duc Nguyen, Hieu Mai - 02/01/2020 - ECES 435</h2><pre class="codeinput">clear <span class="string">all</span>; close <span class="string">all</span>;
+</pre><h2 id="2">PART 1</h2><pre class="codeinput">peppers_org = imread(<span class="string">"peppers.tif"</span>);
+baboon_org = imread(<span class="string">"baboon.tif"</span>);
+</pre><pre class="codeinput">fprintf(<span class="string">'| %10s | %10s | %10s | %10s |\n'</span>, <span class="string">"Images"</span>, <span class="string">"Quality"</span>, <span class="string">"Size"</span>, <span class="string">"PSNR"</span>);
+fprintf(<span class="string">'-----------------------------------------------------\n'</span>);
+
+quality_factors = [90, 70, 50, 30, 10];
+
+<span class="keyword">for</span> i = 1:length(quality_factors)
+    filename = strcat(<span class="string">'peppers_'</span>, num2str(quality_factors(i)), <span class="string">'.jpg'</span>);
+    imwrite(peppers_org, filename, <span class="string">'Quality'</span>, quality_factors(i));
+    tmp_img = imread(filename);
+    PSNR = 20*log10(255) - 10*log10(mse(tmp_img, peppers_org));
+    fprintf(<span class="string">'| %10s | %10d | %10lu | %10f |\n'</span>, <span class="string">"peppers"</span>, quality_factors(i), imfinfo(filename).FileSize, PSNR);
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> i = 1:length(quality_factors)
+    filename = strcat(<span class="string">'baboon_'</span>, num2str(quality_factors(i)), <span class="string">'.jpg'</span>);
+    imwrite(baboon_org, filename, <span class="string">'Quality'</span>, quality_factors(i));
+    tmp_img = imread(filename);
+    PSNR = 20*log10(255) - 10*log10(mse(tmp_img, baboon_org));
+    fprintf(<span class="string">'| %10s | %10d | %10lu | %10f |\n'</span>, <span class="string">"baboon"</span>, quality_factors(i), imfinfo(filename).FileSize, PSNR);
+<span class="keyword">end</span>
+
+fprintf(<span class="string">"\r\n"</span>);
+
+fprintf([<span class="string">'Question PART 1:\n'</span>, <span class="keyword">...</span>
+    <span class="string">'1. The higher the image quality, the larger the image size.\n'</span>, <span class="keyword">...</span>
+    <span class="string">'2. JPEG Compression introduce lossy artifacts -- makes the image looks blocky.\n'</span>,<span class="keyword">...</span>
+    <span class="string">'3. They occurs because of quantization.\n'</span>,<span class="keyword">...</span>
+    <span class="string">'4. At quality factor of about 30 (PSNR=38.39), the distortion become strong.\n'</span>]);
+</pre><pre class="codeoutput">|     Images |    Quality |       Size |       PSNR |
+-----------------------------------------------------
+|    peppers |         90 |      48956 |  53.581544 |
+|    peppers |         70 |      33276 |  49.503164 |
+|    peppers |         50 |      27405 |  39.497821 |
+|    peppers |         30 |      15902 |  38.399239 |
+|    peppers |         10 |       8221 |  34.749630 |
+|     baboon |         90 |     105820 |  40.367722 |
+|     baboon |         70 |      57172 |  34.604096 |
+|     baboon |         50 |      41548 |  33.198784 |
+|     baboon |         30 |      29624 |  32.241234 |
+|     baboon |         10 |      13258 |  30.773405 |
+
+Question PART 1:
+1. The higher the image quality, the larger the image size.
+2. JPEG Compression introduce lossy artifacts -- makes the image looks blocky.
+3. They occurs because of quantization.
+4. At quality factor of about 30 (PSNR=38.39), the distortion become strong.
+</pre><h2 id="4">PART 2</h2><pre class="codeinput">current_dir = strcat(mfilename(<span class="string">'fullpath'</span>), <span class="string">'.m'</span>);
+[current_dir,~,~] = fileparts(current_dir);
+
+lum_quant = <span class="keyword">...</span>
+[ 16 11 10 16 24 40 51 61;
+  12 12 14 19 26 58 60 55;
+  14 13 16 24 40 57 69 56;
+  14 17 22 29 51 87 80 62;
+  18 22 37 56 68 109 103 77;
+  24 35 55 64 81 104 113 92;
+  49 64 78 87 103 121 120 101;
+  72 92 95 98 112 100 103 99;];
+
+[zz_quant_dct_blks, enc_size] = JPEG_encode(peppers_org, current_dir, lum_quant);
+[iZZDCTQIm, dec_img]          = JPEG_decode(current_dir);
+PSNR = 20*log10(255) - 10*log10(mse(uint8(dec_img), peppers_org));
+
+hFig = figure(1);
+hAxes = axes( figure );
+imshow(uint8(dec_img), <span class="string">'Parent'</span>, hAxes);
+title(hAxes, [<span class="string">'Standard JPEG luminance quantization table. PSNR='</span>, num2str(PSNR), <span class="string">' Size='</span>, num2str(enc_size)]);
+
+
+
+
+lum_quant = <span class="keyword">...</span>
+[ 80   55   50   80  120 200 255 255;
+  60   60   70   95  130 255 255 255;
+  70   65   80  120 200 255 255 255;
+  70   85  110 145 255 255 255 255;
+  90  110 185 255 255 255 255 255;
+  120 175 255 255 255 255 255 255;
+  255 255 255 255 255 255 255 255;
+  255 255 255 255 255 255 255 255;];
+
+[zz_quant_dct_blks, enc_size] = JPEG_encode(peppers_org, current_dir, lum_quant);
+[iZZDCTQIm, dec_img]          = JPEG_decode(current_dir);
+PSNR = 20*log10(255) - 10*log10(mse(uint8(dec_img), peppers_org));
+
+hFig = figure(2);
+hAxes = axes( figure );
+imshow(uint8(dec_img), <span class="string">'Parent'</span>, hAxes);
+title(hAxes, [<span class="string">'New JPEG luminance quantization table 1. PSNR='</span>, num2str(PSNR), <span class="string">' Size='</span>, num2str(enc_size)]);
+<span class="comment">% Source: http://mail.ipb.ac.rs/~rakaj/home/fajpg.pdf</span>
+
+
+lum_quant = <span class="keyword">...</span>
+[ 7 5 9 2    18  226 231 255;
+  26   17   35   68  177 254 255 255;
+  8    35   15   84  252 255 255 255;
+  118 172 244 247 255 255 255 255;
+  243 250 252 255 255 255 255 255;
+  138 201 255 255 255 255 255 255;
+  133 255 255 255 255 255 255 255;
+  255 255 255 255 255 255 255 255;];
+
+[zz_quant_dct_blks, enc_size] = JPEG_encode(peppers_org, current_dir, lum_quant);
+[iZZDCTQIm, dec_img]          = JPEG_decode(current_dir);
+PSNR = 20*log10(255) - 10*log10(mse(uint8(dec_img), peppers_org));
+
+hFig = figure(3);
+hAxes = axes( figure );
+imshow(uint8(dec_img), <span class="string">'Parent'</span>, hAxes);
+title(hAxes, [<span class="string">'New JPEG luminance quantization table 2. PSNR='</span>, num2str(PSNR), <span class="string">' Size='</span>, num2str(enc_size)]);
+<span class="comment">% Source: http://mail.ipb.ac.rs/~rakaj/home/fajpg.pdf</span>
+
+
+fprintf([<span class="string">'Question PART 2:\n'</span>, <span class="keyword">...</span>
+    <span class="string">'It is not possible to achieve both a lower file size and a higher PSNR. Because the lossless\n'</span>, <span class="keyword">...</span>
+    <span class="string">'encoder will only be able to reduce the number of bits representing the sequence when the \n'</span>,<span class="keyword">...</span>
+    <span class="string">'sequence is "regular". If the quantization interval is high, then most of the numbers after\n'</span>,<span class="keyword">...</span>
+    <span class="string">'qunatization become highly regular, but the error is higher.\n'</span>]);
+</pre><pre class="codeinput"><span class="keyword">function</span> [zz_quant_dct_blks, enc_size] = JPEG_encode(X, current_dir, lum_quant)
+
+    [nrow, ncol] = size(X);
+    image_flat = X(:);
+
+    block_size = 8;
+    blocks = zeros(int16(length(image_flat)/(block_size^2)), block_size^2);
+    k = 1;
+    i = 1;
+    <span class="keyword">while</span> i &lt;= length(image_flat)
+        <span class="keyword">for</span> j = 0:block_size-1
+            m = i + ncol*j;
+            n = j*block_size + 1;
+            blocks(k,n:n+block_size-1) = image_flat(m:m+block_size-1);
+        <span class="keyword">end</span>
+
+        <span class="keyword">if</span> (mod(k,int16(ncol/block_size)))
+            i = i + block_size;
+        <span class="keyword">else</span>
+            i = block_size^2*k + 1;
+        <span class="keyword">end</span>
+        k = k + 1;
+    <span class="keyword">end</span>
+
+    zz_quant_dct_blks = zeros(size(blocks));
+
+    <span class="keyword">for</span> i = 1:size(zz_quant_dct_blks,1)
+        blk_dct = round(dct2(reshape(blocks(i,:), block_size, block_size))./(lum_quant));
+        zz_quant_dct_blks(i,:) = ZigzagMtx2Vector(blk_dct);
+    <span class="keyword">end</span>
+
+    enc_size = JPEG_entropy_encode(nrow, ncol, block_size, <span class="keyword">...</span>
+                        lum_quant, zz_quant_dct_blks, current_dir, []);
+
+<span class="keyword">end</span>
+
+
+<span class="keyword">function</span> [iZZDCTQIm, dec_img] = JPEG_decode(current_dir)
+    [nrow,ncol,dct_block_size,iQ,iZZDCTQIm] = JPEG_entropy_decode(current_dir);
+
+    dec_img = zeros(nrow, ncol);
+
+    k = 1;
+    <span class="keyword">for</span> i = 1:dct_block_size:nrow
+        <span class="keyword">for</span> j = 1:dct_block_size:ncol
+            dec_img(j:j+dct_block_size-1, i:i+dct_block_size-1) = <span class="keyword">...</span>
+                idct2((iQ).*Vector2ZigzagMtx(iZZDCTQIm(k,:)));
+            k = k + 1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">wine /home/sweet/2-coursework/435eces/assgn2/jpeg_entropy_encode.exe: Signal 24
+wine /home/sweet/2-coursework/435eces/assgn2/jpeg_entropy_decode.exe: Signal 100
+wine /home/sweet/2-coursework/435eces/assgn2/jpeg_entropy_encode.exe: Signal 24
+wine /home/sweet/2-coursework/435eces/assgn2/jpeg_entropy_decode.exe: Signal 100
+wine /home/sweet/2-coursework/435eces/assgn2/jpeg_entropy_encode.exe: Signal 24
+wine /home/sweet/2-coursework/435eces/assgn2/jpeg_entropy_decode.exe: Signal 100
+Question PART 2:
+It is not possible to achieve both a lower file size and a higher PSNR. Because the lossless
+encoder will only be able to reduce the number of bits representing the sequence when the 
+sequence is "regular". If the quantization interval is high, then most of the numbers after
+qunatization become highly regular, but the error is higher.
+</pre><img vspace="5" hspace="5" src="assgn2_code_01.png" alt=""> <img vspace="5" hspace="5" src="assgn2_code_02.png" alt=""> <img vspace="5" hspace="5" src="assgn2_code_03.png" alt=""> <img vspace="5" hspace="5" src="assgn2_code_04.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Tai Duc Nguyen, Hieu Mai - 02/01/2020 - ECES 435
+
+clear all; close all;
+
+%% PART 1
+
+peppers_org = imread("peppers.tif");
+baboon_org = imread("baboon.tif");
+
+%%
+
+fprintf('| %10s | %10s | %10s | %10s |\n', "Images", "Quality", "Size", "PSNR");
+fprintf('REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-\n');
+
+quality_factors = [90, 70, 50, 30, 10];
+
+for i = 1:length(quality_factors)
+    filename = strcat('peppers_', num2str(quality_factors(i)), '.jpg');
+    imwrite(peppers_org, filename, 'Quality', quality_factors(i));
+    tmp_img = imread(filename);
+    PSNR = 20*log10(255) - 10*log10(mse(tmp_img, peppers_org));
+    fprintf('| %10s | %10d | %10lu | %10f |\n', "peppers", quality_factors(i), imfinfo(filename).FileSize, PSNR);
+end
+    
+for i = 1:length(quality_factors)
+    filename = strcat('baboon_', num2str(quality_factors(i)), '.jpg');
+    imwrite(baboon_org, filename, 'Quality', quality_factors(i));
+    tmp_img = imread(filename);
+    PSNR = 20*log10(255) - 10*log10(mse(tmp_img, baboon_org));
+    fprintf('| %10s | %10d | %10lu | %10f |\n', "baboon", quality_factors(i), imfinfo(filename).FileSize, PSNR);
+end
+
+fprintf("\r\n");
+
+fprintf(['Question PART 1:\n', ...
+    '1. The higher the image quality, the larger the image size.\n', ...
+    '2. JPEG Compression introduce lossy artifacts REPLACE_WITH_DASH_DASH makes the image looks blocky.\n',...
+    '3. They occurs because of quantization.\n',...
+    '4. At quality factor of about 30 (PSNR=38.39), the distortion become strong.\n']);
+
+
+%% PART 2
+
+current_dir = strcat(mfilename('fullpath'), '.m');
+[current_dir,~,~] = fileparts(current_dir);
+
+lum_quant = ...
+[ 16 11 10 16 24 40 51 61;
+  12 12 14 19 26 58 60 55;
+  14 13 16 24 40 57 69 56;         
+  14 17 22 29 51 87 80 62;
+  18 22 37 56 68 109 103 77;
+  24 35 55 64 81 104 113 92;
+  49 64 78 87 103 121 120 101;
+  72 92 95 98 112 100 103 99;];
+
+[zz_quant_dct_blks, enc_size] = JPEG_encode(peppers_org, current_dir, lum_quant);
+[iZZDCTQIm, dec_img]          = JPEG_decode(current_dir);
+PSNR = 20*log10(255) - 10*log10(mse(uint8(dec_img), peppers_org));
+
+hFig = figure(1);
+hAxes = axes( figure );
+imshow(uint8(dec_img), 'Parent', hAxes);
+title(hAxes, ['Standard JPEG luminance quantization table. PSNR=', num2str(PSNR), ' Size=', num2str(enc_size)]);
+
+
+
+
+lum_quant = ...
+[ 80   55   50   80  120 200 255 255;
+  60   60   70   95  130 255 255 255;
+  70   65   80  120 200 255 255 255;
+  70   85  110 145 255 255 255 255;
+  90  110 185 255 255 255 255 255;
+  120 175 255 255 255 255 255 255;
+  255 255 255 255 255 255 255 255;
+  255 255 255 255 255 255 255 255;];
+
+[zz_quant_dct_blks, enc_size] = JPEG_encode(peppers_org, current_dir, lum_quant);
+[iZZDCTQIm, dec_img]          = JPEG_decode(current_dir);
+PSNR = 20*log10(255) - 10*log10(mse(uint8(dec_img), peppers_org));
+
+hFig = figure(2);
+hAxes = axes( figure );
+imshow(uint8(dec_img), 'Parent', hAxes);
+title(hAxes, ['New JPEG luminance quantization table 1. PSNR=', num2str(PSNR), ' Size=', num2str(enc_size)]);
+% Source: http://mail.ipb.ac.rs/~rakaj/home/fajpg.pdf
+
+
+lum_quant = ...
+[ 7 5 9 2    18  226 231 255;
+  26   17   35   68  177 254 255 255;
+  8    35   15   84  252 255 255 255;
+  118 172 244 247 255 255 255 255;
+  243 250 252 255 255 255 255 255;
+  138 201 255 255 255 255 255 255;
+  133 255 255 255 255 255 255 255;
+  255 255 255 255 255 255 255 255;];
+
+[zz_quant_dct_blks, enc_size] = JPEG_encode(peppers_org, current_dir, lum_quant);
+[iZZDCTQIm, dec_img]          = JPEG_decode(current_dir);
+PSNR = 20*log10(255) - 10*log10(mse(uint8(dec_img), peppers_org));
+
+hFig = figure(3);
+hAxes = axes( figure );
+imshow(uint8(dec_img), 'Parent', hAxes);
+title(hAxes, ['New JPEG luminance quantization table 2. PSNR=', num2str(PSNR), ' Size=', num2str(enc_size)]);
+% Source: http://mail.ipb.ac.rs/~rakaj/home/fajpg.pdf
+
+
+fprintf(['Question PART 2:\n', ...
+    'It is not possible to achieve both a lower file size and a higher PSNR. Because the lossless\n', ...
+    'encoder will only be able to reduce the number of bits representing the sequence when the \n',...
+    'sequence is "regular". If the quantization interval is high, then most of the numbers after\n',...
+    'qunatization become highly regular, but the error is higher.\n']);
+
+%%
+
+function [zz_quant_dct_blks, enc_size] = JPEG_encode(X, current_dir, lum_quant)
+
+    [nrow, ncol] = size(X);
+    image_flat = X(:);
+
+    block_size = 8;
+    blocks = zeros(int16(length(image_flat)/(block_size^2)), block_size^2);
+    k = 1;
+    i = 1;
+    while i <= length(image_flat)
+        for j = 0:block_size-1
+            m = i + ncol*j;
+            n = j*block_size + 1;
+            blocks(k,n:n+block_size-1) = image_flat(m:m+block_size-1);
+        end
+
+        if (mod(k,int16(ncol/block_size)))
+            i = i + block_size;
+        else
+            i = block_size^2*k + 1;
+        end
+        k = k + 1;
+    end
+
+    zz_quant_dct_blks = zeros(size(blocks));
+
+    for i = 1:size(zz_quant_dct_blks,1)
+        blk_dct = round(dct2(reshape(blocks(i,:), block_size, block_size))./(lum_quant));
+        zz_quant_dct_blks(i,:) = ZigzagMtx2Vector(blk_dct);
+    end
+
+    enc_size = JPEG_entropy_encode(nrow, ncol, block_size, ...
+                        lum_quant, zz_quant_dct_blks, current_dir, []);
+
+end
+
+
+function [iZZDCTQIm, dec_img] = JPEG_decode(current_dir)
+    [nrow,ncol,dct_block_size,iQ,iZZDCTQIm] = JPEG_entropy_decode(current_dir);
+     
+    dec_img = zeros(nrow, ncol);
+
+    k = 1;
+    for i = 1:dct_block_size:nrow
+        for j = 1:dct_block_size:ncol
+            dec_img(j:j+dct_block_size-1, i:i+dct_block_size-1) = ...
+                idct2((iQ).*Vector2ZigzagMtx(iZZDCTQIm(k,:)));
+            k = k + 1;
+        end
+    end
+
+end
+
+
+
+
+##### SOURCE END #####
+--></body></html>
