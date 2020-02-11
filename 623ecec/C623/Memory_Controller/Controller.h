@@ -132,13 +132,10 @@ void tick(Controller *controller, uint64_t *conflict_req)
 {
     // Step one, update system stats
     ++(controller->cur_clk);
-    // printf("Clk: ""%"PRIu64"\n", controller->cur_clk);
     for (int i = 0; i < controller->num_of_banks; i++)
     {
         ++(controller->bank_status)[i].cur_clk;
-        // printf("%"PRIu64"\n", (controller->bank_status)[i].cur_clk);
     }
-    // printf("\n");
 
     // Step two, serve pending requests
     if (controller->pending_queue->size)
@@ -146,13 +143,6 @@ void tick(Controller *controller, uint64_t *conflict_req)
         Node *first = controller->pending_queue->first;
         if (first->end_exe <= controller->cur_clk)
         {
-            /*
-            printf("Clk: ""%"PRIu64"\n", controller->cur_clk);
-            printf("Address: ""%"PRIu64"\n", first->mem_addr);
-            printf("Bank ID: %d\n", first->bank_id);
-            printf("Begin execution: ""%"PRIu64"\n", first->begin_exe);
-            printf("End execution: ""%"PRIu64"\n\n", first->end_exe);
-            */
             deleteNode(controller->pending_queue, first);
         }
     }
@@ -160,37 +150,48 @@ void tick(Controller *controller, uint64_t *conflict_req)
     // Step three, find a request to schedule
     if (controller->waiting_queue->size)
     {
+        
         // Implementation One - FCFS
         Node *first = controller->waiting_queue->first;
-        int target_bank_id = first->bank_id;
-        if ((controller->bank_status)[target_bank_id].next_free <= controller->cur_clk)
-        {
-            first->begin_exe = controller->cur_clk;
-            controller->access_time += controller->cur_clk - first->queued_time;
-            if (first->req_type == READ)
-            {
-                first->end_exe = first->begin_exe + (uint64_t)controller->nclks_read;
-            }
-            else if (first->req_type == WRITE)
-            {
-                first->end_exe = first->begin_exe + (uint64_t)controller->nclks_write;
-            }
-            // The target bank is no longer free until this request completes.
-            (controller->bank_status)[target_bank_id].next_free = first->end_exe;
+        Node *new_first = controller->waiting_queue->first;
+        int is_bank_confl = 1;
+        int is_incr_bank_confl = 0;
 
-            migrateToQueue(controller->pending_queue, first);
-            deleteNode(controller->waiting_queue, first);
-        } else {
-            if (*conflict_req != first->queued_time) {
-                ++controller->bank_conficts;
-                Node *new_instr = first->next;
-                while (new_instr != NULL) {
-                    if 
+        while(is_bank_confl && first != NULL)
+        {
+            int target_bank_id = first->bank_id;
+            if ((controller->bank_status)[target_bank_id].next_free <= controller->cur_clk)
+            {
+                first->begin_exe = controller->cur_clk;
+                controller->access_time += controller->cur_clk - first->queued_time;
+                if (first->req_type == READ) {
+                    first->end_exe = first->begin_exe + (uint64_t)controller->nclks_read;
+                }
+                else if (first->req_type == WRITE) {
+                    first->end_exe = first->begin_exe + (uint64_t)controller->nclks_write;
+                }
+                // The target bank is no longer free until this request completes.
+                (controller->bank_status)[target_bank_id].next_free = first->end_exe;
+
+                migrateToQueue(controller->pending_queue, first);
+                deleteNode(controller->waiting_queue, first);
+                is_bank_confl = 0;
+            } else {
+                if (*conflict_req != new_first->queued_time && !is_incr_bank_confl) {
+                    ++controller->bank_conficts;
+                    is_incr_bank_confl = 1;
+                }
+                if (controller->is_frfcfs) {
+                    first = first->next;
                 }
             }
+            if (!controller->is_frfcfs) {
+                break;
+            }
         }
-
-        *conflict_req = first->queued_time;
+        // printf("%ld\n", *conflict_req); fflush(stdout);
+        *conflict_req = new_first->queued_time;
+        
     }
 }
 

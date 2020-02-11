@@ -39,34 +39,71 @@ int main(int argc, const char *argv[])
 
     Controller_Config config;
 
-    Controller_Table *fcfs = malloc(sizeof(Controller_Table));
-    fcfs->dram_timing.nclks_read = 53;
-    fcfs->dram_timing.nclks_write = 53;
-    unsigned max_waiting_queue_size[] = {64, 64, 64, 64};
-    unsigned block_size[] = {128, 128, 128, 128};
-    unsigned num_of_banks[] = {2, 4, 8, 16};
-    fcfs->max_waiting_queue_size = max_waiting_queue_size;
-    fcfs->block_size = block_size;
-    fcfs->num_of_banks = num_of_banks;
-    fcfs->is_frfcfs = false;
-    fcfs->row = sizeof(num_of_banks)/sizeof(num_of_banks[0]);
+    Controller_Table *fcfs_dram = malloc(sizeof(Controller_Table));
+    fcfs_dram->dram_timing.nclks_read = 53;
+    fcfs_dram->dram_timing.nclks_write = 53;
+    unsigned fcfs_dram_max_waiting_queue_size[] = {64, 64, 64, 64};
+    unsigned fcfs_dram_block_size[] = {128, 128, 128, 128};
+    unsigned fcfs_dram_num_of_banks[] = {2, 4, 8, 16};
+    fcfs_dram->max_waiting_queue_size = fcfs_dram_max_waiting_queue_size;
+    fcfs_dram->block_size = fcfs_dram_block_size;
+    fcfs_dram->num_of_banks = fcfs_dram_num_of_banks;
+    fcfs_dram->is_frfcfs = false;
+    fcfs_dram->row = sizeof(fcfs_dram_num_of_banks)/sizeof(fcfs_dram_num_of_banks[0]);
+
+    Controller_Table *test = malloc(sizeof(Controller_Table));
+    test->dram_timing.nclks_read = 53;
+    test->dram_timing.nclks_write = 53;
+    unsigned test_max_waiting_queue_size[] = {64};
+    unsigned test_block_size[] = {128};
+    unsigned test_num_of_banks[] = {16};
+    test->max_waiting_queue_size = test_max_waiting_queue_size;
+    test->block_size = test_block_size;
+    test->num_of_banks = test_num_of_banks;
+    test->is_frfcfs = true;
+    test->row = sizeof(test_num_of_banks)/sizeof(test_num_of_banks[0]);
 
     Controller_Table *fcfs_pcm = malloc(sizeof(Controller_Table));
     fcfs_pcm->dram_timing.nclks_read = 57;
     fcfs_pcm->dram_timing.nclks_write = 162;
-    unsigned max_waiting_queue_size_pcm[] = {64, 64, 64, 64};
-    unsigned block_size_pcm[] = {128, 128, 128, 128};
-    unsigned num_of_banks_pcm[] = {2, 4, 8, 16};
-    fcfs_pcm->max_waiting_queue_size = max_waiting_queue_size_pcm;
-    fcfs_pcm->block_size = block_size_pcm;
-    fcfs_pcm->num_of_banks = num_of_banks_pcm;
+    unsigned fcfs_pcm_max_waiting_queue_size[] = {64, 64, 64, 64};
+    unsigned fcfs_pcm_block_size[] = {128, 128, 128, 128};
+    unsigned fcfs_pcm_num_of_banks[] = {2, 4, 8, 16};
+    fcfs_pcm->max_waiting_queue_size = fcfs_pcm_max_waiting_queue_size;
+    fcfs_pcm->block_size = fcfs_pcm_block_size;
+    fcfs_pcm->num_of_banks = fcfs_pcm_num_of_banks;
     fcfs_pcm->is_frfcfs = false;
-    fcfs_pcm->row = sizeof(num_of_banks)/sizeof(num_of_banks[0]);
+    fcfs_pcm->row = sizeof(fcfs_pcm_num_of_banks)/sizeof(fcfs_pcm_num_of_banks[0]);
 
-    Controller_Table *controller_tables[] = { fcfs, fcfs_pcm };
+    Controller_Table *frfcfs_dram = malloc(sizeof(Controller_Table));
+    frfcfs_dram->dram_timing.nclks_read = 53;
+    frfcfs_dram->dram_timing.nclks_write = 53;
+    unsigned frfcfs_dram_max_waiting_queue_size[] = {64, 64, 64, 64};
+    unsigned frfcfs_dram_block_size[] = {128, 128, 128, 128};
+    unsigned frfcfs_dram_num_of_banks[] = {2, 4, 8, 16};
+    frfcfs_dram->max_waiting_queue_size = frfcfs_dram_max_waiting_queue_size;
+    frfcfs_dram->block_size = frfcfs_dram_block_size;
+    frfcfs_dram->num_of_banks = frfcfs_dram_num_of_banks;
+    frfcfs_dram->is_frfcfs = true;
+    frfcfs_dram->row = sizeof(frfcfs_dram_num_of_banks)/sizeof(frfcfs_dram_num_of_banks[0]);
+
+    Controller_Table *frfcfs_pcm = malloc(sizeof(Controller_Table));
+    frfcfs_pcm->dram_timing.nclks_read = 57;
+    frfcfs_pcm->dram_timing.nclks_write = 162;
+    unsigned frfcfs_pcm_max_waiting_queue_size[] = {64, 64, 64, 64};
+    unsigned frfcfs_pcm_block_size[] = {128, 128, 128, 128};
+    unsigned frfcfs_pcm_num_of_banks[] = {2, 4, 8, 16};
+    frfcfs_pcm->max_waiting_queue_size = frfcfs_pcm_max_waiting_queue_size;
+    frfcfs_pcm->block_size = frfcfs_pcm_block_size;
+    frfcfs_pcm->num_of_banks = frfcfs_pcm_num_of_banks;
+    frfcfs_pcm->is_frfcfs = true;
+    frfcfs_pcm->row = sizeof(frfcfs_pcm_num_of_banks)/sizeof(frfcfs_pcm_num_of_banks[0]);
+
+    Controller_Table *controller_tables[] = { frfcfs_dram, frfcfs_pcm };
+    // Controller_Table *controller_tables[] = { fcfs_dram, fcfs_pcm, frfcfs_dram, frfcfs_pcm };
     int num_tables = (int)( sizeof(controller_tables) / sizeof(controller_tables[0]) );
 
-    printf("fcfs, max_queue, blk_size, nbanks, clk_r, clk_w,  nreqs , avg_at, bank_cfl, exec_time\n\n");
+    printf("frfcfs, max_queue, blk_size, nbanks, clk_r, clk_w,  nreqs , avg_at, bank_cfl, exec_time\n");
     for (int t = 0; t < num_tables; t++ ) {
         for (int r = 0; r < controller_tables[t]->row; r++) {
             config.is_frfcfs = controller_tables[t]->is_frfcfs;
@@ -75,7 +112,7 @@ int main(int argc, const char *argv[])
             config.num_of_banks = controller_tables[t]->num_of_banks[r];
             config.nclks_read = controller_tables[t]->dram_timing.nclks_read;
             config.nclks_write = controller_tables[t]->dram_timing.nclks_write;
-            printf("%4u, %9u, %8u, %6u, %5u, %5u, ", config.is_frfcfs, config.max_waiting_queue_size, 
+            printf("%6u, %9u, %8u, %6u, %5u, %5u, ", config.is_frfcfs, config.max_waiting_queue_size, 
                 config.block_size, config.num_of_banks, config.nclks_read, config.nclks_write);
 
             // Initialize a CPU trace parser
@@ -83,8 +120,6 @@ int main(int argc, const char *argv[])
 
             // Initialize a Controller
             Controller *controller = initController(&config);
-            // printf("%u\n", controller->bank_shift);
-            // printf("%u\n", controller->bank_mask);
 
             uint64_t conflict_req = 0;
 
@@ -110,7 +145,7 @@ int main(int argc, const char *argv[])
                 tick(controller, &conflict_req);
                 ++cycles;
             }
-            printf("%5lu, %6lu, %8lu, ", num_request, controller->access_time/num_request, controller->bank_conficts);
+            printf("%7lu, %6lu, %8lu, ", num_request, controller->access_time/num_request, controller->bank_conficts);
             // printf("End Execution Time: ""%"PRIu64"\n", cycles);
             printf("""%"PRIu64"\n", cycles);
             
