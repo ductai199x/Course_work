@@ -13,3 +13,5 @@ sync_changes.txt
 *ipynb_checkpoints*
 434eces/labs/src/lab7/2_libertybell.wav
 434eces/labs/src/lab7/clip*.wav
+
+*pycache*
