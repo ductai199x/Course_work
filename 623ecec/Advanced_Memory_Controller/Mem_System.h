@@ -2,6 +2,8 @@
 #define __MEMORY_SYSTEM_HH__
 
 #include "Controller.h"
+#include "BLISS_table.h"
+#include "hash_table.h"
 
 extern Controller *initController();
 extern unsigned ongoingPendingRequests(Controller *controller);
@@ -15,19 +17,34 @@ typedef struct MemorySystem
     /* For decoding */
     unsigned channel_shift;
     uint64_t channel_mask;
-}MemorySystem;
 
-MemorySystem *initMemorySystem(Controller_Config* config)
+    unsigned num_of_channels;
+    BLISS_table *bliss_table;
+    hash_table *stalls_table;
+
+} MemorySystem;
+
+MemorySystem *initMemorySystem(Controller_Config *config)
 {
     MemorySystem *mem_system = (MemorySystem *)malloc(sizeof(MemorySystem));
 
     mem_system->controllers = (Controller **)malloc(config->num_of_channels * sizeof(Controller *));
-    int i;
-    for (i = 0; i < config->num_of_channels; i++)
+    mem_system->bliss_table = (BLISS_table* )malloc(sizeof(BLISS_table));
+    mem_system->bliss_table->blacklist_threshold = 4;
+    mem_system->bliss_table->clearing_interval = 10000;
+
+    int max_ncore = 8;
+    mem_system->bliss_table->blacklisted_ids = (int* )malloc(sizeof(int)*max_ncore);
+    mem_system->stalls_table = create_hash_table(max_ncore);
+
+    for (int i = 0; i < config->num_of_channels; i++)
     {
         mem_system->controllers[i] = initController(config);
+        mem_system->controllers[i]->ctrl_id = i;
+        mem_system->controllers[i]->bliss_table = mem_system->bliss_table;
+        mem_system->controllers[i]->stalls_table = mem_system->stalls_table;
     }
-
+    mem_system->num_of_channels = config->num_of_channels;
     mem_system->channel_shift = log2(config->block_size);
     mem_system->channel_mask = (uint64_t)config->num_of_channels - (uint64_t)1;
 
@@ -37,8 +54,8 @@ MemorySystem *initMemorySystem(Controller_Config* config)
 unsigned pendingRequests(MemorySystem *mem_system)
 {
     unsigned num_reqs_left = 0;
-    int i;
-    for (i = 0; i < mem_system->controllers[i]->num_of_channels; i++)
+
+    for (int i = 0; i < mem_system->num_of_channels; i++)
     {
         num_reqs_left += ongoingPendingRequests(mem_system->controllers[i]);
     }
@@ -48,8 +65,7 @@ unsigned pendingRequests(MemorySystem *mem_system)
 
 bool access(MemorySystem *mem_system, Request *req)
 {
-    unsigned channel_id = ((req->memory_address) >> mem_system->channel_shift) 
-        & mem_system->channel_mask;
+    unsigned channel_id = ((req->memory_address) >> mem_system->channel_shift) & mem_system->channel_mask;
 
     req->channel_id = channel_id;
     return send(mem_system->controllers[channel_id], req);
@@ -57,8 +73,8 @@ bool access(MemorySystem *mem_system, Request *req)
 
 void tickEvent(MemorySystem *mem_system)
 {
-    int i;
-    for (i = 0; i < mem_system->controllers[i]->num_of_channels; i++)
+
+    for (int i = 0; i < mem_system->num_of_channels; i++)
     {
         tick(mem_system->controllers[i]);
     }

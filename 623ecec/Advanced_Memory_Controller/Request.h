@@ -18,6 +18,7 @@ typedef struct Request
     /* Decoding Info */
     int channel_id;
     int bank_id; // Which bank it targets to.
+    uint64_t queued_time;
 
 }Request;
 
