@@ -94,7 +94,7 @@ int main(int argc, const char *argv[])
 
             int core_id = 0;
             int max_ncore = 8;
-            
+            uint64_t nreqs_shared = 0;
 
             hash_table *stalls_table = (hash_table* )malloc(sizeof(hash_table));
             double* slowdown_table = (double* )malloc(sizeof(double)*max_ncore);
@@ -114,8 +114,6 @@ int main(int argc, const char *argv[])
                 bool end = false;
                 while (!end || pendingRequests(mem_system))
                 {
-                    
-                    if (n_req > 1000000) break;
                     if (!end && !stall)
                     {
                         end = !(getRequest(mem_trace));
@@ -134,15 +132,16 @@ int main(int argc, const char *argv[])
                 }
 
                 if (config.is_shared) {
+					nreqs_shared = n_req;	
                     memcpy(stalls_table, mem_system->stalls_table, sizeof(hash_table));
                 } else {
-                    slowdown_table[core_id] = (double)hash_table_lookup(stalls_table, core_id)->stall_cycles / cycles;
+                    slowdown_table[core_id] = ((double)hash_table_lookup(stalls_table, core_id)->stall_cycles/nreqs_shared) / (hash_table_lookup(mem_system->stalls_table, core_id)->stall_cycles/n_req);
                     core_id++;
                 }
 
                 
                 config.is_shared = false;
-
+		        config.is_bliss = false;
                 free(mem_system->stalls_table);
                 
 
@@ -155,7 +154,7 @@ int main(int argc, const char *argv[])
             } while(config.is_ARSR && core_id < max_ncore);
 
             for (int i = 0; i < max_ncore; i++) {
-                printf("%5lf ", slowdown_table[i]);
+                printf("%5lf, ", slowdown_table[i]);
             }
 
             printf("\n"); fflush(stdout);
