@@ -85,7 +85,7 @@ _This document includes the sumary of different academic papers which focus on M
 - Research Team:
 - Type of Memory:
 - Research Focus:
-- Simulators:
+- Simulators:****
 - Benchmarks:
 
 # EDEN: Enabling Energy-Efficient, High-Performance Deep Neural Network Inference Using Approximate DRAM
@@ -95,15 +95,26 @@ _This document includes the sumary of different academic papers which focus on M
 - Type of Memory:
   - DRAM
 - Research Focus:
-  - 
+  - The authors propose a method to run an **already trained** DNN using conventional DRAM (or any kind of memory which can trade power for Bit Error Rate) that can consume less power and faster. This method comprises of 3 stages: Error Boosting, DNN characterization, and DNN to DRAM mapping. Error Boosting is a step where small incremental errors (bit flips) are introduced into the DNN parameters until the DNN is deemed `unreliable`. This step is performed in concurrent with correcting implausible values (zero-out values that are Out-Of-Bounds) to avoid *accuracy collapse*. After the network finishes Error Boosting, the highest BER of the entire DNN (Coarse-grained Characterization), or of each DNN datatypes (int4, int8, etc.) (Fine-grained Characterization) is determined. These BERs are then used to map the entire DNN (Coarse-grained Mapping), or parts of the DNN (Fine-grained Mapping) to regions in the DRAM which satisfy the BER requirements. This process is performed with a priori knowledge on the DRAM's timing characteristics, which are acquired by performing a series of tests where the voltage is reduced in a region and a numeric pattern is read out. In order to *Correct Implausible Values*, and enable *Coarse/Fine-grained Mapping*, the author introduces complexity into the Memory Controller so that it can correct values and change voltage and timing parameters in an online manner.
 - Simulators:
+  - FPGA running SoftMC
+  - PyTorch
 - Benchmarks:
-
+  - CIFAR-10
+  - ILSVRC2012
+  - ResNet101
+  - VGG-16
+  - DenseNet201
+  - Google MoblileNetV2
+  - SqueezeNet
+  - YOLO/YOLO-Tiny
 
 # A Memory Controller with Row Buffer Locality Awareness for Hybrid Memory Systems
 
 https://arxiv.org/pdf/1804.11040.pdf
+
 - Research Team:
+  - **Google, CMU, Facebook, MIT, ETH Zurich** - HanBin Yoon et. al.
 - Type of Memory:
 - Research Focus:
 - Simulators:
