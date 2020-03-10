@@ -7,10 +7,11 @@ _This document includes the sumary of different academic papers which focus on M
 1. [CROW: A Low-Cost Substrate for Improving DRAM Performance, Energy Efficiency, and Reliability](#crow-a-low-cost-substrate-for-improving-dram-performance-energy-efficiency-and-reliability)
 2. [ATLAS: A Scalable and High-Performance Scheduling Algorithm for Multiple Memory Controllers](#atlas-a-scalable-and-high-performance-scheduling-algorithm-for-multiple-memory-controllers)
 3. [High-Performance and Energy-Efficient Memory Scheduler Design for Heterogeneous Systems](#high-performance-and-energy-efficient-memory-scheduler-design-for-heterogeneous-systems)
-4. [PARBS](#parbs)
-5. [BLISS](#bliss)
+4. [Parallelism-Aware Batch Scheduling: Enhancing both Performance and Fairness of Shared DRAM Systems](#parallelism-aware-batch-scheduling-enhancing-both-performance-and-fairness-of-shared-dram-systems)
+5. [BLISS Balancing Performance, Fairness and Complexity in Memory Access Scheduling](#bliss-balancing-performance-fairness-and-complexity-in-memory-access-scheduling)
 6. [EDEN: Enabling Energy-Efficient, High-Performance Deep Neural Network Inference Using Approximate DRAM](#eden-enabling-energy-efficient-high-performance-deep-neural-network-inference-using-approximate-dram)
 7. [A Memory Controller with Row Buffer Locality Awareness for Hybrid Memory Systems](#a-memory-controller-with-row-buffer-locality-awareness-for-hybrid-memory-systems)
+8. [Self-Optimizing Memory Controllers: A Reinforcement Learning Approach](#self-optimizing-memory-controllers-a-reinforcement-learning-approach)
 
 <!-- - Research Team:
 - Type of Memory:
@@ -72,21 +73,46 @@ _This document includes the sumary of different academic papers which focus on M
 - Benchmarks:
   - 16 benchmarks from SPEC CPU2006 + 1 GPU application.
 
-# PARBS
+# Parallelism-Aware Batch Scheduling: Enhancing both Performance and Fairness of Shared DRAM Systems
 
 - Research Team:
+  - **Microsoft Research** - Onur Mutlu
 - Type of Memory:
+  - DRAM
 - Research Focus:
+  - The authors propose PAR-BS (Parallelism-Aware Batch Scheduling), a new memory scheduler which provides quality-of-service (Qos), system throughput, and fairness in highly parallelized computer systems. In PAR-BS, there are 2 stages: Batch Formation and Request Prioritization. The MC forms new batch when there are no "marked" requests left in the memory request buffer (MRB). This new batch consists of outstanding requests in the MRB that were not included in the last batch. The MC will "mark" up to `MarkingCap` number of requests in the current batch. Then, it will prioritize requests in the following order:
+    - Marked requests 
+    - Row hit
+    - Higher rank (enable operator/programmer to have control)
+    - Older request
+  - The rank of a request is computed such that the shortest-job rule is obeyed: The thread with lower number of marked requests (in current batch) are ranked first. If there is a tie breaker, then the thread with the lower total number of marked request (over multiple batches) is prioritized.
 - Simulators:
+  - Cycle-accurate x86 CMP simulator based on Pin and iDNA
 - Benchmarks:
+  - SPEC CPU2006
+  - Matlab
+  - XML Parsing
 
-# BLISS
+# BLISS Balancing Performance, Fairness and Complexity in Memory Access Scheduling
 
 - Research Team:
+  - **CMU** - Lavanya Subramanian et. al.
 - Type of Memory:
+  - DRAM
 - Research Focus:
-- Simulators:****
+  - The author built a new application scheduling policy, BLISS (Blacklisting Memory Scheduler), which achieves higher system performance, better fairness, and less hardware complexity in a highly parallelized computer system. The scheduler works by implement a new counter variable with each application. If the application be served currently is the same as the application being served immediately before, then the counter for such application is increment by 1. If this counter is greater than the `BlacklistingThreshold`, then the application is deemed `blacklisted`. Hence, the prioritization of memory requests are as follow: 
+    - Non-blacklisted application
+    - Row buffer hit
+    - Older request
+  - The blacklisting information is reset every `X` cycles.
+- Simulators:
+  - In-house cycle-precise simulator similar to Ramulator
+  - Synopsis Design Compiler (for hardware cost estimation) with 32nm standard cell library
 - Benchmarks:
+  - SPEC CPU2006
+  - TPC-C
+  - Matlab
+  - NAS parallel benchmark suite
 
 # EDEN: Enabling Energy-Efficient, High-Performance Deep Neural Network Inference Using Approximate DRAM
 
@@ -111,11 +137,41 @@ _This document includes the sumary of different academic papers which focus on M
 
 # A Memory Controller with Row Buffer Locality Awareness for Hybrid Memory Systems
 
-https://arxiv.org/pdf/1804.11040.pdf
-
 - Research Team:
   - **Google, CMU, Facebook, MIT, ETH Zurich** - HanBin Yoon et. al.
 - Type of Memory:
+  - Hybrid DRAM + NVM (PCM)
 - Research Focus:
+  - The authors expand on the idea where DRAM is used as a "fast" cache in hybrid Memory System by introducing a Dynamic Row Buffer Locality Awareness (DRBLA) system which can adapt the `MissThreshold` in an online manner. This threshold is used to determine if a row should be remapped from NVM to DRAM so that further row buffer miss will result in less latency. The Memory Controller will find the best `MissThreshold` by performing a simple hill-climbing algorithm to find the sweet spot where the benefit of caching the data is greater than the cost of migrating the data.
 - Simulators:
+  - In house x86 multicore simulator (predecessor of Ramulator and ThyNVM simulator)
 - Benchmarks:
+  - Cloud/Server type applications: TPC-C/H
+  - Apache Web ServerV
+  - Video processing benchmarks
+
+# Self-Optimizing Memory Controllers: A Reinforcement Learning Approach
+
+- Research Team:
+  - **Cornell University, Microsoft Research** - Engin Ipek et. al.
+- Type of Memory:
+  - DRAM
+- Research Focus:
+  - The authors introduce a new DRAM Memory Controller which only uses Reinforcement Learning (RL) to intelligently schedule memory commands. With any RL system, 3 considerations must be analyzed: 1) Credit Assignment Problem, 2) Balancing Exploration & Exploitation, and 3) Generalization. Since the memory scheduling is an ***infinite-horizon*** process, it need necessary for the cumulative reward function to have a discount parameter ($\gamma$) so that convergence is mathematically possible.
+    - $E[\sum_{i=0}^{\inf}\gamma^t \cdot r_{t+i}]$ where $E$ is the cumulative reward function, $0 \leq \gamma \leq 1$, and $r$ is the immediate reward value 
+  - In order to choose an action that leads to the reward $r$, however, the expected value of the cumulative reward, $Q$, must be computed. The author uses the learning algorithm SARSA, which update the $Q$ for every state-action pairs by:
+    - $Q(s_{prev},v_{prev}) = (1-\alpha)Q(s_{prev},v_{prev}) + \alpha[r + \gamma Q(s_{current},v_{current})]$. The MC will chose to the perform the legal action whose Q value is largest given its current state.
+  - To enable exploration, however, the MC will take a random action at a probability $\epsilon$.
+  - Lastly, in order for the RL algorithm to generalize and the system to conserve computation/memory usage, the large number of states are quantized (clustered) in to cells, which form tables. Then, CMAC (Cerebellar Model Arithmetic Computer) learning model will shifts these "coarse-grained" tables by a random amount with respect to each other so that some states in different tables will share the same Q value. This method, in conjunction with an efficient hashing algorithm makes the computation very fast and conserves memory usage.
+- Simulators:
+  - In-house x86 simulator (modified version of SESC with Intel Nehalem arch)
+- Benchmarks:
+  - SCALPARC
+  - MG, CG
+  - SWIM-OMP
+  - EQUAKE-OMP
+  - ART-OMP
+  - OCEAN
+  - FFT
+  - RADIX
+

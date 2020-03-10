@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tai Duc Nguyen - ECEC 623 - 03/08/2020</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+    </head>
+    <body class="vscode-light">
+        <h2 id="tai-duc-nguyen---ecec-623---03082020">Tai Duc Nguyen - ECEC 623 - 03/08/2020</h2>
+<h2 id="academic-survey">Academic Survey</h2>
+<p><em>This document includes the sumary of different academic papers which focus on Memory Controler (MC) optimizations</em></p>
+<ol>
+<li><a href="#crow-a-low-cost-substrate-for-improving-dram-performance-energy-efficiency-and-reliability">CROW: A Low-Cost Substrate for Improving DRAM Performance, Energy Efficiency, and Reliability</a></li>
+<li><a href="#atlas-a-scalable-and-high-performance-scheduling-algorithm-for-multiple-memory-controllers">ATLAS: A Scalable and High-Performance Scheduling Algorithm for Multiple Memory Controllers</a></li>
+<li><a href="#high-performance-and-energy-efficient-memory-scheduler-design-for-heterogeneous-systems">High-Performance and Energy-Efficient Memory Scheduler Design for Heterogeneous Systems</a></li>
+<li><a href="#parallelism-aware-batch-scheduling-enhancing-both-performance-and-fairness-of-shared-dram-systems">Parallelism-Aware Batch Scheduling: Enhancing both Performance and Fairness of Shared DRAM Systems</a></li>
+<li><a href="#bliss-balancing-performance-fairness-and-complexity-in-memory-access-scheduling">BLISS Balancing Performance, Fairness and Complexity in Memory Access Scheduling</a></li>
+<li><a href="#eden-enabling-energy-efficient-high-performance-deep-neural-network-inference-using-approximate-dram">EDEN: Enabling Energy-Efficient, High-Performance Deep Neural Network Inference Using Approximate DRAM</a></li>
+<li><a href="#a-memory-controller-with-row-buffer-locality-awareness-for-hybrid-memory-systems">A Memory Controller with Row Buffer Locality Awareness for Hybrid Memory Systems</a></li>
+<li><a href="#self-optimizing-memory-controllers-a-reinforcement-learning-approach">Self-Optimizing Memory Controllers: A Reinforcement Learning Approach</a></li>
+</ol>
+<!-- - Research Team:
+- Type of Memory:
+- Research Focus:
+- Simulators:
+- Benchmarks: -->
+<h1 id="crow-a-low-cost-substrate-for-improving-dram-performance-energy-efficiency-and-reliability">CROW: A Low-Cost Substrate for Improving DRAM Performance, Energy Efficiency, and Reliability</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>ETH Zurich, CMU</strong> - Hasan Hassan et. al.</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>DRAM</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>CROW (CopyRow) DRAM is a new DRAM chip design + optimization in the MC that can improve the performance, energy eff, and reliability. This technology enables 2 implementations, which can be combined in 1 system, such as: CROW-cache and CROW-ref. CROW-cache implements a way to reduce latency of the most-recently-accessed rows by caching the data of those &quot;regular rows&quot; in &quot;copy rows&quot; (of the same bank), so that when data is accessed, both rows are activated at the same time, making charge-sharing more efficient, and hence, reduce latency. CROW-ref, on the other hand, uses efficient profiling to identify &quot;weak rows&quot; (rows that have low refresh interval), and mapped them to &quot;strong copy rows&quot; so that the refresh interval of the entire chip is much longer (2x-4x). These 2 CROW methods can be done with minimal change: CROW-table in MC, 2 new commands (ACT-t &amp; ACT-c) and 1 independent decoder (for the copyrows).</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>SPICE (open sourced): <a href="http://github.com/CMU-SAFARI/CROW">github.com/CMU-SAFARI/CROW</a></li>
+<li>CACTI (open sourced): <a href="http://www.hpl.hp.com/techreports/2009/HPL-2009-85.html">www.hpl.hp.com/techreports/2009/HPL-2009-85.html</a></li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>SPEC CPU2006 <a href="http://www.spec.org/cpu2006/">www.spec.org/cpu2006/</a></li>
+<li>TPC <a href="http://www.tpc.org/">www.tpc.org/</a></li>
+<li>STREAM <a href="http://github.com/jeffhammond/STREAM">github.com/jeffhammond/STREAM</a></li>
+<li>MediaBench <a href="http://mathstat.slu.edu/~fritts/mediabench/">mathstat.slu.edu/~fritts/mediabench/</a></li>
+<li>2 synthetic applications: 1) random 2) streaming (not open sourced)</li>
+</ul>
+</li>
+</ul>
+<h1 id="atlas-a-scalable-and-high-performance-scheduling-algorithm-for-multiple-memory-controllers">ATLAS: A Scalable and High-Performance Scheduling Algorithm for Multiple Memory Controllers</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>CMU</strong> - Yoongu Kim et. al.</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>DRAM</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>ATLAS (Adaptive per-Thread Least Attained-Service memory scheduling) is a new memory scheduling technique which improves system throughput in multi-processing-core-system without requring significant coordination among MCs. The technique takes both short-term and long-term thread behavior into account when ranking them. For short-term, it follows the LAS (least-attained service) rule, prioritizing threads that were least served in the last period. For long-term, it calculates the total attained service (from begining to time period <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>):
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><msub><mi>l</mi><mrow><mi>A</mi><mi>S</mi></mrow></msub><mo>=</mo><mi>α</mi><mo>×</mo><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><msub><mi>l</mi><mrow><mi>A</mi><mi>S</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><mfrac><mrow><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false">)</mo></mrow><mrow><mi>t</mi><mi>h</mi><mi>r</mi><mi>e</mi><mi>a</mi><mi>d</mi><mi mathvariant="normal">_</mi><mi>w</mi><mi>e</mi><mi>i</mi><mi>g</mi><mi>h</mi><mi>t</mi></mrow></mfrac><mo>∗</mo><mi>A</mi><msub><mi>S</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">total_{AS} = \alpha\times total_{AS-1} + \frac{(1-\alpha)}{thread\_weight}*AS_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.902771em;vertical-align:-0.208331em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.328331em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.572em;vertical-align:-0.5619999999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">a</span><span class="mord mathdefault mtight">d</span><span class="mord mtight" style="margin-right:0.02778em;">_</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">h</span><span class="mord mathdefault mtight">t</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathdefault mtight" style="margin-right:0.0037em;">α</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5619999999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord mathdefault">A</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></li>
+</ul>
+</li>
+<li>Then the thread with the least <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><msub><mi>l</mi><mrow><mi>A</mi><mi>S</mi></mrow></msub></mrow><annotation encoding="application/x-tex">total_{AS}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault">t</span><span class="mord mathdefault">a</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.01968em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="mord mathdefault mtight" style="margin-right:0.05764em;">S</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> will be ranked highest.</li>
+<li>Also, outstanding requests that have been waiting in the queue for more than T cycles will be prioritized over all others.</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>In-house cycle-precise x86 CMP simulator (not open sourced)</li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>SPEC CPU2006 (410.bwaves, 416.gamess, 434.zeusmp are not included)</li>
+</ul>
+</li>
+</ul>
+<h1 id="high-performance-and-energy-efficient-memory-scheduler-design-for-heterogeneous-systems">High-Performance and Energy-Efficient Memory Scheduler Design for Heterogeneous Systems</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>CMU, AMD Research, Intel Labs, Facebook, ETH Zurich</strong> - Rachata Ausavarungnirun et. al</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>DRAM</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>In heterogeneous systems where CPUs and GPU (on the same die), for example, share the same off-chip DRAM, the requests from the GPU can interfere with those from CPUs. Hence, the paper proposes SMS (Staged Memory Scheduler), which decouples the primary MC tasks into simpler structures. MC tasks are generally described as:
+<ul>
+<li>Detection of basic intra-application memory characteristics (row buffer locality)</li>
+<li>Prioritization across applications &amp; enforcement of policies</li>
+<li>Low-level command scheduling, enforcement of DRAM timing constraints, and resolution of resource conflicts</li>
+</ul>
+</li>
+<li>Instead of all 3 tasks being performed at the same time, SMS divides 3 tasks into 3 stages:
+<ul>
+<li><strong>Batch Formation Stage</strong>: Form batches for each CPU cores and GPU. Batches are ready when all requests (except first one) access the same DRAM row</li>
+<li><strong>Batch Scheduling Stage</strong>: This stage can be implemented with different existing scheduling policies (FRFCFS, PARBS, ATLAS), but the author propose one where SJF (Shortest Job First) policy is used with a probability <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi></mrow><annotation encoding="application/x-tex">p</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span></span></span></span>. If <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>&gt;</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">p &gt; 0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">5</span></span></span></span>, then SJF is applied more often: applications with fewer outstanding requests are prioritized (CPU over GPU). If <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>&lt;</mo><mn>0.5</mn></mrow><annotation encoding="application/x-tex">p &lt; 0.5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">5</span></span></span></span>, then GPU is prioritized over CPU.</li>
+<li><strong>DRAM Command Scheduler</strong>: This stage is where the controller pop individual requests from batches received from the previous stage and schedule them according to timing constraints.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>In-house cycle-accurate simulator (not open sourced)</li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>16 benchmarks from SPEC CPU2006 + 1 GPU application.</li>
+</ul>
+</li>
+</ul>
+<h1 id="parallelism-aware-batch-scheduling-enhancing-both-performance-and-fairness-of-shared-dram-systems">Parallelism-Aware Batch Scheduling: Enhancing both Performance and Fairness of Shared DRAM Systems</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>Microsoft Research</strong> - Onur Mutlu</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>DRAM</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>The authors propose PAR-BS (Parallelism-Aware Batch Scheduling), a new memory scheduler which provides quality-of-service (Qos), system throughput, and fairness in highly parallelized computer systems. In PAR-BS, there are 2 stages: Batch Formation and Request Prioritization. The MC forms new batch when there are no &quot;marked&quot; requests left in the memory request buffer (MRB). This new batch consists of outstanding requests in the MRB that were not included in the last batch. The MC will &quot;mark&quot; up to <code>MarkingCap</code> number of requests in the current batch. Then, it will prioritize requests in the following order:
+<ul>
+<li>Marked requests</li>
+<li>Row hit</li>
+<li>Higher rank (enable operator/programmer to have control)</li>
+<li>Older request</li>
+</ul>
+</li>
+<li>The rank of a request is computed such that the shortest-job rule is obeyed: The thread with lower number of marked requests (in current batch) are ranked first. If there is a tie breaker, then the thread with the lower total number of marked request (over multiple batches) is prioritized.</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>Cycle-accurate x86 CMP simulator based on Pin and iDNA</li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>SPEC CPU2006</li>
+<li>Matlab</li>
+<li>XML Parsing</li>
+</ul>
+</li>
+</ul>
+<h1 id="bliss-balancing-performance-fairness-and-complexity-in-memory-access-scheduling">BLISS Balancing Performance, Fairness and Complexity in Memory Access Scheduling</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>CMU</strong> - Lavanya Subramanian et. al.</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>DRAM</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>The author built a new application scheduling policy, BLISS (Blacklisting Memory Scheduler), which achieves higher system performance, better fairness, and less hardware complexity in a highly parallelized computer system. The scheduler works by implement a new counter variable with each application. If the application be served currently is the same as the application being served immediately before, then the counter for such application is increment by 1. If this counter is greater than the <code>BlacklistingThreshold</code>, then the application is deemed <code>blacklisted</code>. Hence, the prioritization of memory requests are as follow:
+<ul>
+<li>Non-blacklisted application</li>
+<li>Row buffer hit</li>
+<li>Older request</li>
+</ul>
+</li>
+<li>The blacklisting information is reset every <code>X</code> cycles.</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>In-house cycle-precise simulator similar to Ramulator</li>
+<li>Synopsis Design Compiler (for hardware cost estimation) with 32nm standard cell library</li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>SPEC CPU2006</li>
+<li>TPC-C</li>
+<li>Matlab</li>
+<li>NAS parallel benchmark suite</li>
+</ul>
+</li>
+</ul>
+<h1 id="eden-enabling-energy-efficient-high-performance-deep-neural-network-inference-using-approximate-dram">EDEN: Enabling Energy-Efficient, High-Performance Deep Neural Network Inference Using Approximate DRAM</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>ETH Zurich</strong> - Skanda Koppula et. al.</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>DRAM</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>The authors propose a method to run an <strong>already trained</strong> DNN using conventional DRAM (or any kind of memory which can trade power for Bit Error Rate) that can consume less power and faster. This method comprises of 3 stages: Error Boosting, DNN characterization, and DNN to DRAM mapping. Error Boosting is a step where small incremental errors (bit flips) are introduced into the DNN parameters until the DNN is deemed <code>unreliable</code>. This step is performed in concurrent with correcting implausible values (zero-out values that are Out-Of-Bounds) to avoid <em>accuracy collapse</em>. After the network finishes Error Boosting, the highest BER of the entire DNN (Coarse-grained Characterization), or of each DNN datatypes (int4, int8, etc.) (Fine-grained Characterization) is determined. These BERs are then used to map the entire DNN (Coarse-grained Mapping), or parts of the DNN (Fine-grained Mapping) to regions in the DRAM which satisfy the BER requirements. This process is performed with a priori knowledge on the DRAM's timing characteristics, which are acquired by performing a series of tests where the voltage is reduced in a region and a numeric pattern is read out. In order to <em>Correct Implausible Values</em>, and enable <em>Coarse/Fine-grained Mapping</em>, the author introduces complexity into the Memory Controller so that it can correct values and change voltage and timing parameters in an online manner.</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>FPGA running SoftMC</li>
+<li>PyTorch</li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>CIFAR-10</li>
+<li>ILSVRC2012</li>
+<li>ResNet101</li>
+<li>VGG-16</li>
+<li>DenseNet201</li>
+<li>Google MoblileNetV2</li>
+<li>SqueezeNet</li>
+<li>YOLO/YOLO-Tiny</li>
+</ul>
+</li>
+</ul>
+<h1 id="a-memory-controller-with-row-buffer-locality-awareness-for-hybrid-memory-systems">A Memory Controller with Row Buffer Locality Awareness for Hybrid Memory Systems</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>Google, CMU, Facebook, MIT, ETH Zurich</strong> - HanBin Yoon et. al.</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>Hybrid DRAM + NVM (PCM)</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>The authors expand on the idea where DRAM is used as a &quot;fast&quot; cache in hybrid Memory System by introducing a Dynamic Row Buffer Locality Awareness (DRBLA) system which can adapt the <code>MissThreshold</code> in an online manner. This threshold is used to determine if a row should be remapped from NVM to DRAM so that further row buffer miss will result in less latency. The Memory Controller will find the best <code>MissThreshold</code> by performing a simple hill-climbing algorithm to find the sweet spot where the benefit of caching the data is greater than the cost of migrating the data.</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>In house x86 multicore simulator (predecessor of Ramulator and ThyNVM simulator)</li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>Cloud/Server type applications: TPC-C/H</li>
+<li>Apache Web ServerV</li>
+<li>Video processing benchmarks</li>
+</ul>
+</li>
+</ul>
+<h1 id="self-optimizing-memory-controllers-a-reinforcement-learning-approach">Self-Optimizing Memory Controllers: A Reinforcement Learning Approach</h1>
+<ul>
+<li>Research Team:
+<ul>
+<li><strong>Cornell University, Microsoft Research</strong> - Engin Ipek et. al.</li>
+</ul>
+</li>
+<li>Type of Memory:
+<ul>
+<li>DRAM</li>
+</ul>
+</li>
+<li>Research Focus:
+<ul>
+<li>The authors introduce a new DRAM Memory Controller which only uses Reinforcement Learning (RL) to intelligently schedule memory commands. With any RL system, 3 considerations must be analyzed: 1) Credit Assignment Problem, 2) Balancing Exploration &amp; Exploitation, and 3) Generalization. Since the memory scheduling is an <em><strong>infinite-horizon</strong></em> process, it need necessary for the cumulative reward function to have a discount parameter (<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>γ</mi></mrow><annotation encoding="application/x-tex">\gamma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span></span></span></span>) so that convergence is mathematically possible.
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>E</mi><mo stretchy="false">[</mo><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>0</mn></mrow><mi>inf</mi><mo>⁡</mo></msubsup><msup><mi>γ</mi><mi>t</mi></msup><mo>⋅</mo><msub><mi>r</mi><mrow><mi>t</mi><mo>+</mo><mi>i</mi></mrow></msub><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">E[\sum_{i=0}^{\inf}\gamma^t \cdot r_{t+i}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2887179999999998em;vertical-align:-0.29971000000000003em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="mopen">[</span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9890079999999999em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight">in<span style="margin-right:0.07778em;">f</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7935559999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">t</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">t</span><span class="mbin mtight">+</span><span class="mord mathdefault mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mclose">]</span></span></span></span> where <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">E</span></span></span></span> is the cumulative reward function, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mo>≤</mo><mi>γ</mi><mo>≤</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">0 \leq \gamma \leq 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8304100000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>, and <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span></span></span></span> is the immediate reward value</li>
+</ul>
+</li>
+<li>In order to choose an action that leads to the reward <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>r</mi></mrow><annotation encoding="application/x-tex">r</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span></span></span></span>, however, the expected value of the cumulative reward, <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">Q</span></span></span></span>, must be computed. The author uses the learning algorithm SARSA, which update the <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">Q</span></span></span></span> for every state-action pairs by:
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>Q</mi><mo stretchy="false">(</mo><msub><mi>s</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow></msub><mo separator="true">,</mo><msub><mi>v</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false">)</mo><mi>Q</mi><mo stretchy="false">(</mo><msub><mi>s</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow></msub><mo separator="true">,</mo><msub><mi>v</mi><mrow><mi>p</mi><mi>r</mi><mi>e</mi><mi>v</mi></mrow></msub><mo stretchy="false">)</mo><mo>+</mo><mi>α</mi><mo stretchy="false">[</mo><mi>r</mi><mo>+</mo><mi>γ</mi><mi>Q</mi><mo stretchy="false">(</mo><msub><mi>s</mi><mrow><mi>c</mi><mi>u</mi><mi>r</mi><mi>r</mi><mi>e</mi><mi>n</mi><mi>t</mi></mrow></msub><mo separator="true">,</mo><msub><mi>v</mi><mrow><mi>c</mi><mi>u</mi><mi>r</mi><mi>r</mi><mi>e</mi><mi>n</mi><mi>t</mi></mrow></msub><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">Q(s_{prev},v_{prev}) = (1-\alpha)Q(s_{prev},v_{prev}) + \alpha[r + \gamma Q(s_{current},v_{current})]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault">Q</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mclose">)</span><span class="mord mathdefault">Q</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">p</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">v</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.0037em;">α</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="mord mathdefault">Q</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">s</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2805559999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight" style="margin-right:0.02778em;">r</span><span class="mord mathdefault mtight">e</span><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">t</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mclose">]</span></span></span></span>. The MC will chose to the perform the legal action whose Q value is largest given its current state.</li>
+</ul>
+</li>
+<li>To enable exploration, however, the MC will take a random action at a probability <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">ϵ</span></span></span></span>.</li>
+<li>Lastly, in order for the RL algorithm to generalize and the system to conserve computation/memory usage, the large number of states are quantized (clustered) in to cells, which form tables. Then, CMAC (Cerebellar Model Arithmetic Computer) learning model will shifts these &quot;coarse-grained&quot; tables by a random amount with respect to each other so that some states in different tables will share the same Q value. This method, in conjunction with an efficient hashing algorithm makes the computation very fast and conserves memory usage.</li>
+</ul>
+</li>
+<li>Simulators:
+<ul>
+<li>In-house x86 simulator (modified version of SESC with Intel Nehalem arch)</li>
+</ul>
+</li>
+<li>Benchmarks:
+<ul>
+<li>SCALPARC</li>
+<li>MG, CG</li>
+<li>SWIM-OMP</li>
+<li>EQUAKE-OMP</li>
+<li>ART-OMP</li>
+<li>OCEAN</li>
+<li>FFT</li>
+<li>RADIX</li>
+</ul>
+</li>
+</ul>
+
+    </body>
+    </html>
