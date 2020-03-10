@@ -1,0 +1,624 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>assgn3_code</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-02-24"><meta name="DC.source" content="assgn3_code.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Tai Duc Nguyen, Hieu Mai - ECECS 435 - 02/20/2020</a></li><li><a href="#2">Part 1.1: LSB</a></li><li><a href="#3">Part 1.2: LSB watermark</a></li><li><a href="#4">Part 1.3: Embed Watermark</a></li><li><a href="#5">Part 2.1: Yang-Mintzer</a></li><li><a href="#6">Part 2.2: YM Extract</a></li><li><a href="#7">Part 2.3: Half and Half</a></li></ul></div><h2 id="1">Tai Duc Nguyen, Hieu Mai - ECECS 435 - 02/20/2020</h2><pre class="codeinput">close <span class="string">all</span>; clear <span class="string">all</span>;
+</pre><h2 id="2">Part 1.1: LSB</h2><p>Question: What is the highest bit plane for each image that no longer resembles image content and instead appears to be noise?  Are these bit planes the same or different for these two images? If they are different, why would this be the case? Answer: For peppers.tif, the 4th bit plane shows clearly the outline of the peppers. For baboon.tif, however, on the 5th bit plane can the face of the baboon be clearly seen. These 2 numbers are different because baboon.tif has a lot more rapid change in pixel intensity than peppers.tif. In particular, the hair on the face of the baboon can't be seen at the 4th bit plane but the shape of the nose can be.</p><pre class="codeinput">peppers_org = imread(<span class="string">'peppers.tif'</span>);
+baboon_org = imread(<span class="string">'baboon.tif'</span>);
+
+figure(1)
+
+subplot(2,2,1);
+peppers_bitplane = ExtractBitPlane(peppers_org, 4);
+imshow(peppers_bitplane, [0 1]);
+title(<span class="string">"4rd bit plane of peppers.tif"</span>);
+
+subplot(2,2,2);
+peppers_bitplane = ExtractBitPlane(peppers_org, 3);
+imshow(peppers_bitplane, [0 1]);
+title(<span class="string">"3rd bit plane of peppers.tif"</span>);
+
+subplot(2,2,3);
+baboon_bitplane = ExtractBitPlane(baboon_org, 5);
+imshow(baboon_bitplane, [0 1]);
+title(<span class="string">"5th bit plane of baboon.tif"</span>);
+
+subplot(2,2,4);
+baboon_bitplane = ExtractBitPlane(baboon_org, 4);
+imshow(baboon_bitplane, [0 1]);
+title(<span class="string">"4th bit plane of baboon.tif"</span>);
+</pre><img vspace="5" hspace="5" src="assgn3_code_01.png" alt=""> <h2 id="3">Part 1.2: LSB watermark</h2><pre class="codeinput">LSBwmk1 = imread(<span class="string">"LSBwmk1.tiff"</span>);
+LSBwmk2 = imread(<span class="string">"LSBwmk2.tiff"</span>);
+LSBwmk3 = imread(<span class="string">"LSBwmk3.tiff"</span>);
+
+
+figure(2)
+
+subplot(3,2,1)
+imshow(LSBwmk1);
+title(<span class="string">"LSBwmk1.tiff"</span>);
+
+subplot(3,2,2)
+LSBwmk1_bitplane = ExtractBitPlane(LSBwmk1, 2);
+imshow(LSBwmk1_bitplane, [0 1]);
+title(<span class="string">"Watermark in LSBwmk1.tiff"</span>);
+
+subplot(3,2,3)
+imshow(LSBwmk2);
+title(<span class="string">"LSBwmk2.tiff"</span>);
+
+subplot(3,2,4)
+LSBwmk2_bitplane = ExtractBitPlane(LSBwmk2, 1);
+imshow(LSBwmk2_bitplane, [0 1]);
+title(<span class="string">"Watermark in LSBwmk2.tiff"</span>);
+
+subplot(3,2,5)
+imshow(LSBwmk3);
+title(<span class="string">"LSBwmk3.tiff"</span>);
+
+subplot(3,2,6)
+LSBwmk3_bitplane = ExtractBitPlane(LSBwmk3, 1);
+imshow(LSBwmk3_bitplane, [0 1]);
+title(<span class="string">"Watermark in LSBwmk3.tiff"</span>);
+</pre><img vspace="5" hspace="5" src="assgn3_code_02.png" alt=""> <h2 id="4">Part 1.3: Embed Watermark</h2><p>Question: How many bit planes of Barbara.bmp can you embed in each image before you start to notice distortion in the host image? How many bit planes of Barbara.bmp can you embed in each image before you can begin to see the hidden content? Are the number of bit planes that you can embed the same or different for each image?  If they are different, why would this be the case? Answer: For peppers.tif, we can embed at most 3 bit planes before major distortion starts to appear. However, for baboon.tif, we can embed at most 4 bit planes. This number is different for the 2 images is due to the characteristic of each image: in particular, baboon.tif has a lot more rapid change in pixel intensity, which reduces the artifacts caused by Barbara.bmp. Nonetheless, both images will start to show the content of Barbara.bmp at 6 bit planes. This is the same for the 2 images because at N=6, too much contents have been replaced and major artifacts appear.</p><pre class="codeinput">barbara_org = imread(<span class="string">"Barbara.bmp"</span>);
+
+figure(3)
+
+subplot(2,2,1)
+emb = LSBEmbedWatermark(peppers_org, barbara_org, 4);
+imshow(emb);
+title(<span class="string">"Distortion appears at N=4"</span>);
+
+subplot(2,2,2)
+emb = LSBEmbedWatermark(peppers_org, barbara_org, 6);
+imshow(emb);
+title(<span class="string">"Watermark's content appears at N=6"</span>);
+
+subplot(2,2,3)
+emb = LSBEmbedWatermark(baboon_org, barbara_org, 5);
+imshow(emb);
+title(<span class="string">"Distortion appears at N=5"</span>);
+
+subplot(2,2,4)
+emb = LSBEmbedWatermark(baboon_org, barbara_org, 6);
+imshow(emb);
+title(<span class="string">"Watermark's content appears at N=6"</span>);
+</pre><img vspace="5" hspace="5" src="assgn3_code_03.png" alt=""> <h2 id="5">Part 2.1: Yang-Mintzer</h2><p>Question: Is the hidden watermark visually detectable? What is the PSNR between the original version of each image and their Yeung-Mintzer watermarked versions? What is the PSNR between theoriginal version of each image and their LSB watermarked versions. Are these PSNR values higher or lower than the PSNR values obtained for the versions watermarked using the Yeung-Mintzer algorithm? Answer: The hidden watermark using YM algo is not visually detectable. The PSNR for YM algo is ~44dB and LSB algo is ~51dB. The LSB algo has less distortion (higher PSNR) because the embedding layer is at the least significant bit, hence, at most, we are changing the pixel value by 2. However, YM has a non-uniform quantization interval, which may change the pixel value by a larger amount (hence, smaller PSNR).</p><pre class="codeinput">seed = 2020;
+figure(4)
+
+subplot(3,2,1)
+peppers_emb = YMEmbedWatermark(peppers_org, barbara_org, seed);
+psnr_ = psnr(peppers_emb, peppers_org);
+imshow(peppers_emb);
+title([<span class="string">"PSNR_{afterYM}="</span>, num2str(psnr_)]);
+
+subplot(3,2,2)
+bp = ExtractBitPlane(peppers_emb, 1);
+imshow(bp, [0,1]);
+title(<span class="string">"Extracted LSB_1 after YM"</span>);
+
+subplot(3,2,3)
+baboon_emb = YMEmbedWatermark(baboon_org, barbara_org, seed);
+psnr_ = psnr(baboon_emb, baboon_org);
+imshow(baboon_emb);
+title([<span class="string">"PSNR_{afterYM}="</span>, num2str(psnr_)]);
+
+subplot(3,2,4)
+bp = ExtractBitPlane(baboon_emb, 1);
+imshow(bp, [0,1]);
+title(<span class="string">"Extracted LSB_1 after YM"</span>);
+
+subplot(3,2,5)
+peppers_emb = LSBEmbedWatermark(peppers_org, barbara_org, 1);
+psnr_ = psnr(peppers_emb, peppers_org);
+imshow(peppers_emb);
+title([<span class="string">"PSNR_{afterLSB}="</span>, num2str(psnr_)]);
+
+subplot(3,2,6)
+baboon_emb = LSBEmbedWatermark(baboon_org, barbara_org, 1);
+psnr_ = psnr(baboon_emb, baboon_org);
+imshow(baboon_emb);
+title([<span class="string">"PSNR_{afterLSB}="</span>, num2str(psnr_)]);
+</pre><img vspace="5" hspace="5" src="assgn3_code_04.png" alt=""> <h2 id="6">Part 2.2: YM Extract</h2><pre class="codeinput">YMembedded = imread(<span class="string">"YMwmkedKey435.tiff"</span>);
+
+figure(5)
+
+subplot(1,2,1)
+imshow(YMembedded);
+title(<span class="string">"YM embedded picture"</span>);
+
+subplot(1,2,2)
+wtm = YMExtractWatermark(YMembedded, 435);
+imshow(wtm, [0,1]);
+title(<span class="string">"Extracted watermark"</span>);
+</pre><img vspace="5" hspace="5" src="assgn3_code_05.png" alt=""> <h2 id="7">Part 2.3: Half and Half</h2><p>Question: How can you design an attack where you replace the top half of the baboon.tif image with the bottom half of the peppers image without destroying the watermark using LSB?  Is this possible for the Yeung-Mintzer watermarked image (assuming theattacker does not know the key or look up table)? Answer: With LSB, if we have the watermarked version of 2 images whose watermark is the same, then we can just replace the top half of one image with the top half of another image (or the bottom half) without destroying the watermark. However, with the YM algorithm, the lookup table must be estimated using statistical analysis. In particular, the histogram of both images combined will be used to identify the positions of the 1's in the lookup table. After this identification, then the watermark can be recovered (shown in figure 6).</p><pre class="codeinput">peppers_LSBemb = LSBEmbedWatermark(peppers_org, barbara_org, 1);
+baboon_LSBemb = LSBEmbedWatermark(baboon_org, barbara_org, 1);
+halfnhalf_LSBemb = [baboon_LSBemb(1:256,:);peppers_LSBemb(257:end,:)];
+
+
+seed = 2020;
+peppers_YMemb = YMEmbedWatermark(peppers_org, barbara_org, seed);
+baboon_YMemb = YMEmbedWatermark(baboon_org, barbara_org, seed);
+halfnhalf_YMemb = [baboon_YMemb(1:256,:);peppers_YMemb(257:end,:)];
+
+h6 = figure(6);
+set(gcf,<span class="string">'Visible'</span>, <span class="string">'off'</span>);
+hold <span class="string">on</span>
+
+subplot(2,2,1)
+imshow(halfnhalf_LSBemb);
+title([<span class="string">"Top half=baboon.tif"</span>, <span class="string">"Bottom half=peppers.tif"</span>, <span class="string">"Embedded with LSB_1"</span>]);
+
+subplot(2,2,2)
+wtmLSB = ExtractBitPlane(halfnhalf_LSBemb, 1);
+imshow(wtmLSB, [0 1]);
+title(<span class="string">"Extracted watermark"</span>);
+
+subplot(2,2,3)
+imshow(halfnhalf_YMemb);
+title([<span class="string">"Top half=baboon.tif"</span>, <span class="string">"Bottom half=peppers.tif"</span>, <span class="string">"Embedded with YM"</span>]);
+
+subplot(2,2,4)
+wtmYM = YMExtractWatermark(halfnhalf_YMemb, seed);
+imshow(wtmYM, [0 1]);
+title(<span class="string">"Extracted watermark"</span>);
+hold <span class="string">off</span>
+
+set(h6,<span class="string">'Visible'</span>, <span class="string">'on'</span>);
+snapnow
+</pre><pre class="codeinput"><span class="keyword">function</span> bp = ExtractBitPlane(image, n)
+    bp = zeros(size(image));
+    tmp = double(image);
+    max_bp = 8;
+    <span class="keyword">for</span> i=max_bp-1:-1:n-1
+        bp = floor(tmp/(2^i));
+        tmp = tmp - (2^i)*bp;
+    <span class="keyword">end</span>
+    bp = uint8(bp);
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> emb = LSBEmbedWatermark(host, wtm, n)
+    max_bp = 8;
+    bp1 = zeros([size(host) max_bp]);
+    bp2 = zeros([size(wtm) max_bp]);
+
+    host_tmp = double(host);
+    wtm_tmp = double(wtm);
+    <span class="keyword">for</span> i=max_bp-1:-1:0
+        bp1(:,:,i+1) = floor(host_tmp/(2^i));
+        host_tmp = host_tmp - (2^i)*bp1(:,:,i+1);
+        bp2(:,:,i+1) = floor(wtm_tmp/(2^i));
+        wtm_tmp = wtm_tmp - (2^i)*bp2(:,:,i+1);
+    <span class="keyword">end</span>
+
+    bp1(:,:,n:-1:1) = bp2(:,:,max_bp:-1:max_bp-n+1);
+    emb = zeros(size(host));
+    <span class="keyword">for</span> i=0:1:max_bp-1
+        emb = emb + bp1(:,:,i+1)*(2^i);
+    <span class="keyword">end</span>
+
+    emb = uint8(emb);
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> emb = YMEmbedWatermark(host, wtm, seed)
+    max_bp = 8;
+    wtm_tmp = wtm &gt; 2^(max_bp-1);
+    emb = zeros(size(host));
+    rng(seed);
+    LUTvals = rand(256) &gt; 0.5;
+
+    <span class="keyword">for</span> i=1:size(emb, 1)
+        <span class="keyword">for</span> j=1:size(emb,2)
+            pix = host(i,j);
+            <span class="keyword">if</span>(LUTvals(pix + 1) ~= wtm_tmp(i,j))
+                <span class="keyword">while</span>(LUTvals(pix + 1) ~= wtm_tmp(i,j))
+                    pix = pix + 1;
+                    <span class="keyword">if</span>(pix &gt;= 256)
+                        pix = 1;
+                    <span class="keyword">end</span>
+                <span class="keyword">end</span>
+                emb(i,j) = pix;
+            <span class="keyword">else</span>
+                emb(i,j) = host(i,j);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    emb = uint8(emb);
+
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> wtm = YMExtractWatermark(img, seed)
+    rng(seed);
+    LUTvals = rand(size(img)) &gt; 0.5;
+    wtm = zeros(size(img));
+    <span class="keyword">for</span> i=1:size(img, 1)
+        <span class="keyword">for</span> j=1:size(img,2)
+            wtm(i,j) = LUTvals(img(i,j) + 1);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="assgn3_code_06.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Tai Duc Nguyen, Hieu Mai - ECECS 435 - 02/20/2020
+
+close all; clear all;
+
+%% Part 1.1: LSB
+% Question: What is the highest bit plane for each image that no longer
+% resembles image content and instead appears to be noise?  Are these bit
+% planes the same or different for these two images? If they are different,
+% why would this be the case?
+% Answer: For peppers.tif, the 4th bit plane shows clearly the outline of
+% the peppers. For baboon.tif, however, on the 5th bit plane can the face
+% of the baboon be clearly seen. These 2 numbers are different because
+% baboon.tif has a lot more rapid change in pixel intensity than
+% peppers.tif. In particular, the hair on the face of the baboon can't
+% be seen at the 4th bit plane but the shape of the nose can be. 
+
+peppers_org = imread('peppers.tif');
+baboon_org = imread('baboon.tif');
+
+figure(1)
+
+subplot(2,2,1);
+peppers_bitplane = ExtractBitPlane(peppers_org, 4);
+imshow(peppers_bitplane, [0 1]);
+title("4rd bit plane of peppers.tif");
+
+subplot(2,2,2);
+peppers_bitplane = ExtractBitPlane(peppers_org, 3);
+imshow(peppers_bitplane, [0 1]);
+title("3rd bit plane of peppers.tif");
+
+subplot(2,2,3);
+baboon_bitplane = ExtractBitPlane(baboon_org, 5);
+imshow(baboon_bitplane, [0 1]);
+title("5th bit plane of baboon.tif");
+
+subplot(2,2,4);
+baboon_bitplane = ExtractBitPlane(baboon_org, 4);
+imshow(baboon_bitplane, [0 1]);
+title("4th bit plane of baboon.tif");
+
+%% Part 1.2: LSB watermark
+
+LSBwmk1 = imread("LSBwmk1.tiff");
+LSBwmk2 = imread("LSBwmk2.tiff");
+LSBwmk3 = imread("LSBwmk3.tiff");
+
+
+figure(2)
+
+subplot(3,2,1)
+imshow(LSBwmk1);
+title("LSBwmk1.tiff");
+
+subplot(3,2,2)
+LSBwmk1_bitplane = ExtractBitPlane(LSBwmk1, 2);
+imshow(LSBwmk1_bitplane, [0 1]);
+title("Watermark in LSBwmk1.tiff");
+
+subplot(3,2,3)
+imshow(LSBwmk2);
+title("LSBwmk2.tiff");
+
+subplot(3,2,4)
+LSBwmk2_bitplane = ExtractBitPlane(LSBwmk2, 1);
+imshow(LSBwmk2_bitplane, [0 1]);
+title("Watermark in LSBwmk2.tiff");
+
+subplot(3,2,5)
+imshow(LSBwmk3);
+title("LSBwmk3.tiff");
+
+subplot(3,2,6)
+LSBwmk3_bitplane = ExtractBitPlane(LSBwmk3, 1);
+imshow(LSBwmk3_bitplane, [0 1]);
+title("Watermark in LSBwmk3.tiff");
+
+
+%% Part 1.3: Embed Watermark
+% Question: How many bit planes of Barbara.bmp can you embed in each image
+% before you start to notice distortion in the host image? How many bit
+% planes of Barbara.bmp can you embed in each image before you can begin to
+% see the hidden content? Are the number of bit planes that you can embed
+% the same or different for each image?  If they are different, why would
+% this be the case?
+% Answer: For peppers.tif, we can embed at most 3 bit planes before major
+% distortion starts to appear. However, for baboon.tif, we can embed at
+% most 4 bit planes. This number is different for the 2 images is due to
+% the characteristic of each image: in particular, baboon.tif has a lot
+% more rapid change in pixel intensity, which reduces the artifacts caused
+% by Barbara.bmp. Nonetheless, both images will start to show the content
+% of Barbara.bmp at 6 bit planes. This is the same for the 2 images because
+% at N=6, too much contents have been replaced and major artifacts appear.
+
+barbara_org = imread("Barbara.bmp");
+
+figure(3)
+
+subplot(2,2,1)
+emb = LSBEmbedWatermark(peppers_org, barbara_org, 4);
+imshow(emb);
+title("Distortion appears at N=4");
+
+subplot(2,2,2)
+emb = LSBEmbedWatermark(peppers_org, barbara_org, 6);
+imshow(emb);
+title("Watermark's content appears at N=6");
+
+subplot(2,2,3)
+emb = LSBEmbedWatermark(baboon_org, barbara_org, 5);
+imshow(emb);
+title("Distortion appears at N=5");
+
+subplot(2,2,4)
+emb = LSBEmbedWatermark(baboon_org, barbara_org, 6);
+imshow(emb);
+title("Watermark's content appears at N=6");
+
+%% Part 2.1: Yang-Mintzer
+% Question: Is the hidden watermark visually detectable? What is the PSNR
+% between the original version of each image and their Yeung-Mintzer
+% watermarked versions? What is the PSNR between theoriginal version of
+% each image and their LSB watermarked versions. Are these PSNR values
+% higher or lower than the PSNR values obtained for the versions
+% watermarked using the Yeung-Mintzer algorithm?
+% Answer: The hidden watermark using YM algo is not visually detectable.
+% The PSNR for YM algo is ~44dB and LSB algo is ~51dB. The LSB algo has
+% less distortion (higher PSNR) because the embedding layer is at the least
+% significant bit, hence, at most, we are changing the pixel value by 2.
+% However, YM has a non-uniform quantization interval, which may change the
+% pixel value by a larger amount (hence, smaller PSNR).
+
+seed = 2020;
+figure(4)
+
+subplot(3,2,1)
+peppers_emb = YMEmbedWatermark(peppers_org, barbara_org, seed);
+psnr_ = psnr(peppers_emb, peppers_org);
+imshow(peppers_emb);
+title(["PSNR_{afterYM}=", num2str(psnr_)]);
+
+subplot(3,2,2)
+bp = ExtractBitPlane(peppers_emb, 1);
+imshow(bp, [0,1]);
+title("Extracted LSB_1 after YM");
+
+subplot(3,2,3)
+baboon_emb = YMEmbedWatermark(baboon_org, barbara_org, seed);
+psnr_ = psnr(baboon_emb, baboon_org);
+imshow(baboon_emb);
+title(["PSNR_{afterYM}=", num2str(psnr_)]);
+
+subplot(3,2,4)
+bp = ExtractBitPlane(baboon_emb, 1);
+imshow(bp, [0,1]);
+title("Extracted LSB_1 after YM");
+
+subplot(3,2,5)
+peppers_emb = LSBEmbedWatermark(peppers_org, barbara_org, 1);
+psnr_ = psnr(peppers_emb, peppers_org);
+imshow(peppers_emb);
+title(["PSNR_{afterLSB}=", num2str(psnr_)]);
+
+subplot(3,2,6)
+baboon_emb = LSBEmbedWatermark(baboon_org, barbara_org, 1);
+psnr_ = psnr(baboon_emb, baboon_org);
+imshow(baboon_emb);
+title(["PSNR_{afterLSB}=", num2str(psnr_)]);
+
+
+%% Part 2.2: YM Extract
+
+YMembedded = imread("YMwmkedKey435.tiff");
+
+figure(5)
+
+subplot(1,2,1)
+imshow(YMembedded);
+title("YM embedded picture");
+
+subplot(1,2,2)
+wtm = YMExtractWatermark(YMembedded, 435);
+imshow(wtm, [0,1]);
+title("Extracted watermark");
+
+
+%% Part 2.3: Half and Half
+% Question: How can you design an attack where you replace the top half of
+% the baboon.tif image with the bottom half of the peppers image without
+% destroying the watermark using LSB?  Is this possible for the
+% Yeung-Mintzer watermarked image (assuming theattacker does not know the
+% key or look up table)?
+% Answer: With LSB, if we have the watermarked version of 2 images whose
+% watermark is the same, then we can just replace the top half of one image
+% with the top half of another image (or the bottom half) without
+% destroying the watermark. However, with the YM algorithm, the lookup
+% table must be estimated using statistical analysis. In particular, the
+% histogram of both images combined will be used to identify the positions
+% of the 1's in the lookup table. After this identification, then the
+% watermark can be recovered (shown in figure 6).
+
+peppers_LSBemb = LSBEmbedWatermark(peppers_org, barbara_org, 1);
+baboon_LSBemb = LSBEmbedWatermark(baboon_org, barbara_org, 1);
+halfnhalf_LSBemb = [baboon_LSBemb(1:256,:);peppers_LSBemb(257:end,:)];
+
+
+seed = 2020;
+peppers_YMemb = YMEmbedWatermark(peppers_org, barbara_org, seed);
+baboon_YMemb = YMEmbedWatermark(baboon_org, barbara_org, seed);
+halfnhalf_YMemb = [baboon_YMemb(1:256,:);peppers_YMemb(257:end,:)];
+
+h6 = figure(6);
+set(gcf,'Visible', 'off'); 
+hold on
+
+subplot(2,2,1)
+imshow(halfnhalf_LSBemb);
+title(["Top half=baboon.tif", "Bottom half=peppers.tif", "Embedded with LSB_1"]);
+
+subplot(2,2,2)
+wtmLSB = ExtractBitPlane(halfnhalf_LSBemb, 1);
+imshow(wtmLSB, [0 1]);
+title("Extracted watermark");
+
+subplot(2,2,3)
+imshow(halfnhalf_YMemb);
+title(["Top half=baboon.tif", "Bottom half=peppers.tif", "Embedded with YM"]);
+
+subplot(2,2,4)
+wtmYM = YMExtractWatermark(halfnhalf_YMemb, seed);
+imshow(wtmYM, [0 1]);
+title("Extracted watermark");
+hold off
+
+set(h6,'Visible', 'on'); 
+snapnow
+
+%%
+function bp = ExtractBitPlane(image, n)
+    bp = zeros(size(image));
+    tmp = double(image);
+    max_bp = 8;
+    for i=max_bp-1:-1:n-1
+        bp = floor(tmp/(2^i));
+        tmp = tmp - (2^i)*bp;
+    end
+    bp = uint8(bp);
+
+end
+
+function emb = LSBEmbedWatermark(host, wtm, n)
+    max_bp = 8;
+    bp1 = zeros([size(host) max_bp]);
+    bp2 = zeros([size(wtm) max_bp]);
+    
+    host_tmp = double(host);
+    wtm_tmp = double(wtm);
+    for i=max_bp-1:-1:0
+        bp1(:,:,i+1) = floor(host_tmp/(2^i));
+        host_tmp = host_tmp - (2^i)*bp1(:,:,i+1);
+        bp2(:,:,i+1) = floor(wtm_tmp/(2^i));
+        wtm_tmp = wtm_tmp - (2^i)*bp2(:,:,i+1);
+    end
+    
+    bp1(:,:,n:-1:1) = bp2(:,:,max_bp:-1:max_bp-n+1);
+    emb = zeros(size(host));
+    for i=0:1:max_bp-1
+        emb = emb + bp1(:,:,i+1)*(2^i);
+    end
+    
+    emb = uint8(emb);
+
+end
+
+function emb = YMEmbedWatermark(host, wtm, seed)
+    max_bp = 8;
+    wtm_tmp = wtm > 2^(max_bp-1);
+    emb = zeros(size(host));
+    rng(seed);
+    LUTvals = rand(256) > 0.5;
+    
+    for i=1:size(emb, 1)
+        for j=1:size(emb,2)
+            pix = host(i,j);
+            if(LUTvals(pix + 1) ~= wtm_tmp(i,j))
+                while(LUTvals(pix + 1) ~= wtm_tmp(i,j))
+                    pix = pix + 1;
+                    if(pix >= 256)
+                        pix = 1;
+                    end
+                end
+                emb(i,j) = pix;
+            else
+                emb(i,j) = host(i,j);
+            end
+        end
+    end
+    
+    emb = uint8(emb);
+
+end
+
+function wtm = YMExtractWatermark(img, seed)
+    rng(seed);
+    LUTvals = rand(size(img)) > 0.5;
+    wtm = zeros(size(img));
+    for i=1:size(img, 1)
+        for j=1:size(img,2)
+            wtm(i,j) = LUTvals(img(i,j) + 1);
+        end
+    end
+
+end
+##### SOURCE END #####
+--></body></html>

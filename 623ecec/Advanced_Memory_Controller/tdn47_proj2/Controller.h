@@ -4,6 +4,7 @@
 #include "Bank.h"
 #include "Queue.h"
 #include "BLISS_table.h"
+#include "hash_table.h"
 
 // Bank
 extern void initBank(Bank *bank);
@@ -51,6 +52,7 @@ typedef struct Controller
     Queue *pending_queue;
 
     BLISS_table *bliss_table;
+    hash_table *stalls_table;
 
     /* For decoding */
     unsigned bank_shift;
@@ -74,6 +76,8 @@ typedef struct Controller
     int ARSR_core_id;
     uint64_t ARSR_req_HP; // Request with Highest Priority
     uint64_t ARSR_cycle_HP; // Cycles with Highest Priority
+
+
 
     unsigned ctrl_id;
     bool is_bliss;
@@ -171,7 +175,8 @@ int executeRequest(Controller *controller, Node *node)
         controller->channel_next_free = controller->cur_clk + controller->nclks_channel;
 
         if (node->core_id == controller->bliss_table->core_id) {
-            if (++controller->bliss_table->num_req_served >= controller->bliss_table->blacklist_threshold) {
+            controller->bliss_table->num_req_served += 1;
+            if (controller->bliss_table->num_req_served >= controller->bliss_table->blacklist_threshold) {
                 controller->bliss_table->num_req_served = 0;
                 controller->bliss_table->blacklisted_ids[node->core_id] = 1;
             }
@@ -180,6 +185,8 @@ int executeRequest(Controller *controller, Node *node)
             controller->bliss_table->num_req_served = 0;
         }
         controller->bliss_table->addr_just_served = node->mem_addr;
+
+        hash_table_insert(controller->stalls_table, node->core_id, controller->cur_clk);
 
         migrateToQueue(controller->pending_queue, node);
         deleteNode(controller->waiting_queue, node);
@@ -194,7 +201,7 @@ Node* better_request_BLISS(Controller* controller, Node* req1, Node* req2)
     if ((controller->bliss_table->blacklisted_ids[req1->core_id] == 0) ^ 
         (controller->bliss_table->blacklisted_ids[req2->core_id] == 0)) 
     {
-        if ((controller->bliss_table->blacklisted_ids[req1->core_id] =! 1))
+        if (controller->bliss_table->blacklisted_ids[req1->core_id] == 0)
             return req1;
         else
             return req2;
@@ -291,7 +298,7 @@ void tick(Controller *controller)
             
             if (controller->cur_clk % controller->bliss_table->clearing_interval == 0)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 8; i++)
                     controller->bliss_table->blacklisted_ids[i] = 0;
             }
         }
@@ -305,20 +312,7 @@ void tick(Controller *controller)
             }
         }
 
-        bool ARSR = (controller->is_ARSR) & (best_node->core_id == controller->ARSR_core_id);
-
         is_fail_executed = executeRequest(controller, best_node);
-
-        if (ARSR) {
-            ++controller->ARSR_req_HP;
-            if (!is_fail_executed) {
-                ++controller->ARSR_cycle_HP;
-            }
-        }
-
-        if (is_fail_executed) {
-
-        }
         
     }
 }

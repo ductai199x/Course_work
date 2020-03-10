@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include "BLISS_table.h"
+#include "hash_table.h"
 
 extern Controller *initController();
 extern unsigned ongoingPendingRequests(Controller *controller);
@@ -19,6 +20,7 @@ typedef struct MemorySystem
 
     unsigned num_of_channels;
     BLISS_table *bliss_table;
+    hash_table *stalls_table;
 
 } MemorySystem;
 
@@ -30,13 +32,17 @@ MemorySystem *initMemorySystem(Controller_Config *config)
     mem_system->bliss_table = (BLISS_table* )malloc(sizeof(BLISS_table));
     mem_system->bliss_table->blacklist_threshold = 4;
     mem_system->bliss_table->clearing_interval = 10000;
-    mem_system->bliss_table->blacklisted_ids = (int* )malloc(sizeof(int)*10);
+
+    int max_ncore = 8;
+    mem_system->bliss_table->blacklisted_ids = (int* )malloc(sizeof(int)*max_ncore);
+    mem_system->stalls_table = create_hash_table(max_ncore);
 
     for (int i = 0; i < config->num_of_channels; i++)
     {
         mem_system->controllers[i] = initController(config);
         mem_system->controllers[i]->ctrl_id = i;
         mem_system->controllers[i]->bliss_table = mem_system->bliss_table;
+        mem_system->controllers[i]->stalls_table = mem_system->stalls_table;
     }
     mem_system->num_of_channels = config->num_of_channels;
     mem_system->channel_shift = log2(config->block_size);

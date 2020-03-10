@@ -1,5 +1,6 @@
 #include "Trace.h"
 #include "Mem_System.h"
+#include "hash_table.h"
 
 #include<string.h>
 
@@ -51,7 +52,7 @@ int main(int argc, const char *argv[])
     bliss_dram_shared->dram_timing.nclks_write = 53;
     bliss_dram_shared->dram_timing.nclks_channel = 15;
     // bliss_dram->dram_timing.nclks_rowbuff = 53;
-    unsigned bliss_dram_num_of_banks[] = {16};
+    unsigned bliss_dram_num_of_banks[] = {8, 16};
     bliss_dram_shared->max_waiting_queue_size = 64;
     bliss_dram_shared->block_size = 128;
     bliss_dram_shared->num_of_banks = bliss_dram_num_of_banks;
@@ -66,10 +67,11 @@ int main(int argc, const char *argv[])
     memcpy(frfcfs_dram_shared, bliss_dram_shared, sizeof(Controller_Configs));
     frfcfs_dram_shared->is_bliss = false;
 
-    Controller_Configs *controller_configs[] = { bliss_dram_shared, frfcfs_dram_shared};
+    Controller_Configs *controller_configs[] = { frfcfs_dram_shared, bliss_dram_shared };
+    // Controller_Configs *controller_configs[] = { frfcfs_dram_shared };
 
     int num_tables = (int)(sizeof(controller_configs) / sizeof(controller_configs[0]));
-    // printf("max_queue, blk_size, nbanks, nchannels, clk_r, clk_w, clk_ch, nreqs, avg_at, bank_cfl, exec_time\n");
+    printf("bliss?, slwdwn, nbanks, nchans, clk_ch,  clk_r,  clk_w, unfairness\n");
     for (int t = 0; t < num_tables; t++)
     {
         for (int r = 0; r < controller_configs[t]->row; r++)
@@ -86,17 +88,18 @@ int main(int argc, const char *argv[])
             config.nclks_write = controller_configs[t]->dram_timing.nclks_write;
             config.nclks_channel = controller_configs[t]->dram_timing.nclks_channel;
             // config.nclks_rowbuff = controller_configs[t]->dram_timing.nclks_rowbuff;
-            printf("%u, %u, %d %u, %u, %u, %u, %u, %u, ", config.is_bliss, config.is_ARSR, config.ARSR_core_id, 
-                config.num_of_channels, config.is_shared, config.num_of_banks, config.nclks_channel, 
-                config.nclks_read, config.nclks_write);
+            printf("%6u, %6u, %6d, %6u, %6u, %6u, %6u, ", config.is_bliss, config.is_ARSR,
+                config.num_of_channels, config.num_of_banks, config.nclks_channel, 
+                config.nclks_read, config.nclks_write); fflush(stdout);
 
-            double maximum_slowdown = 0;
             int core_id = 0;
+            int max_ncore = 8;
+            uint64_t nreqs_shared = 0;
+
+            hash_table *stalls_table = (hash_table* )malloc(sizeof(hash_table));
+            double* slowdown_table = (double* )malloc(sizeof(double)*max_ncore);
+            
             do {
-                double ARSR = 0;
-                double SRSR = 0;
-                double alpha = 0;
-                double slowdown = 0;
                 config.ARSR_core_id = core_id;
                 // Initialize a CPU trace parser
                 TraceParser *mem_trace = initTraceParser(argv[1]);
@@ -106,7 +109,6 @@ int main(int argc, const char *argv[])
 
                 uint64_t cycles = 0;
                 uint64_t n_req = 0;
-                uint64_t stall_cycles = 0;
 
                 bool stall = false;
                 bool end = false;
@@ -115,32 +117,49 @@ int main(int argc, const char *argv[])
                     if (!end && !stall)
                     {
                         end = !(getRequest(mem_trace));
+                        while (!end && !config.is_shared && mem_trace->cur_req->core_id != core_id) {
+                            end = !(getRequest(mem_trace));
+                        }
                         n_req = end ? n_req : ++n_req;
                     }
                     if (!end)
                     {
                         stall = !(access(mem_system, mem_trace->cur_req));
-                        stall_cycles = stall ? ++stall_cycles : stall_cycles;
                     }
                     tickEvent(mem_system);
                     ++cycles;
+                        
                 }
-                
-                for (int i = 0; i < config.num_of_channels; i++) {
-                    ARSR += (double)mem_system->controllers[i]->ARSR_cycle_HP/mem_system->controllers[i]->ARSR_req_HP;
-                }
-                SRSR = (double)n_req/cycles;
-                alpha = (double)stall_cycles/cycles;
-                // slowdown = (1 - alpha) + alpha*ARSR/SRSR;
-                slowdown = ARSR/SRSR;
-                printf("coreid: %d, ARSR: %f, SRSR: %f, alpha: %f, slowdown: %f\n", core_id, ARSR, SRSR, alpha, slowdown);
 
-                maximum_slowdown = slowdown > maximum_slowdown ? slowdown : maximum_slowdown;
-                core_id++;
+                if (config.is_shared) {
+					nreqs_shared = n_req;	
+                    memcpy(stalls_table, mem_system->stalls_table, sizeof(hash_table));
+                } else {
+                    slowdown_table[core_id] = ((double)hash_table_lookup(stalls_table, core_id)->stall_cycles/nreqs_shared) / (hash_table_lookup(mem_system->stalls_table, core_id)->stall_cycles/n_req);
+                    core_id++;
+                }
+
+                
+                config.is_shared = false;
+		        config.is_bliss = false;
+                free(mem_system->stalls_table);
+                
+
+                for (int i = 0; i < config.num_of_channels; i++) {
+                    free(mem_system->controllers[i]);
+                }
 
                 free(mem_system);
-            } while(config.is_ARSR && core_id < 8);
-            
+                
+            } while(config.is_ARSR && core_id < max_ncore);
+
+            for (int i = 0; i < max_ncore; i++) {
+                printf("%5lf, ", slowdown_table[i]);
+            }
+
+            printf("\n"); fflush(stdout);
+            free(slowdown_table);
+            free(stalls_table);
         }
     }
 }

@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.25)  2 MAR 2020 08:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.10.25)  3 MAR 2020 15:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**tdn47_proj1.tex
-(./tdn47_proj1.tex
+**tdn47_proj2.tex
+(./tdn47_proj2.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 7 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -559,8 +559,8 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen138
 \Gm@dimlist=\toks22
 )
-(./tdn47_proj1.aux)
-\openout1 = `tdn47_proj1.aux'.
+(./tdn47_proj2.aux)
+\openout1 = `tdn47_proj2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
 LaTeX Font Info:    ... okay on input line 32.
@@ -683,80 +683,49 @@ File: uwasy.fd 2003/10/30 v2.0 Wasy-2 symbol font definitions
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<503_results.png, id=11, 1668.2325pt x 282.05376pt>
-File: 503_results.png Graphic file (type png)
-<use 503_results.png>
-Package pdftex.def Info: 503_results.png  used on input line 87.
-(pdftex.def)             Requested size: 500.484pt x 84.61678pt.
-<538_results.png, id=12, 1667.22874pt x 282.05376pt>
-File: 538_results.png Graphic file (type png)
-<use 538_results.png>
-Package pdftex.def Info: 538_results.png  used on input line 94.
-(pdftex.def)             Requested size: 500.484pt x 84.66841pt.
-<554_results.png, id=13, 1667.22874pt x 282.05376pt>
-File: 554_results.png Graphic file (type png)
-<use 554_results.png>
-Package pdftex.def Info: 554_results.png  used on input line 101.
-(pdftex.def)             Requested size: 500.484pt x 84.66841pt.
-<557_results.png, id=14, 1668.2325pt x 282.05376pt>
-File: 557_results.png Graphic file (type png)
-<use 557_results.png>
-Package pdftex.def Info: 557_results.png  used on input line 108.
-(pdftex.def)             Requested size: 500.484pt x 84.61678pt.
-<MP10_results.png, id=15, 1668.2325pt x 282.05376pt>
-File: MP10_results.png Graphic file (type png)
-<use MP10_results.png>
-Package pdftex.def Info: MP10_results.png  used on input line 115.
-(pdftex.def)             Requested size: 500.484pt x 84.61678pt.
-<503_results_graph.png, id=16, 602.25pt x 372.39125pt>
-File: 503_results_graph.png Graphic file (type png)
-<use 503_results_graph.png>
-Package pdftex.def Info: 503_results_graph.png  used on input line 123.
-(pdftex.def)             Requested size: 240.23016pt x 148.54474pt.
-<538_results_graph.png, id=18, 602.25pt x 372.39125pt>
-File: 538_results_graph.png Graphic file (type png)
-<use 538_results_graph.png>
-Package pdftex.def Info: 538_results_graph.png  used on input line 129.
-(pdftex.def)             Requested size: 240.23016pt x 148.54474pt.
-<554_results_graph.png, id=19, 602.25pt x 372.39125pt>
-File: 554_results_graph.png Graphic file (type png)
-<use 554_results_graph.png>
-Package pdftex.def Info: 554_results_graph.png  used on input line 135.
-(pdftex.def)             Requested size: 240.23016pt x 148.54474pt.
-<557_results_graph.png, id=20, 602.25pt x 372.39125pt>
-File: 557_results_graph.png Graphic file (type png)
-<use 557_results_graph.png>
-Package pdftex.def Info: 557_results_graph.png  used on input line 141.
-(pdftex.def)             Requested size: 240.23016pt x 148.54474pt.
-<MP10_results_graph.png, id=21, 602.25pt x 372.39125pt>
-File: MP10_results_graph.png Graphic file (type png)
-<use MP10_results_graph.png>
-Package pdftex.def Info: MP10_results_graph.png  used on input line 147.
-(pdftex.def)             Requested size: 240.23016pt x 148.54474pt.
- [2 <./503_results.png> <./538_results.png> <./554_results.png>] [3 <./557_resu
-lts.png> <./MP10_results.png>] [4 <./503_results_graph.png> <./538_results_grap
-h.png> <./554_results_graph.png> <./557_results_graph.png> <./MP10_results_grap
-h.png>] (./tdn47_proj1.aux) ) 
+<unfair_8banks.png, id=12, 602.25pt x 372.39125pt>
+File: unfair_8banks.png Graphic file (type png)
+<use unfair_8banks.png>
+Package pdftex.def Info: unfair_8banks.png  used on input line 123.
+(pdftex.def)             Requested size: 350.33727pt x 216.63484pt.
+ [2]
+<unfair_16banks.png, id=17, 602.25pt x 372.39125pt>
+File: unfair_16banks.png Graphic file (type png)
+<use unfair_16banks.png>
+Package pdftex.def Info: unfair_16banks.png  used on input line 130.
+(pdftex.def)             Requested size: 350.33727pt x 216.63484pt.
+<improvement_8banks.png, id=18, 602.25pt x 372.39125pt>
+File: improvement_8banks.png Graphic file (type png)
+<use improvement_8banks.png>
+Package pdftex.def Info: improvement_8banks.png  used on input line 137.
+(pdftex.def)             Requested size: 350.33727pt x 216.63484pt.
+<improvement_16banks.png, id=19, 602.25pt x 372.39125pt>
+File: improvement_16banks.png Graphic file (type png)
+<use improvement_16banks.png>
+Package pdftex.def Info: improvement_16banks.png  used on input line 144.
+(pdftex.def)             Requested size: 350.33727pt x 216.63484pt.
+ [3 <./unfair_8banks.png> <./unfair_16banks.png>] [4 <./improvement_8banks.png>
+ <./improvement_16banks.png>]
+(./tdn47_proj2.aux) ) 
 Here is how much of TeX's memory you used:
- 4682 strings out of 494847
- 67049 string characters out of 6179079
- 133419 words of memory out of 5000000
- 7919 multiletter control sequences out of 15000+600000
- 11377 words of font info for 42 fonts, out of 8000000 for 9000
+ 4629 strings out of 494847
+ 66111 string characters out of 6179079
+ 134326 words of memory out of 5000000
+ 7873 multiletter control sequences out of 15000+600000
+ 10502 words of font info for 38 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 42i,7n,43p,503b,462s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on tdn47_proj1.pdf (4 pages, 528120 bytes).
+ 42i,6n,43p,1344b,335s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+bx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on tdn47_proj2.pdf (4 pages, 156313 bytes).
 PDF statistics:
- 65 PDF objects out of 1000 (max. 8388607)
- 35 compressed objects within 1 object stream
+ 54 PDF objects out of 1000 (max. 8388607)
+ 32 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
