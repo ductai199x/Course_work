@@ -135,7 +135,7 @@ int main(int argc, const char *argv[])
 					nreqs_shared = n_req;	
                     memcpy(stalls_table, mem_system->stalls_table, sizeof(hash_table));
                 } else {
-                    slowdown_table[core_id] = ((double)hash_table_lookup(stalls_table, core_id)->stall_cycles/nreqs_shared) / (hash_table_lookup(mem_system->stalls_table, core_id)->stall_cycles/n_req);
+                    slowdown_table[core_id] = ((double)hash_table_lookup(stalls_table, core_id)->stall_cycles/n_req) / (hash_table_lookup(mem_system->stalls_table, core_id)->stall_cycles/n_req);
                     core_id++;
                 }
 
