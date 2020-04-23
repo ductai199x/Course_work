@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tai Duc Nguyen - ECE 303 - 04/18/2020</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h2 id="tai-duc-nguyen---ece-303---04182020">Tai Duc Nguyen - ECE 303 - 04/18/2020</h2>
+<h1 id="lab-2-memo">Lab 2 Memo</h1>
+<ol>
+<li><a href="#lab-2-memo">Lab 2 Memo</a>
+<ol>
+<li><a href="#experimental-setup">Experimental Setup</a>
+<ol>
+<li><a href="#constructed-circuit">Constructed Circuit</a></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="experimental-setup">Experimental Setup</h2>
+<p>This experiment features a game called Codebreaker. The participant's task is to guess a 4 digit number code in 5 tries. If the guess on a number is accurate, then the corresponding LED is turned off. Else, that LED will blink faster. In order to control the 4 LEDs, 4 (16 bit counter) interrupts and a vector, <code>is_start</code>, to turn the LEDs <code>OFF</code> are used.</p>
+<p>The algorithm works as follow:</p>
+<ul>
+<li>A random 4 digits number is generated (stored into an array of 4 <code>uint8_t</code> elements)</li>
+<li>The vector <code>is_start</code> is initialized to all 0 (<code>OFF</code> state)</li>
+<li>If user enter a 4 digit number:
+<ul>
+<li>Check each user entered digit with the corresponding randomly generated digit.</li>
+<li>If match, then <code>is_start[i]</code> is set to <code>0</code></li>
+<li>if not, then <code>is_start[i]</code> is set to <code>1</code>. And, the blink rate of LED <code>i</code> is doubled: <code>led_hertz[i] *= 2</code></li>
+<li>Update <code>OCRiA</code> for all LEDs.</li>
+<li>If user entered all correct digits, then exit. Print the user has won.</li>
+<li>If not, increment <code>attempts</code> by 1. Check if <code>attempts</code> is 5. If so, print game over and the randomly generated number.</li>
+<li>Allow the user to continue the game or finish the game. If continuing, then reinitialize all vectors and prompt the user for guesses.</li>
+</ul>
+</li>
+</ul>
+<h3 id="constructed-circuit">Constructed Circuit</h3>
+<p><img src="file:////home/sweet/2-coursework/303ece/2_lab/20200418_195146.jpg" alt="circuit"></p>
+
+    </body>
+    </html>
