@@ -2,6 +2,7 @@ volatile uint16_t phase = 0;
 volatile uint16_t freq = 0;
 
 void setup() {
+    Serial.begin(9600);
     pinMode(A0, INPUT);
     timer2_init_pwm();
     timer0_init_ctc();
@@ -9,6 +10,7 @@ void setup() {
 
 void loop() {
     freq = analogRead(A0);
+    Serial.println(phase);
 }
 
 /* 

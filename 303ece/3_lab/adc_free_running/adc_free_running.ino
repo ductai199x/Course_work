@@ -1,7 +1,7 @@
 volatile uint16_t a0;   // ADC ch 0 result
 
 void setup() {
-    Serial.begin(115200);
+    Serial.begin(9600);
     adc_init_pins();
     adc_init_free_running();
 }
