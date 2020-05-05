@@ -143,14 +143,14 @@ void wavetable_init() {
 
 
 // Exponential mapping between freq and pot ADC reading
-//void freqtable_init(float f_min, float f_max) {
-//    float coeff = powf(f_max/f_min, 1.0/(TAB_LEN-1));
-//    float val = f_min;
-//    for (int i = 0; i < TAB_LEN; i++) {
-//        freqtable[i] = roundf(val * 65535.5);
-//        val *= coeff;
-//    }
-//}
+void freqtable_init(float f_min, float f_max) {
+   float coeff = powf(f_max/f_min, 1.0/(TAB_LEN-1));
+   float val = f_min;
+   for (int i = 0; i < TAB_LEN; i++) {
+       freqtable[i] = roundf(val * 65535.5);
+       val *= coeff;
+   }
+}
 
 
 // Linear mapping between freq and pot ADC reading
