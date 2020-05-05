@@ -44,7 +44,7 @@ BMES T580: Systems Neuroscience in Medicine and Engineering
 \begin{figure}[htb!]
 	\centering
 	\includegraphics[width=0.6\linewidth]{1_fig.png}
-%	\caption{DFF's Layout in Cadence's Virtuoso Layout Suite}
+	\caption{}
 	\label{fig1}
 \end{figure}
 
@@ -108,13 +108,24 @@ Hence, the resolution calculated from the diffraction limit is:
 
 Of course, 6000 cycles/radians is much larger than the theoretical 200 cycles/radians. The reason for this huge discrepancy relies on 2 parameters: 1) the focal length ($f$), and 2) the diameter of the photoreceptor ($I$). Since $f$ is short and $I$ is very larger, the ratio $\frac{f}{I}$ is much smaller than that of humans ($f = 17 \text{ mm}$ and $I = 2 \mu m$). 
 
-c. The cut-off spatial frequency for this eye should be well approximated by its retinal sampling frequency ($v_s$). Hence:
+c. The Modulation Transfer Function is: $MTF(f) = e^{-24f^2}$. Judging from figure \ref{fig2} below, as $f$ approaches $0.6$, $MTF(f) = 0$. Hence, the cut-off spatial frequency for this eye according to the MTF is approximately 0.6 cycles/radians
+
+\begin{figure}[htb!]
+	\centering
+	\includegraphics[width=0.6\linewidth]{2c.png}
+	\caption{Modulation Transfer Function of the given eye}
+	\label{fig2}
+\end{figure}
+
+d. Since the eye is receiving N photons, the minimum contrast that it can perceive is $C_{min} = \frac{1}{\sqrt{N}}$. Hence, the maximum cut-off frequency can be solved by setting:
 
 \begin{equation}
-	v_{co} = v_s = 210 \text{ cycles/radians}
+	MTF(f) = e^{-24f^2} = \frac{1}{\sqrt{N}}
 \end{equation}
 
-d. Since the eye is looking at the scene at the contrast = 1 (100\%), the cut-off frequency is still 210 cycles/radians.
+\begin{equation}
+	f = \sqrt{\frac{ln(\frac{1}{\sqrt{N}})}{-24}}
+\end{equation}
 
 \section{Problem 3}
 \label{sec:prob3}
@@ -137,7 +148,7 @@ b. The traces below show the response of a rod photoreceptor to flashes to light
 	\centering
 	\includegraphics[width=0.6\linewidth]{2_fig.png}
 	%	\caption{DFF's Layout in Cadence's Virtuoso Layout Suite}
-	\label{fig2}
+	\label{fig3}
 \end{figure}
 
 \textbf{Answer:}
@@ -161,7 +172,7 @@ a. Hence, 1 and 3 is correct, while 2 and 4 is not. cAMP is not mentioned in the
 
 3b. The response does not increase after it reaches $R_{max}$ is because there are a finite number of Na+ and Ca+ channels. When all of them closes and the level of Na+/Ca+ is stabilized, then there is no more change in membrane potential. 
 
-Also, increasing the light intensity should cause a phenomenon called "bleaching". The more intense the light, the more photons which can react with rhodopsin and cause the high level depletion of this protein. Hence, it takes more time to convert the rhodopsins back the more rhodopsins getting depleted.
+Also, increasing the light intensity should cause a phenomenon called "bleaching". The more intense the light, the more photons which can react with rhodopsin, causing the high level depletion of this protein, which makes the level of cGMP stays low for a longer period (longer for the membrane potential to reinstate its normal voltage).
 
 \section{Problem 4}
 \label{sec:prob4}
@@ -181,16 +192,16 @@ c. The figure below shows an example of a recording from primate retina. Answer 
 	\centering
 	\includegraphics[width=0.7\linewidth]{3_fig.png}
 	%	\caption{DFF's Layout in Cadence's Virtuoso Layout Suite}
-	\label{fig3}
+	\label{fig4}
 \end{figure}
 
 \textbf{Answer:}
 
-a. The receptive field of a single photoreceptor cell corresponds to this photoreceptor's precise location on the retina.
+a. The receptive field is a portion of sensory space that can elicit neuronal responses when stimulated.
 
-b. There are two types of bipolar cells, distinguished by the way they respond to light on the centers of their receptive fields. They are called ON-center cells and OFF-center cells. ON-center cells depolarized when light hit the center, OFF-center cells depolarized when light hit the surround.
+b. There are two types of retinal ganglion cells, distinguished by the way they respond to light on the centers of their receptive fields. They are called ON-center cells and OFF-center cells. ON-center cells depolarized when light hit the center, OFF-center cells depolarized when light hit the surround.
 
-1c. From the recording, it looks like: 1) the cell depolarizes when expose to a red+green, and 2) hyperpolarizes when expose to blue. Hence, this is a yellow-ON, blue-OFF cell. 
+1c. From the recording, it is certain that the cell being recorded is a retinal ganglion cell because: 1) the cell depolarizes when expose to a red+green, 2) hyperpolarizes when expose to blue, and 3) the cell's output is a linear/nonlinear combination of excitation and inhibition caused by the colors hitting either the center or the surround of the receptive field.
 
 2c. A yellow-ON, blue-OFF cell will have yellow in the center and blue in the surround if the cell is a ON-center cell. On the other hand, if the cell is a OFF-center cell, then blue will be in the middle and yellow will be on the surround.
 
