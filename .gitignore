@@ -16,3 +16,4 @@ sync_changes.txt
 
 *pycache*
 *.zip
+*.tar*
