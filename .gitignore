@@ -17,3 +17,6 @@ sync_changes.txt
 *pycache*
 *.zip
 *.tar*
+
+*.synctex.gz
+*.log
