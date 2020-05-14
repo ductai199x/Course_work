@@ -18,5 +18,6 @@ sync_changes.txt
 *.zip
 *.tar*
 
+*.aux
 *.synctex.gz
 *.log

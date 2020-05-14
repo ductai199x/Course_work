@@ -113,7 +113,7 @@ int main(int argc, char **argv)
 /* FIXME: Write code to perform gaussian elimination using omp */
 void gauss_eliminate_using_omp(Matrix U)
 {
-    #pragma omp parallel num_threads(16)
+    #pragma omp parallel num_threads(4)
     {
         int tid = omp_get_thread_num();	/* Obtain thread ID */
 

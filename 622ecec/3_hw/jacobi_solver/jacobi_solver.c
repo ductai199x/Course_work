@@ -78,6 +78,8 @@ int main(int argc, char **argv)
  * Result must be placed in mt_sol_x. */
 void compute_using_omp(const matrix_t A, matrix_t mt_sol_x, const matrix_t B)
 {
+
+	
 }
 
 /* Allocate a matrix of dimensions height * width.
