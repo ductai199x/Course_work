@@ -17,6 +17,8 @@
  */  
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #include "pso.h"
 
 int main(int argc, char **argv)
@@ -40,9 +42,25 @@ int main(int argc, char **argv)
     int max_iter = atoi(argv[6]);
     int num_threads = atoi(argv[7]);
 
+     /* Initialize PSO */
+    swarm_t *swarm_gold;
+    swarm_t *swarm_omp = (swarm_t*)malloc(sizeof(swarm_t));
+    srand(time(NULL));
+    swarm_gold = pso_init(function, dim, swarm_size, xmin, xmax);
+    if (swarm_gold == NULL) {
+        fprintf(stderr, "Unable to initialize PSO\n");
+        exit(EXIT_FAILURE);
+    } else {
+        memcpy(swarm_omp, swarm_gold, sizeof(swarm_t));
+    }
+
+#ifdef VERBOSE_DEBUG
+    pso_print_swarm(swarm_gold);
+#endif
+
     /* Optimize using reference version */
     int status;
-    status = optimize_gold(function, dim, swarm_size, xmin, xmax, max_iter);
+    status = optimize_gold(function, swarm_gold, xmin, xmax, max_iter);
     if (status < 0) {
         fprintf(stderr, "Error optimizing function using reference code\n");
         exit (EXIT_FAILURE);
@@ -52,11 +70,14 @@ int main(int argc, char **argv)
      * Return -1 on error, 0 on success. Print best-performing 
      * particle within the function prior to returning. 
      */
-    status = optimize_using_omp(function, dim, swarm_size, xmin, xmax, max_iter, num_threads);
+    status = optimize_using_omp(function, swarm_omp, xmin, xmax, max_iter, num_threads);
     if (status < 0) {
         fprintf(stderr, "Error optimizing function using OpenMP\n");
         exit (EXIT_FAILURE);
     }
+
+    pso_free(swarm_gold);
+    pso_free(swarm_omp);
     
     exit(EXIT_SUCCESS);
 }

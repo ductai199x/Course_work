@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 #include <math.h>
 #include <string.h>
 #include "pso.h"
@@ -78,30 +79,21 @@ int pso_solve_gold(char *function, swarm_t *swarm,
 }
 
 
-int optimize_gold(char *function, int dim, int swarm_size, 
+int optimize_gold(char *function, swarm_t *swarm, 
                   float xmin, float xmax, int max_iter)
 {
-     /* Initialize PSO */
-    swarm_t *swarm;
-    srand(time(NULL));
-    swarm = pso_init(function, dim, swarm_size, xmin, xmax);
-    if (swarm == NULL) {
-        fprintf(stderr, "Unable to initialize PSO\n");
-        exit(EXIT_FAILURE);
-    }
-
-#ifdef VERBOSE_DEBUG
-    pso_print_swarm(swarm);
-#endif
-
     /* Solve PSO */
     int g; 
+    struct timeval start, stop;	
+	gettimeofday(&start, NULL);
     g = pso_solve_gold(function, swarm, xmax, xmin, max_iter);
+    gettimeofday(&stop, NULL);
+	float exec_time = (float)(stop.tv_sec - start.tv_sec\
+                + (stop.tv_usec - start.tv_usec)/(float)1000000);
     if (g >= 0) {
-        fprintf(stderr, "Solution:\n");
+        fprintf(stderr, "Solution SERIAL:\n");
         pso_print_particle(&swarm->particle[g]);
+        fprintf(stderr, "Execution time = %fs\n", exec_time);
     }
-
-    pso_free(swarm);
     return g;
 }

@@ -33,8 +33,8 @@ int pso_eval_fitness(char *, particle_t *, float *);
 int pso_solve_gold(char *, swarm_t *, float, float, int);
 void pso_free(swarm_t *);
 int pso_get_best_fitness(swarm_t *);
-int optimize_gold(char *, int, int, float, float, int);
-int optimize_using_omp(char *, int, int, float, float, int, int);
+int optimize_gold(char *, swarm_t *, float, float, int);
+int optimize_using_omp(char *, swarm_t *, float, float, int, int);
 
 /* Optimization test functions */
 float pso_eval_rastrigin(particle_t *);

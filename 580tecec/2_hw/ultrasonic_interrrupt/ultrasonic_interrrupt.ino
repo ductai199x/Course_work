@@ -7,7 +7,7 @@ int duration;
 
 
 void setup() {
-  Serial.begin (9600);
+  Serial.begin (19200);
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   attachInterrupt(0, EchoPin_ISR, CHANGE);  // Pin 2 interrupt on any change
@@ -18,11 +18,11 @@ void loop(){
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
-  Serial.print("Sensor A  ");
-  Serial.print(LastPulseTime);
-  Serial.print('\t');
-  Serial.print((LastPulseTime/2) / 29.1,4);
-  Serial.println("cm");
+//  Serial.print("Sensor A  ");
+//  Serial.print(LastPulseTime);
+//  Serial.print('\t');
+  Serial.println((LastPulseTime/2) / 29.1,4);
+//  Serial.println("cm");
 
   delay(100);
 }

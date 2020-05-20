@@ -10,23 +10,64 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <time.h>
+#include <sys/time.h>
 #include <string.h>
 #include <math.h>
+#include <omp.h>
+#include <getopt.h>
 #include "jacobi_solver.h"
 
 /* Uncomment the line below to spit out debug information */ 
 /* #define DEBUG */
 
+int thread_count = 4;
+int max_iter = 100000;
+
 int main(int argc, char **argv) 
 {
-	if (argc < 2) {
-		fprintf(stderr, "Usage: %s matrix-size\n", argv[0]);
-        fprintf(stderr, "matrix-size: width of the square matrix\n");
-		exit(EXIT_FAILURE);
-	}
+	int s = 4;
+    int t = 1;
+    int rpt_mode = 0;
 
-    int matrix_size = atoi(argv[1]);
+    int opt; 
+      
+    // put ':' in the starting of the 
+    // string so that program can  
+    // distinguish between '?' and ':'  
+    while((opt = getopt(argc, argv, ":s:t:r")) != -1)  
+    {  
+        switch(opt)  
+        { 
+            case 's':  
+                s = atoi(optarg);
+                break;  
+            case 't':  
+                t = atoi(optarg);
+                break;
+            case 'r':
+                rpt_mode = 1;
+                break;
+            case ':':  
+                printf("option needs a value\n");  
+                break;  
+            case '?':  
+                printf("unknown option: %c\n", optopt); 
+                break;  
+            default:
+				fprintf(stderr, "Usage: %s -s matrix_size -t num_threads -r (enable reporting mode)\n", argv[0]);
+                abort();
+        }  
+    }  
+	
+    int matrix_size = s; 
+    thread_count = t;
+
+    if (rpt_mode)
+        printf("%u\t%d\t", matrix_size, thread_count);
+
+    float exec_time = 0;
 
     matrix_t  A;                    /* N x N constant matrix */
 	matrix_t  B;                    /* N x 1 b matrix */
@@ -34,7 +75,9 @@ int main(int argc, char **argv)
     matrix_t mt_solution_x;         /* Solution computed by pthread code */
 
 	/* Generate diagonally dominant matrix */
-    fprintf(stderr, "\nCreating input matrices\n");
+	if (!rpt_mode) {
+    	fprintf(stderr, "\nCreating input matrices\n");
+	}
 	srand(time(NULL));
 	A = create_diagonally_dominant_matrix(matrix_size, matrix_size);
 	if (A.elements == NULL) {
@@ -54,17 +97,41 @@ int main(int argc, char **argv)
 #endif
 
     /* Compute Jacobi solution using reference code */
-	fprintf(stderr, "Generating solution using reference code\n");
+	if (!rpt_mode) {
+		fprintf(stderr, "Generating solution using reference code\n");
+	}
     int max_iter = 100000; /* Maximum number of iterations to run */
+	struct timeval start, stop;	
+	gettimeofday(&start, NULL);
     compute_gold(A, reference_x, B, max_iter);
-    display_jacobi_solution(A, reference_x, B); /* Display statistics */
+	gettimeofday(&stop, NULL);
+	exec_time = (float)(stop.tv_sec - start.tv_sec\
+                + (stop.tv_usec - start.tv_usec)/(float)1000000);
+    if (!rpt_mode) {
+	    fprintf(stderr, "Execution time = %fs\n", exec_time);
+		display_jacobi_solution(A, reference_x, B); /* Display statistics */
+	} else {
+        printf("%f\t", exec_time);
+	}
+    
 	
-	/* Compute the Jacobi solution using openMP. 
-     * Solution is returned in mt_solution_x.
+	/* Compute the Jacobi solution using pthreads. 
+     * Solutions are returned in mt_solution_x.
      * */
-    fprintf(stderr, "\nPerforming Jacobi iteration using omp\n");
-	compute_using_omp(A, mt_solution_x, B);
-    display_jacobi_solution(A, mt_solution_x, B); /* Display statistics */
+	if (!rpt_mode) {
+    	fprintf(stderr, "\nPerforming Jacobi iteration using pthreads\n");
+	}
+	gettimeofday(&start, NULL);
+	compute_using_omp(&A, &mt_solution_x, &B);
+	gettimeofday(&stop, NULL);
+	exec_time = (float)(stop.tv_sec - start.tv_sec\
+                + (stop.tv_usec - start.tv_usec)/(float)1000000);
+    if (!rpt_mode) {
+	    fprintf(stderr, "Execution time = %fs\n", exec_time);
+		display_jacobi_solution(A, reference_x, B); /* Display statistics */
+	} else {
+        printf("%f\n", exec_time);
+	}
     
     free(A.elements); 
 	free(B.elements); 
@@ -76,10 +143,67 @@ int main(int argc, char **argv)
 
 /* FIXME: Complete this function to perform the Jacobi calculation using openMP. 
  * Result must be placed in mt_sol_x. */
-void compute_using_omp(const matrix_t A, matrix_t mt_sol_x, const matrix_t B)
+void compute_using_omp(matrix_t *A, matrix_t *X, matrix_t *B)
 {
 
+	// create new_mt_sol_x
+	matrix_t *new_X = (matrix_t*)malloc(sizeof(matrix_t));
+	new_X->num_columns = X->num_columns;
+	new_X->num_rows = X->num_rows;
+
+	int size_X = X->num_columns*X->num_rows;
+	new_X->elements = (float*)malloc(sizeof(float)*size_X);
+
+	memcpy(new_X->elements, X->elements, size_X*sizeof(float));
+
+	// malloc for partial ssds
+	double *partial_ssd_vect = (double*)malloc(sizeof(double)*thread_count);
+
+	int iter = 0; int done = 0;
 	
+	while(!done && iter < max_iter) {
+		iter++;
+		int i,j;
+		double sum, partial_ssd;
+		float tmp_ssd;
+		#pragma omp parallel num_threads(thread_count) private(i, j, sum, partial_ssd, tmp_ssd) shared(A, X, new_X, B, partial_ssd_vect)
+		{
+			int tid = omp_get_thread_num();
+			sum = 0; partial_ssd = 0; tmp_ssd = 0;
+			for (i = tid; i < A->num_rows; i+=thread_count) {
+				sum = 0; partial_ssd = 0; tmp_ssd = 0;
+				for (j = 0; j < A->num_columns; j++) {
+					if (i != j) {
+						sum += A->elements[i*A->num_columns + j] * X->elements[j];
+					}
+				}
+				new_X->elements[i] = (B->elements[i] - sum)/A->elements[i*A->num_columns + i];
+				
+				tmp_ssd = X->elements[i] - new_X->elements[i];
+
+				partial_ssd += tmp_ssd*tmp_ssd;
+			}
+
+			partial_ssd_vect[tid] = partial_ssd;
+		}
+
+		double sum_ssds = 0;
+		for (int i = 0; i < thread_count; i++) {
+			sum_ssds += partial_ssd_vect[i];
+		}
+		if (sqrt(sum_ssds) < 0.000001) {
+			done = 1;
+		}
+
+		if (!done) {
+			matrix_t *tmp_ptr;
+			tmp_ptr = X;
+			X = new_X;
+			new_X = tmp_ptr;
+		}
+
+	}
+
 }
 
 /* Allocate a matrix of dimensions height * width.

@@ -213,6 +213,7 @@ swarm_t *pso_init(char *function, int dim, int swarm_size,
     if (swarm->particle == NULL)
         return NULL;
 
+#pragma omp parallel for num_threads(4) private(i, j, particle, fitness) shared(swarm, dim)
     for (i = 0; i < swarm->num_particles; i++) {
         particle = &swarm->particle[i];
         particle->dim = dim; 
@@ -228,14 +229,13 @@ swarm_t *pso_init(char *function, int dim, int swarm_size,
 
         /* Initialize best position for particle */
         particle->pbest = (float *)malloc(dim * sizeof(float));
-        for (j = 0; j < dim; j++)
-            particle->pbest[j] = particle->x[j];
+        memmove(particle->pbest, particle->x, sizeof(float)*particle->dim);
 
         /* Initialize particle fitness */
         status = pso_eval_fitness(function, particle, &fitness);
         if (status < 0) {
             fprintf(stderr, "Could not evaluate fitness. Unknown function provided.\n");
-            return NULL;
+            // return NULL;
         }
         particle->fitness = fitness;
 

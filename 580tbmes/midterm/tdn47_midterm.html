@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tai Duc Nguyen - BMES T580</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        <script src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+    </head>
+    <body class="vscode-light">
+        <h2 id="tai-duc-nguyen---bmes-t580">Tai Duc Nguyen - BMES T580</h2>
+<h1 id="midterm">Midterm</h1>
+<ol>
+<li><a href="#midterm">Midterm</a>
+<ol>
+<li><a href="#problem-1">Problem 1</a>
+<ol>
+<li><a href="#answer-to-part-a">Answer to part A</a></li>
+<li><a href="#answer-to-part-b">Answer to part B</a></li>
+<li><a href="#answer-to-part-c">Answer to part C</a></li>
+</ol>
+</li>
+<li><a href="#problem-2">Problem 2</a>
+<ol>
+<li><a href="#answer-to-part-a-1">Answer to part A</a></li>
+<li><a href="#answer-to-part-b-1">Answer to part B</a></li>
+<li><a href="#answer-to-part-c-1">Answer to part C</a></li>
+</ol>
+</li>
+<li><a href="#problem-3">Problem 3</a>
+<ol>
+<li><a href="#answer-to-part-a-2">Answer to part A</a></li>
+<li><a href="#answer-to-part-b-and-c">Answer to part B and C</a></li>
+<li><a href="#answer-to-part-d">Answer to part D</a></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="problem-1">Problem 1</h2>
+<p>The recordings below are of two neurons from the retina. A negative pulse of light is being
+given (i.e., there is a short decrease in light lasting 100 milliseconds. Each row is a different trial and each tick is a spike. Answer the following questions:</p>
+<p>A. What kind of neurons are these? Please explain your rationale</p>
+<p>B. The responses of these neurons can be approximately described using the Linear-Nonlinear-
+Poisson (LNP) model. Briefly describe the LNP model (a diagram with brief explanation should
+be enough). Plot the linear filter for the two neurons and explain your answer.</p>
+<p>C. Draw/Describe the receptive field for both these neurons.</p>
+<p><img src="file:////home/sweet/2-coursework/580tbmes/midterm/prob1.png" alt="prob1"></p>
+<h3 id="answer-to-part-a">Answer to part A</h3>
+<p>These are retinal bipolar cells. The one on the left is a ON-bipolar cell, and the one on the right is a OFF-bipolar cell. It is apparent that:</p>
+<ol>
+<li>The left neuron has lots of spikes when there is light and almost 0 spike when there is no light.</li>
+<li>The right neuron has almost no spikes when there is light and many spikes when there is no light.</li>
+</ol>
+<h3 id="answer-to-part-b">Answer to part B</h3>
+<p>The linear filter for the neuron on the left is just a positive lobe because if there is no light, the input signal is near 0, producing no response</p>
+<p>The linear filter for the neuron on the right is a large negative lobe accompanied by a smaller positive lobe because if there is light, then the response will be negative (which is 0 after applying non-linearity), and if there is little light, then the response will be small-positive.</p>
+<img src="file:////home/sweet/2-coursework/580tbmes/midterm/1b.jpg" alt="drawing" style="width:500px;"/>
+<h3 id="answer-to-part-c">Answer to part C</h3>
+<p>Since the neuron on the left is active when the light is on, it is a ON-center bipolar cell. And, for similar reason, the neuron on the right is a OFF-center bipolar cell.</p>
+<h2 id="problem-2">Problem 2</h2>
+<p>The recordings below are from two different direction-selective neurons in the same brain
+region. When the black bar underneath the response ends, a drifting grating moves resulting in
+the response that is plotted. Answer the following questions:</p>
+<p>A. Where in the brain would you find these two neurons? Please explain</p>
+<p>B. Trace out the feedforward circuit from photoreceptors to medio temporal (MT) cortex. That
+is, name the major cell-types and how they are connected to each other. Within that circuit, place these two neurons.</p>
+<p>C. Explain how you can obtain one of the response-type shown above by connecting several
+neurons that have the other response-type.</p>
+<p><img src="file:////home/sweet/2-coursework/580tbmes/midterm/prob2.png" alt="prob2"></p>
+<h3 id="answer-to-part-a-1">Answer to part A</h3>
+<p>These 2 neurons are found in the primary visual cortex region of the brain because:</p>
+<ol>
+<li>The left neuron has oscillating response to a moving grating, which means it combines responses from neurons in the retina for direction-selectivity</li>
+<li>The right neuron has a positive, but varying response to a moving grating, which means it likely combine responses from presynaptic neurons that has an oscillating response.</li>
+</ol>
+<h3 id="answer-to-part-b-1">Answer to part B</h3>
+<p><em>Motion Processing in Primates by Tyler S. Manning and Kenneth H. Britten DOI:10.1093/acrefore/9780190264086.013.76</em>
+<img src="file:////home/sweet/2-coursework/580tbmes/midterm/motion_processing_pathway.png" alt="pathway"></p>
+<p>From the figure above and information about the 2 neurons in the problem statement, the neuron on the left is a simple cell in V1, and the neuron on the right is a complex cell also in V1. Many direction-selective simple cells is connected to a complex cell.</p>
+<h3 id="answer-to-part-c-1">Answer to part C</h3>
+<p>Since the complex cell (right), is not phase modulated and the simple cell (left) is, in order to produce the response seen in the problem statement, the responses of many simple cells can be squared, slightly shifted, and added together to produce the response of a complex cell.</p>
+<h2 id="problem-3">Problem 3</h2>
+<p>The figure below describes the responses of a cortical neuron to visual stimuli. Each panel
+shows the object being shown and the corresponding response. You should be able to guess the
+significance of the angle in each panel by simply looking at the images. Answer the following questions:</p>
+<p>A. What experiment is being conducted here? That is, what hypothesis is being tested by showing these different images</p>
+<p>B. What kind of neuron is this? Which region of the brain is being recorded here?</p>
+<p>C. Trace the pathway from lateral geniculate (LGN) to the brain region this neuron is being recorded from?</p>
+<p>D. Name one visual feature/characteristic of the visual world this neuron is very unlikely to
+respond to. Explain your rationale.</p>
+<p><img src="file:////home/sweet/2-coursework/580tbmes/midterm/prob3.png" alt="prob3"></p>
+<h3 id="answer-to-part-a-2">Answer to part A</h3>
+<p>From the figure shown above, it looks like the researcher is rotating some round object with a big and a small indentation (which light is shined upon) in the horizontal direction from -12 to 168 degrees (180 degrees -- front to back), and measure a neuron's response to different angles. In addition, from the experiment's result, the strength of the neuronal response increases from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mo>−</mo><mn>12</mn><mi mathvariant="normal">°</mi></mrow><annotation encoding="application/x-tex">\theta = -12\degree</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord">−</span><span class="mord">1</span><span class="mord">2</span><span class="mord">°</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>72</mn><mi mathvariant="normal">°</mi></mrow><annotation encoding="application/x-tex">\theta = 72\degree</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">2</span><span class="mord">°</span></span></span></span> (peak), then decreases from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>72</mn><mi mathvariant="normal">°</mi></mrow><annotation encoding="application/x-tex">\theta = 72\degree</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">7</span><span class="mord">2</span><span class="mord">°</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>168</mn><mi mathvariant="normal">°</mi></mrow><annotation encoding="application/x-tex">\theta = 168\degree</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">6</span><span class="mord">8</span><span class="mord">°</span></span></span></span>. This can show that: this neuron is selective to the indentation on the round object. At the angle where the indentation is shown the clearest, the response peaks, and at otherwise, the response is minimal.</p>
+<h3 id="answer-to-part-b-and-c">Answer to part B and C</h3>
+<p>Since this neuron is sensitive to a particular orientation, it is likely a hypercomplex cell in layer 4 of the primary visual cortex (a.k.a V6 or MT)</p>
+<p><em>Motion Processing in Primates by Tyler S. Manning and Kenneth H. Britten DOI:10.1093/acrefore/9780190264086.013.76</em>
+<img src="file:////home/sweet/2-coursework/580tbmes/midterm/motion_processing_pathway.png" alt="pathway"></p>
+<h3 id="answer-to-part-d">Answer to part D</h3>
+<p>Since this neuron is selective for orientation, it would probably not selective for direction of motions. For example, the neuron would spike for a particular angle of a rotating bar but its response will be the same for the bar rotating in the opposite direction.</p>
+
+    </body>
+    </html>

@@ -12,12 +12,14 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <time.h>
 #include <sys/time.h>
 #include <string.h>
 #include <math.h>
-#include "gauss_eliminate.h"
 #include <omp.h>
+#include <getopt.h>
+#include "gauss_eliminate.h"
 
 #define MIN_NUMBER 2
 #define MAX_NUMBER 50
@@ -31,16 +33,52 @@ void print_matrix(const Matrix);
 float get_random_number(int, int);
 int check_results(float *, float *, int, float);
 
+int thread_count = 4;
+int max_iter = 100000;
 
 int main(int argc, char **argv)
 {
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s matrix-size\n", argv[0]);
-        fprintf(stderr, "matrix-size: width and height of the square matrix\n");
-        exit(EXIT_FAILURE);
-    }
+    int s = 4;
+    int t = 1;
+    int rpt_mode = 0;
 
-    int matrix_size = atoi(argv[1]);
+    int opt; 
+      
+    // put ':' in the starting of the 
+    // string so that program can  
+    // distinguish between '?' and ':'  
+    while((opt = getopt(argc, argv, ":s:t:r")) != -1)  
+    {  
+        switch(opt)  
+        { 
+            case 's':  
+                s = atoi(optarg);
+                break;  
+            case 't':  
+                t = atoi(optarg);
+                break;
+            case 'r':
+                rpt_mode = 1;
+                break;
+            case ':':  
+                printf("option needs a value\n");  
+                break;  
+            case '?':  
+                printf("unknown option: %c\n", optopt); 
+                break;  
+            default:
+				fprintf(stderr, "Usage: %s -s matrix_size -t num_threads -r (enable reporting mode)\n", argv[0]);
+                abort();
+        }  
+    }  
+	
+    int matrix_size = s; 
+    thread_count = t;
+
+    if (rpt_mode)
+        printf("%u\t%d\t", matrix_size, thread_count);
+
+    float exec_time = 0;
 
     Matrix A;			                                            /* Input matrix */
     Matrix U_reference;		                                        /* Upper triangular matrix computed by reference code */
