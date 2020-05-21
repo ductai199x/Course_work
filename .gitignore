@@ -9,6 +9,8 @@ sync_changes.txt
 *.exe*
 *~
 *.pyc
+*.project
+*.cproject
 
 *ipynb_checkpoints*
 434eces/labs/src/lab7/2_libertybell.wav
