@@ -1,7 +1,3 @@
 [submodule "487ecec/speech_recognition"]
 	path = 487ecec/speech_recognition
 	url = https://github.com/ductai199x/ecec487_speech_recognition
-
-[submodule "725bmes/eeg_deeplearning"]
-	path = 725bmes/eeg_deeplearning
-	url = https://github.com/ductai199x/eeg-deeplearning
