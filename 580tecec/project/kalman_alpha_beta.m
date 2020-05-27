@@ -8,20 +8,20 @@ rng(0);
 
 %% Create ground truth and measurement
 
-dataset = xlsread('data.xlsx', 1, 'A1:Q104');
+dataset = xlsread('data.xlsx', 2, 'A1:Q104');
 
-x_gt = [5, 7, 9, 10, 11.25, 13, 14.75, 17, 19, 20.5, 23, 25, 27, 29, 31.25, 32.75, 35];
+x_gt = [5, 7, 9, 11.25, 13, 14.75, 17, 19, 20.5, 23, 25, 27, 29, 31.25, 32.55, 34.75];
 
 % 1 mile = 63360 inches
 % 63360 inches per hour
-avg_velocity = 2000/3600; % inches per second
+avg_velocity = 4000/3600; % inches per second
 v_gt = ones(1,length(x_gt))*avg_velocity;
-total_travel_time = (x_gt(end) - x_gt(1))/2000*3600; % in seconds
+total_travel_time = (x_gt(end) - x_gt(1))/4000*3600; % in seconds
 dt = total_travel_time/(length(x_gt)-1);
 t = linspace(0, total_travel_time, length(x_gt));
 
 % dataset_row = randi([1 size(dataset, 1)]);
-dataset_row = 30;
+dataset_row = 64;
 x_measure = dataset(dataset_row,:);
 
 
@@ -36,6 +36,7 @@ sig_n = sqrt(var_n);
 
 A = [1 dt; 0 1];
 B = [(dt^2/2); dt];
+% B = [0; dt];
 H = [1; 0];
 
 % get the optimal alpha and beta values
@@ -45,11 +46,12 @@ alpha = 1 - r^2;
 beta = 2*(2-alpha) - 4*sqrt(1-alpha);
 
 xp_init = [x_gt(1); avg_velocity];
-PC_init_kalata = [1 1; 1 2+lambda^2/4].*var_n;
-PC_init = 5 * PC_init_kalata;
+PC_kalata = [1 1; 1 2+lambda^2/4].*var_n;
+PC_init = 1e3*eye(order);
+
 
 R = var_w;
-QA = B*B'* (var_n);
+QA = B*B'* (var_w);
 
 P_corrected = PC_init;
 P_pred = A*P_corrected*A' + QA;
@@ -60,9 +62,9 @@ x_hist = zeros(2, length(t));
 for i = 1:length(t)
     x_corrected = x_pred + K*(x_measure(i) - H'*x_pred);
     x_hist(:,i) = x_corrected;
-    P_corrected = (eye(order) - K)*P_pred;
+    P_corrected = (eye(order) - K*H')*P_pred;
     x_pred = A*x_corrected;
-    P_pred = A*P_corrected*A' + QA;   
+    P_pred = A*P_corrected*A' + QA;
 end
 
 
@@ -77,7 +79,7 @@ figure(1)
 hold on
 plot(t, x_gt, "og");
 plot(t, x_measure, ".r");
-plot(t, x_hist(1,:), "-b");
+stem(t, x_hist(1,:), "*b");
 xlabel("Time (s)");
 ylabel("Position (inch)");
 legend("ground truth", "measured", "corrected");
