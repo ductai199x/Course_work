@@ -1,7 +1,7 @@
 # A simple CUDA makefile
 #
 # Author: Naga Kandasamy
-# Date: 2/21/2017
+# Date: 3/9/2018
 #
 # CUDA depends on two things:
 #  1) The CUDA nvcc compiler, which needs to be on your path,
@@ -13,14 +13,17 @@
 #   Note that you can set your PATH and LD_LIBRARY_PATH variables as part of your
 # .bash_profile so that you can compile and run without using this makefile.
 
+SOURCE		:= jacobi_iteration.cu jacobi_iteration_gold.cpp 
+HEADER		:= $(wildcard *.h)
 NVCCFLAGS	:= -O3 -gencode arch=compute_75,code=sm_75
 NVCC		:= /usr/local/cuda/bin/nvcc
 LD_LIBRARY_PATH	:= /usr/local/cuda/lib64
+TARGET		:= jacobi_iteration.o
 
-all: vec_mat_mult
+all: clean $(TARGET)
 
-vec_mat_mult: vec_mat_mult.cu vec_mat_mult_gold.cpp 
-	$(NVCC) -o vec_mat_mult vec_mat_mult.cu vec_mat_mult_gold.cpp $(NVCCFLAGS)
+$(TARGET): $(SOURCE) $(HEADER)
+	$(NVCC) -o $(TARGET) $(SOURCE) -I./ $(NVCCFLAGS)
 
 clean:
-	rm vec_mat_mult
+	rm -rf $(TARGET)
