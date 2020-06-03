@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tai Duc Nguyen - ECE 303 - Lab 4</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h2 id="tai-duc-nguyen---ece-303---lab-4">Tai Duc Nguyen - ECE 303 - Lab 4</h2>
+<h1 id="lab-4">Lab 4</h1>
+<ol>
+<li><a href="#lab-4">Lab 4</a></li>
+<li><a href="#graph-results">Graph Results</a></li>
+<li><a href="#answer-to-lab-questions">Answer to Lab Questions</a></li>
+</ol>
+<h1 id="graph-results">Graph Results</h1>
+<p><img src="file:////home/sweet/2-coursework/303ece/4_lab/results/base_white_10k.png" alt="base_white_10k">
+<img src="file:////home/sweet/2-coursework/303ece/4_lab/results/base_green_10k.png" alt="base_green_10k">
+<img src="file:////home/sweet/2-coursework/303ece/4_lab/results/base_red_10k.png" alt="base_red_10k">
+<img src="file:////home/sweet/2-coursework/303ece/4_lab/results/white_5k.png" alt="white_5k">
+<img src="file:////home/sweet/2-coursework/303ece/4_lab/results/white_10k_5avg.png" alt="white_10k_5avg"></p>
+<h1 id="answer-to-lab-questions">Answer to Lab Questions</h1>
+<ol>
+<li>Is it better to take voltage readings across the photocell or resistor?</li>
+</ol>
+<p>It does not matter if the measurement is taken across the photocell or the resistor because the measuring prob is always in between the 2 and the only thing that changes is the reference voltage (5V or 0V).</p>
+<ol start="2">
+<li>Is it better to have the experiment be conducted in a totally dark room or in a container that light can’t penetrate?</li>
+</ol>
+<p>It is important to have the LED <em><strong>as close as possible</strong></em> to the photoresistor because the further away the light source is, the less energy will be able to reach the sensor by a factor of the distance <em><strong>squared</strong></em>. A totally dark room or a container that light can't penetrate won't have a big impact on the data collected, assuming light can't reflect off any objects in both cases.</p>
+<ol start="3">
+<li>Should the photocell get the same voltage readings from different color LEDs? Why or why not?</li>
+</ol>
+<p>The photocell should NOT get the same voltage readings from different color LEDs because each colored light has different energy according to its wavelength and frequency.</p>
+<ol start="4">
+<li>Is it better to conduct averaging on the Arduino, or post-process it on a computer?</li>
+</ol>
+<p>It is better to conduct averaging on the computer because averaging is a floating point operation. The Arduino may not have a floating point arithmetic unit, or it can be slow to compute.</p>
+<ol start="5">
+<li>Is it better to save the data in memory and then transfer the data to the computer, or send the data every sample?</li>
+</ol>
+<p>It really depends on the time-criticality of the application, the memory resource on the measuring device, and the data transfer bandwidth it and a computer. With this experiment, however, there are not any differences.</p>
+<ol start="6">
+<li>Would it be better or worse if each iteration is conducted faster?</li>
+</ol>
+<p>The delay from the time the duty cycle is &quot;fully in effect&quot; to the time the measurement is taken from the sensor should be reasonable so that light can travel from one to another, an the resistance on the photocell has enough time to adjust. So, fast, until a certain point, will be better since you will get more data (which you can do averaging or filtering on).</p>
+
+    </body>
+    </html>

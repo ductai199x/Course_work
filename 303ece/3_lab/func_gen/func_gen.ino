@@ -19,7 +19,7 @@ struct scpi_parser_context ctx;
 
 scpi_error_t identify(struct scpi_parser_context* context, struct scpi_token* command);
 scpi_error_t identify(struct scpi_parser_context* context, struct scpi_token* command);
-scpi_error_t set_freq(struct scpi_parser_context* context, struct scpi_token* command);
+scpi_error_t get_distance(struct scpi_parser_context* context, struct scpi_token* command);
 
 
 void wavetable_init();

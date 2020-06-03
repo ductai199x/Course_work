@@ -68,15 +68,15 @@ int main(int argc, char **argv)
 	gettimeofday(&stop, NULL);
 	fprintf(stderr, "Execution time CPU GOLD = %fs\n", (float) (stop.tv_sec - start.tv_sec
 				+ (stop.tv_usec - start.tv_usec) / (float) 1000000));
-//    display_jacobi_solution(A, reference_x, B); /* Display statistics */
+    display_jacobi_solution(A, reference_x, B); /* Display statistics */
 	
 	/* Compute Jacobi solution on device. Solutions are returned 
        in gpu_naive_solution_x and gpu_opt_solution_x. */
     printf("\nPerforming Jacobi iteration on device\n");
     compute_on_device_naive(A, gpu_naive_solution_x, B);
 	compute_on_device_opt(A, gpu_opt_solution_x, B);
-//    display_jacobi_solution(A, gpu_naive_solution_x, B); /* Display statistics */
-//    display_jacobi_solution(A, gpu_opt_solution_x, B);
+    display_jacobi_solution(A, gpu_naive_solution_x, B); /* Display statistics */
+    display_jacobi_solution(A, gpu_opt_solution_x, B);
     
     /* Check if pthread result matches reference solution within specified tolerance */
     fprintf(stderr, "\nChecking results gpu naive\n");
@@ -159,7 +159,7 @@ void compute_on_device_naive(const matrix_t A, matrix_t sol, const matrix_t B)
 		iter++;
 	}
 
-//	printf("iter: %d\n", iter);
+	printf("iter: %d\n", iter);
 
 	gettimeofday(&stop, NULL);
 	fprintf(stderr, "Execution time CUDA NAIVE = %fs\n", (float) (stop.tv_sec - start.tv_sec
@@ -240,7 +240,7 @@ void compute_on_device_opt(const matrix_t A, matrix_t sol, const matrix_t B)
 		iter++;
 	}
 
-//	printf("iter: %d\n", iter);
+	printf("iter: %d\n", iter);
 
 	gettimeofday(&stop, NULL);
 	fprintf(stderr, "Execution time CUDA OPT = %fs\n", (float) (stop.tv_sec - start.tv_sec
