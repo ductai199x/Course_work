@@ -4,3 +4,6 @@
 [submodule "725bmes/eeg_deeplearning"]
 	path = 725bmes/eeg_deeplearning
 	url = https://github.com/ductai199x/eeg-deeplearning
+[submodule "hybrid-mem"]
+	path = hybrid-mem
+	url = git@github.com:ductai199x/Hybrid-eDRAM-PCM-Simulator.git
