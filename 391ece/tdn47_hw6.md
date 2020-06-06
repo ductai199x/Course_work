@@ -10,7 +10,16 @@
 6. Opening in the Fall, but required to shut down if virus ramps up
 
 
-The COVID-19 pandemic changes so many aspects of our daily life. One such aspect is our working habit, specifically,  
+The COVID-19 pandemic changes so many aspects of our daily life. One such aspect is our working habit, specifically, working with other people online. After experiencing one academic term entirely virtually, I think it's in my team's best interest to choose a project in which all members can work independently. For this reason, we chose one that involves coding only.
 
+Our goal is to provide people with spinal cord injuries or limb disabilities a convienient mean to a normal life. In order to do this, we plan to use recent advances in Deep Learning to construct a Brain-Computer Interface which can translate the brain's electroencephalography (EEG) signal to movement intentions. We intended to only focus on the upper limbs for now; however, the architecture we used can be extended for the lower limbs as well. Not only limiting our scope to hand movements, we also constrains our work to 6 different types of actions: hand flexion & extension, elbow flexion & extension, and hand supination & pronation. The final product should be able to look at EEG signal from the brain and classify which type of action the subject was intent on doing.
 
+Realizing there could be different working environment available in the Fall term, we assessed our options and were able to agree on different workflows for each senarios. 
 
+If we were to enjoy full opening in the Fall (business as usual), then we could work together in the MESS lab with adequate equipments for the recording of EEG signals. In addition, we could have weekly meetings with our advisors and be able to seek help in a more convenient manner.
+
+However, if there is only a partial re-opening with restrictions, we planned to carry out our work, as if the campus was fully openned, as much as possible. We would have to move the equipment in between each member's place because we couldn't leave them inside the lab since it may have restrictions/shutdowns.
+
+The worst case is when the campus had to be closed due to the pandemic ramping up. In this case, we would not be carrying out the EEG recordings. Instead, we would search for already available databases and work remotely independently on the data we found. The system we built may not be fully integrated end-to-end but if we were able to prove that it worked on different databases, then it would have a very high chance of being fully functional on a real system.
+
+Nonetheless, we will keep the communications flowing effectively through the process.

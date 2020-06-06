@@ -1,0 +1,156 @@
+## Tai Duc Nguyen - ECE 391 - Late Homeworks
+
+This PDF contains my late homeworks for this class. All of my essays/work below are mind. Citations are included if needed be.
+
+Table of Content:
+1. [Assignment 6](#assignment-6)
+2. [Assignment 4](#assignment-4)
+   1. [Instagram](#instagram)
+   2. [Airbnb](#airbnb)
+3. [Assignment 3](#assignment-3)
+   1. [Using the resources of Hagerty Library (NOT Google or Wiki), identify two (2) references to one or more of the topics below:](#using-the-resources-of-hagerty-library-not-google-or-wiki-identify-two-2-references-to-one-or-more-of-the-topics-below)
+      1. [Turbo codes](#turbo-codes)
+      2. [Computational fluid dynamics](#computational-fluid-dynamics)
+      3. [Dancing robots](#dancing-robots)
+   2. [Look up the standard IEEE 802.11 and write a paragraph describing what this is a standard for.](#look-up-the-standard-ieee-80211-and-write-a-paragraph-describing-what-this-is-a-standard-for)
+   3. [Find patent #223,898 and write the first 3 claims.](#find-patent-223898-and-write-the-first-3-claims)
+4. [Assignment 2](#assignment-2)
+5. [Assignment 1](#assignment-1)
+
+
+# Assignment 6
+
+**Statement**: Write three proposals for a project that you would like to do in the Fall under the constraints listed above as numbers 1, 2, and 6.  You should have a lead paragraph describing the project and then three following paragraphs for each of the scenarios.  You should write as if you are part of a 4-person team and even though you are writing as an individual, your presentation should be on behalf of the team.
+
+**Senarios Presented**:
+1. Full opening in the Fall – Business as usual 
+2. Partial opening with restrictions – limited use of facilities, limited number of people allowed on campus
+6. Opening in the Fall, but required to shut down if virus ramps up
+
+
+The COVID-19 pandemic changes so many aspects of our daily life. One such aspect is our working habit, specifically, working with other people online. After experiencing one academic term entirely virtually, I think it's in my team's best interest to choose a project in which all members can work independently. For this reason, we chose one that involves coding only.
+
+Our goal is to provide people with spinal cord injuries or limb disabilities a convienient mean to a normal life. In order to do this, we plan to use recent advances in Deep Learning to construct a Brain-Computer Interface which can translate the brain's electroencephalography (EEG) signal to movement intentions. We intended to only focus on the upper limbs for now; however, the architecture we used can be extended for the lower limbs as well. Not only limiting our scope to hand movements, we also constrains our work to 6 different types of actions: hand flexion & extension, elbow flexion & extension, and hand supination & pronation. The final product should be able to look at EEG signal from the brain and classify which type of action the subject was intent on doing.
+
+Realizing there could be different working environment available in the Fall term, we assessed our options and were able to agree on different workflows for each senarios. 
+
+If we were to enjoy full opening in the Fall (business as usual), then we could work together in the MESS lab with adequate equipments for the recording of EEG signals. In addition, we could have weekly meetings with our advisors and be able to seek help in a more convenient manner.
+
+However, if there is only a partial re-opening with restrictions, we planned to carry out our work, as if the campus was fully openned, as much as possible. We would have to move the equipment in between each member's place because we couldn't leave them inside the lab since it may have restrictions/shutdowns.
+
+The worst case is when the campus had to be closed due to the pandemic ramping up. In this case, we would not be carrying out the EEG recordings. Instead, we would search for already available databases and work remotely independently on the data we found. The system we built may not be fully integrated end-to-end but if we were able to prove that it worked on different databases, then it would have a very high chance of being fully functional on a real system.
+
+Nonetheless, we will keep the communications flowing effectively through the process.
+
+# Assignment 4
+
+
+## Instagram
+
+*https://www.stitcher.com/podcast/national-public-radio/how-i-built-this/e/46455236*
+
+**Questions to address**:
+1. What insights did the Instagram team gain from their customers along their lifecycle?
+2. How did their approach compare to what you have learned about the lean startup methodology? See: https://en.wikipedia.org/wiki/Lean_startup
+3. What substantive pivots did they make along the way?
+4. Was their biggest challenge one of gaining original awareness of the product or one of growth and scaling?
+5. Were they good or lucky? 
+
+**Answers**:
+
+1. In 2009, the iPhone from Apple Inc. started a revolution where many people can connect to thousands of other people through their little hand-held device. They were using some "Check-in" applications that were popular at the time to share their location information with texts or photos. The founders hopped on this trend, realizing that everyone had a little powerful camera with them. Hence, they built a prototype app, which one could take a photo with the cellphone and share that photo with the location on a public medium.
+2. The main objective of LEAN is to eliminate as much waste as possible as early as possible to maximize productivity and efficiency. Their approach to the business model was similar in the way that they listened to why their customers kept using their apps in order to discover the things which worked and those which didn't as soon as possible. Hence, they pivotted from a mainly photo sharing app to a mainly photo-taking and photo-editing app.  
+3. Their biggest challenge was growing and scaling the app to millions of users globally.
+4. They were lucky in the sense where people thought that the reason why they couldn't share photos was because of their mobile broadband networks, not because the app was running on a single server. Hence, people stuck around. However, the founders were also good at what they were doing because it did not take them long to go from prototyping to first beta and first launch. Also they were good at listening to the market, and cleverly delivering what it demanded.
+
+## Airbnb
+
+*https://www.stitcher.com/podcast/national-public-radio/how-i-built-this/e/47942386*
+
+**Questions to address**:
+1. There is a strong debate as to whether the pathway to entrepreneurial success is about intelligent design (knowing what you want to build) vs. an interactive approach (following the lean startup methodology). Where do you think AirBnB falls into that debate?
+2. Were they intentional or just following their senses and experiences? Did anything change for them along the way as it pertains to this debate?
+3. What were any important turning points or unique insights for the team that moved them down the path towards success?
+4. Any interesting perspectives as it relates to what you learned from the Instagram podcast?
+
+**Answers**:
+
+1. Airbnb fell into both those baskets. Success was never one thing or another. In order to go from zero-to-hero, it takes everything: both intelligent design and interactive approach, and likely a business/company model that reveals a good workplace culture. 
+2. They were mostly following their senses and experiences. However, after they realize what people desired and needed, they change the way the app focused on.
+3. After the 1st success of airbeds-and-breakfast, the 2nd website launch got almost no attention. They realized 2 things: people did not want to exchange money in person, and people wanted to do this "homestay" thing not just for conferences but for vacations and other purposes as well. From these insights, they were able to build a business model: allow rentees to transfer money to hosts through their platform with a small fee; and their platform main goal were to connect people from everywhere no matter their travel purpose.
+4. Being agile in changing the initial models to satisfy the demand of the market allowed both companies to succeed. Also, both companies' concepts were essentially connecting humans to humans, and that is something of great interest to the public -- this allowed their applications to get very high initial attention from users/investors.
+
+# Assignment 3
+
+## Using the resources of Hagerty Library (NOT Google or Wiki), identify two (2) references to one or more of the topics below:    
+1. Turbo codes
+2. Computational fluid dynamics
+3. Dancing robots    
+Write the references in IEEE acceptable format 
+
+### Turbo codes
+1. Anonymous ISTC: 2014 8th International Symposium on Turbo Codes and Iterative Information Processing : 18-22 August 2014. 2014.
+2. B. Vucetic and J. Yuan, Turbo Codes: Principles and Applications. Boston: Kluwer Academic Publishers, 2000SECS 559;SECS 559.;.
+
+### Computational fluid dynamics
+1. J. Tu, G. H. Yeoh and C. Liu, Computational Fluid Dynamics: A Practical Approach. (Third ed.) 2018.
+2. C. Hirsch, Numerical Computation of Internal and External Flows: Fundamentals of Computational Fluid Dynamics. (2nd ed.) 2007.
+
+### Dancing robots
+1. N. Savage, "Technology: Dancing with robots," Nature, vol. 492, (7427), pp. S16-S17, 2012.
+2. M. McLean et al, "Dancing robots: A collaboration between elementary school and university engineering students," in 2017, . DOI: 10.1145/3141798.3141817.
+
+## Look up the standard IEEE 802.11 and write a paragraph describing what this is a standard for.  
+
+How many sections are there for the standard?  How many pages, approximately, does the standard comprise? 
+
+IEEE 802.11 is part of the IEEE 802 set of LAN protocols, and specifies the set of media access control (MAC) and physical layer (PHY) protocols for implementing wireless local area network (WLAN) Wi-Fi computer communication in various frequencies, including but not limited to 2.4 GHz, 5 GHz, 6 GHz, and 60 GHz frequency bands. 
+
+The IEEE 802.11-2016 has 22 different sections, making up 3534 pages.
+https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=7786995
+
+
+
+## Find patent #223,898 and write the first 3 claims.  
+
+What do you think of this invention?  Will it make any money?
+
+Patent US223898A, filed by Thomas Alva Edison. It likely made money since he sold the licence to his patent to light-bulb making companies at the time.
+
+Claims:
+1. The object of this invention is to produce electric lamps giving light by incandescence, which lamps shall have high resistance, so as to allow of the practical subdivision of the electric light.
+2. the invention consists in a light-giving body of carbon wire or sheets coiled or arranged in such a manner as to offer great resistance to the passage of electric current, and at the same time present...surface from which radiation can take place.
+3. The invention further consists in placing such burner of great resistance in a nearly perfect vacuum, in prevent oxidation and injury to the conductor by the atmosphere. The current is conducted into the vacuum-bulb through...wires sealed into the glass.
+
+# Assignment 2
+
+**Statement**: Write a business plan that will convince skeptical bankers and investors to put up $5 million to establish a telephone network.  Your business plan should first describe the telephone (remember no one has a phone and no one has ever seen a phone so your description is all they will have).  Then describe the benefits of everyone having this new thing called a telephone.  Finally, show how you will use the $5 million.  How will you roll out the network?  How will you price the service?  How will you pay back the people that loaned you the money? 
+
+Background information – In 1876 the average salary in the US was $350 per year and a pair of heavy duty men’s boots cost $3.00.  Those numbers put the requested $5 million in perspective.
+
+Dear investors and future customers,
+
+I am glad that you are here today to hear my proposition to establish the first telephone network in America. As you know, information is paramount in this day and age. A broker in Wall Street needs to contact his client in surrounding states in order to sell stocks and bonds. A mother in Kansas wants to know how her son is doing while studying at Harvard. And you may want to connect with other people working in the same field but living all the way across America. With our current communication technologies, any information can only travel as fast as a train, which can take as long as 1 week to travel from the east to the west. I want to change this. Wouldn't it be great if you could instantly connect to other people living so far away? Hence, let me introduce to you our product: The Telephone. This device can convert the sounds around it into electrical current that can be transmitted very far away in a blink of an eye, like a lightning bolt striking from the sky but a lot less violent, of course. Similar to our trains, we need stations so that attenuated signals can be restored forwarded from places to places. These stations will create a network, or, telephone network. This network will be able to connect millions of Americans, allowing American businesses to expand to the furthest corner of the country, people from all parts to share ideas, and governments to be responsive to the people. This "telephone network" will be the accelerator of America to the next golden age, the age of information. 
+
+Therefore, if you decided to invest in this wonderful product, you would not only become the first people to enjoy instant communication but also be remembered as those who helped America grow far and wide. Since we expect almost all Americans to utilize this huge network, we are going to bill anyone who owns our telephone 1 cent per minute of using it. With 100 minute of use a person a week, and an estimated user base of 1 million Americans, we expect a revenue of $1 million dollars every week. We will initially build 20 stations across North-eastern US, which we estimated to cost around $5 million dollars. If you helped us, you would be able to receive interests in 1 year of operation. 
+
+I hope our bright prospect will help you determine to trust your money with us. Thank you for your considerations.
+
+# Assignment 1
+
+**Statement**:
+1. Write a short (less than 1-page) statement on what you expect senior design will be like this coming Fall.  Include any ideas you have about possible topics or areas of study.   
+2. What is the role of the Faculty Senior Design Committee? 
+3. What are some of the considerations in forming a team?  List at least 3. 
+4. What are the various types of advisors?  Which type do you think would be best for you? 
+5. Who or What is your client? 
+6. Acknowledge that you understand that you cannot graduate without successfully completing this course and the senior design sequence.
+
+**Answers**:
+
+1. The Senior Design Project this Fall is likely to be virtual due to the progress of the pandemic and its effect on the populace. Hence, I and my teammates are looking at possible ideas, which could be done almost or totally online. Some of those are: Deep Learning, and Computer Architecture. Deep Learning is a very powerful tool which can be used in many types of forcasting: weather forcasting, even disease forcasting. And Computer Architecture research can be very beneficial everywhere, especially places where large computing operations are performed (i.e data centers, cloud servers). We are still looking at the applications that all of us would like to explore and be passionate about.
+2. The Faculty Senior Design Committee is my clients and the people who will do the judging of my project
+3. 3 considerations in forming a team are: 1) Suitable Scheduling/Commitment of team members, 2) Diverse knowledge across members, and 3) Leadership is likely necessary to drive the team
+4. There are 3 types of advisors: 1) The Manager, 2) The Consultant, and 3) Research Advisor. I would like to have a research advisor since my work is related to on-going researches at Drexel and I have good relationships with professors who have researches I'm interested in
+5. My Client is the Senior Design Committee
+6. I acknowledged that I understand that I cannot graduate without successfully completing this course and the senior design sequence.
