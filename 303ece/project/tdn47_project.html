@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Tai Duc Nguyen - ECE 303 - 06/08/2020</title>
+        <style>
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+        
+        <style>
+.task-list-item { list-style-type: none; } .task-list-item-checkbox { margin-left: -20px; vertical-align: middle; }
+</style>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.7;
+            }
+        </style>
+        
+        
+        
+    </head>
+    <body class="vscode-light">
+        <h2 id="tai-duc-nguyen---ece-303---06082020">Tai Duc Nguyen - ECE 303 - 06/08/2020</h2>
+<h1 id="project">Project</h1>
+<ol>
+<li><a href="#project">Project</a>
+<ol>
+<li><a href="#photo-of-the-setup">Photo of the setup</a></li>
+<li><a href="#video-demonstration">Video demonstration</a></li>
+<li><a href="#current-budget">Current budget</a></li>
+<li><a href="#data-collection">Data collection</a></li>
+</ol>
+</li>
+</ol>
+<h2 id="photo-of-the-setup">Photo of the setup</h2>
+<p><img src="file:////home/sweet/2-coursework/303ece/project/20200609_001542.jpg" alt="setup"></p>
+<h2 id="video-demonstration">Video demonstration</h2>
+<p><a href="https://1513041.mediaspace.kaltura.com/media/tdn47_ece303_online_project/1_rqlw4jj2">https://1513041.mediaspace.kaltura.com/media/tdn47_ece303_online_project/1_rqlw4jj2</a></p>
+<h2 id="current-budget">Current budget</h2>
+<p>The power supply provides maximum of 1000mA.</p>
+<p>The motor's maximum load is 400mA</p>
+<p>The servo's maximum load is 270mA</p>
+<p>The LCD's maximum load is 160mA</p>
+<p>All other sensor's load is 150mA</p>
+<p>Total: 400 + 270 + 160 + 150 = 980mA  &lt; 1000mA</p>
+<h2 id="data-collection">Data collection</h2>
+<p>The communication protocol between the arduino and computer (MATLAB) is SCPI. There are 3 main commands:<br>
+:MEAS:ALL will send all the available stored sensors values to MATLAB</p>
+<p>:GET:ALL will send all the available states of the system to MATLAB</p>
+<p>:SET:ALL x,y,z will set the LEDs to state x, servo to angle y, and motor speed to z(%).</p>
+<p>The automatic control of the servo and motor is done from MATLAB (MATLAB sends commands to control the system) in the AUTO mode. Once MANUAL priviledge is evoked, MATLAB loses all control abilities until AUTO mode is evoked again by the user or the user become unauthorized.</p>
+
+    </body>
+    </html>

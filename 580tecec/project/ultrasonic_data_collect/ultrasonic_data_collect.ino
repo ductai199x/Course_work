@@ -2,7 +2,7 @@ volatile unsigned long LastPulseTime;
 volatile unsigned long startTime;
 int duration;
 
-#define trigPin 4
+#define trigPin 5
 #define echoPin 2
 
 void setup() {
