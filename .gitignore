@@ -23,3 +23,9 @@ sync_changes.txt
 *.aux
 *.synctex.gz
 *.log
+
+bin
+lib
+share
+etc
+pyvenv.cfg
