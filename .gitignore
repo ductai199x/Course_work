@@ -11,7 +11,9 @@ sync_changes.txt
 *.pyc
 *.project
 *.cproject
+*.pkl
 
+.idea/
 *ipynb_checkpoints*
 434eces/labs/src/lab7/2_libertybell.wav
 434eces/labs/src/lab7/clip*.wav
