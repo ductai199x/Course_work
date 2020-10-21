@@ -12,6 +12,8 @@ sync_changes.txt
 *.project
 *.cproject
 *.pkl
+*.gb
+*.fasta
 
 .idea/
 *ipynb_checkpoints*
