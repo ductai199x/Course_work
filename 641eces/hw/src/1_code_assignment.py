@@ -27,10 +27,12 @@ Entrez.email = "tdn47@drexel.edu"
 # In[4]:
 
 
-handle = Entrez.esearch(db="nucleotide",
-                        term="28S rRNA[gene] AND \
+handle = Entrez.esearch(
+    db="nucleotide",
+    term="28S rRNA[gene] AND \
                             Hypostomus asperatus[ORGN] AND \
-                            700:9999999999[Sequence Length]")
+                            700:9999999999[Sequence Length]",
+)
 records = Entrez.read(handle)
 
 
@@ -45,10 +47,12 @@ print(f"Number of results Hypostomus asperatus: {records['Count']}")
 # In[6]:
 
 
-handle = Entrez.esearch(db="nucleotide",
-                        term="28S rRNA[gene] AND \
+handle = Entrez.esearch(
+    db="nucleotide",
+    term="28S rRNA[gene] AND \
                             Grateloupia turuturu[ORGN] AND \
-                            700:9999999999[Sequence Length]")
+                            700:9999999999[Sequence Length]",
+)
 records = Entrez.read(handle)
 
 
@@ -63,11 +67,13 @@ print(f"Number of results Grateloupia turuturu: {records['Count']}")
 # In[8]:
 
 
-handle = Entrez.esearch(db="nucleotide",
-                        term="28S rRNA[gene] AND \
+handle = Entrez.esearch(
+    db="nucleotide",
+    term="28S rRNA[gene] AND \
                             Tricholomopsis flammula[ORGN] AND \
                             700:9999999999[Sequence Length] NOT \
-                            uncultured")
+                            uncultured",
+)
 records = Entrez.read(handle)
 print(f"Number of results for Tricholomopsis flammula: {records['Count']}")
 
@@ -78,13 +84,15 @@ print(f"Number of results for Tricholomopsis flammula: {records['Count']}")
 # In[9]:
 
 
-handle_search = Entrez.esearch(db="nucleotide",
-                               term="28S rRNA[gene] AND \
+handle_search = Entrez.esearch(
+    db="nucleotide",
+    term="28S rRNA[gene] AND \
                                     green algae[ORGN] AND \
                                     700:9999999999[Sequence Length] NOT \
                                     uncultured NOT \
                                     partial",
-                               retmax=1000)
+    retmax=1000,
+)
 records = Entrez.read(handle_search)
 print(f"Number of results for green algae: {records['Count']}")
 gi_list = records["IdList"]
@@ -98,19 +106,25 @@ print("Writing to {f_name}")
 with open(f_name, "w") as output_file:
     for gi in tqdm(gi_list):
         handle_text = Entrez.efetch(
-            db="nucleotide", id=gi, rettype="gb", retmode="text")
+            db="nucleotide", id=gi, rettype="gb", retmode="text"
+        )
         rec_text = SeqIO.read(handle_text, "genbank")
         rec_id = rec_text.id
         rec_desc = rec_text.description
 
-        feature_list = [f for f in rec_text.features if f.type ==
-                        'gene' or f.type == 'rRNA']
         feature_list = [
-            f for f in feature_list if 'gene' in f.qualifiers and f.qualifiers['gene'][0] == '28S rRNA']
+            f for f in rec_text.features if f.type == "gene" or f.type == "rRNA"
+        ]
+        feature_list = [
+            f
+            for f in feature_list
+            if "gene" in f.qualifiers and f.qualifiers["gene"][0] == "28S rRNA"
+        ]
 
         for f in feature_list:
             output_file.write(
-                f">{rec_id} {rec_desc} {f.location}\n{f.location.extract(rec_text).seq}\n")
+                f">{rec_id} {rec_desc} {f.location}\n{f.location.extract(rec_text).seq}\n"
+            )
 
 
 # # Problem 3:
@@ -119,12 +133,14 @@ with open(f_name, "w") as output_file:
 # In[11]:
 
 
-handle_search = Entrez.esearch(db="nucleotide",
-                               term="Galdieria sulphuraria[ORGN] AND \
+handle_search = Entrez.esearch(
+    db="nucleotide",
+    term="Galdieria sulphuraria[ORGN] AND \
                                     (whole OR complete) AND \
                                     scaffold AND \
                                     400000:9999999999[Sequence Length] ",
-                               retmax=1000)
+    retmax=1000,
+)
 records = Entrez.read(handle_search)
 print(f"Number of results for Galdieria sulphuraria: {records['Count']}")
 gi = records["IdList"][0]
@@ -136,15 +152,17 @@ gi = records["IdList"][0]
 f_name = "G_sulphuraria_atpase_ids"
 print(f"Writing to {f_name}")
 with open(f_name, "w") as output_file:
-    handle_text = Entrez.efetch(
-        db="nucleotide", id=gi, rettype="gb", retmode="text")
+    handle_text = Entrez.efetch(db="nucleotide", id=gi, rettype="gb", retmode="text")
     rec_text = SeqIO.read(handle_text, "genbank")
     rec_id = rec_text.id
     rec_desc = rec_text.description
 
-    feature_list = [f for f in rec_text.features if f.type == 'CDS']
+    feature_list = [f for f in rec_text.features if f.type == "CDS"]
     feature_list = [
-        f for f in feature_list if 'product' in f.qualifiers and 'ATPase' in f.qualifiers['product'][0]]
+        f
+        for f in feature_list
+        if "product" in f.qualifiers and "ATPase" in f.qualifiers["product"][0]
+    ]
 
     for f in tqdm(feature_list):
         output_file.write(f"{f.qualifiers['protein_id'][0]}\n")
