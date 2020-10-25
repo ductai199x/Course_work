@@ -14,6 +14,7 @@ sync_changes.txt
 *.pkl
 *.gb
 *.fasta
+*.html
 
 .idea/
 *ipynb_checkpoints*

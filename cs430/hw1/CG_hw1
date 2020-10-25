@@ -1,3 +1,0 @@
-#!/bin/bash
-
-./tdn47_hw1.py "$@"
