@@ -1,0 +1,19 @@
+;Question 4 - Add Up
+JMP start_q
+input_value: DB 4
+result_value: DB 0 ;Grader will check this memory Location
+start_q:
+    MOV A, [input_value] ;Load Value
+    PUSH A ;Push for Function Call
+    CALL addUp ;Call Function
+    POP A ;Get Return Value
+    MOV [result_value],A ;Store Answer
+    HLT
+
+addUp:
+	ADD B, A ; B is where we store the sum (B=B+A)
+	DEC A ; Decrement A by 1
+	CMP A, 0 ; 
+	JNZ addUp ; If A is not 0 then continue recursive call
+	MOV [SP+2], B ; Else, store result and prep for POP A
+	RET

@@ -1,0 +1,26 @@
+;Question 2 - Check for Multiple of Three
+JMP start_q
+input_value: DB 124
+start_q:
+    MOV A, [input_value] ;Load Value
+    PUSH A ;Push for Function Call
+    CALL multipleOfThree ;Call Function
+    POP A ;Get Return Value
+    ADD A, 48 ;Convert to ASCII
+    MOV [232],A ;Print
+    HLT
+
+multipleOfThree:
+	MOV B, A ; Store current value of A (input_value) into B
+	DIV 3 ; Divide A by 3
+	MUL 3 ; Multiply A back by 3
+	SUB B, A ; Get remainder by taking B=B-A
+	CMP B, 0 ; Check if B is 0
+	JZ write1 ; If B==0 => write 1 (is a multiple of 3)
+	JMP write0 ; Else => write 0 (is NOT a multiple of 3)
+write1:
+	MOV [SP+2], 1 ; Store result and prep for POP A
+	RET
+write0:
+	MOV [SP+2], 0 ; Store result and prep for POP A
+	RET

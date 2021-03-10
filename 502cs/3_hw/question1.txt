@@ -1,0 +1,16 @@
+;Question 1 - Check for Odd Numbers
+JMP start_q
+input_value: DB 99
+start_q:
+    MOV A, [input_value] ;Load Value
+    PUSH A ;Push for Function Call
+    CALL isOdd ;Call Function
+    POP A ;Get Return Value
+    ADD A, 48 ;Convert to ASCII
+    MOV [232],A ;Print
+    HLT
+
+isOdd:
+	AND A, 1 ; If least sig-bit is 1 then it's odd
+	MOV [SP+2], A ; Store result and prep for POP A
+	RET
