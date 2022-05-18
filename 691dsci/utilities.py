@@ -241,6 +241,6 @@ def adagrad(f, x0, eta, m, handle, useSaved=False, save_every=10, print_every=10
 # Utilities 05
 def to_gpu(x):
     if torch.cuda.is_available():
-        return x.to("cuda")
+        return x.to("cuda:1")
 
     return x.to("cpu")
